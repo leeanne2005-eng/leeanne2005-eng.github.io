@@ -847,7 +847,7 @@ function closePeopleEditor(){document.getElementById("peopleEditorBackdrop")?.re
 function openPeopleEditor(title,inner,submitHandler){
  closePeopleEditor();
  const backdrop=document.createElement("div");backdrop.id="peopleEditorBackdrop";backdrop.className="people-editor-backdrop";
- backdrop.innerHTML=`<section class="people-editor" role="dialog" aria-modal="true" aria-label="${escapePeopleText(title)}"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h3>${escapePeopleText(title)}</h3><button type="button" class="secondary" data-editor-close aria-label="Close editor">✕</button></div>${inner}</section>`;
+ backdrop.innerHTML=`<section class="people-editor" role="dialog" aria-modal="true" aria-label="${escapePeopleText(title)}"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div><div class="eyebrow" style="margin-bottom:5px">V14 · PHOTO & AVATAR STUDIO</div><h3>${escapePeopleText(title)}</h3></div><button type="button" class="secondary" data-editor-close aria-label="Close editor">✕</button></div>${inner}</section>`;
  document.body.append(backdrop);
  backdrop.addEventListener("click",e=>{if(e.target===backdrop||e.target.closest("[data-editor-close]"))closePeopleEditor();});
  const form=backdrop.querySelector("form");form?.addEventListener("submit",async e=>{e.preventDefault();await submitHandler(form,backdrop);});
@@ -879,11 +879,12 @@ async function editFriend(f){
    <label class="muted">Avatar style<select name="avatarMode"><option value="photo">Photo</option><option value="emoji">Emoji</option><option value="initials">Initials</option></select></label>
   </div>
   <div data-photo-tools>
+   <h4 style="margin:12px 0 6px;color:#80666a">✿ Adjust your profile photo</h4><p class="muted" style="margin:0 0 10px">Use the three sliders below to move the face into the centre of the circle. You can preview the result before saving.</p>
    <label class="muted">Choose / replace profile photo<input name="photo" type="file" accept="image/*"></label>
    <div class="people-photo-crop-preview"><div class="person-avatar" data-crop-avatar>${currentPhoto?`<img src="${currentPhoto}" alt="Photo crop preview">`:esc(c.emoji||"🌷")}</div><span class="muted">Move the face into the centre of the circle.</span></div>
-   <label class="muted">Horizontal position <input name="cropX" type="range" min="0" max="100" value="${Number(c.photo_crop?.x??50)}"></label>
-   <label class="muted">Vertical position <input name="cropY" type="range" min="0" max="100" value="${Number(c.photo_crop?.y??50)}"></label>
-   <label class="muted">Zoom <input name="cropZoom" type="range" min="100" max="250" value="${Math.round(Number(c.photo_crop?.zoom||1)*100)}"></label>
+   <label class="muted">Horizontal position · Left ↔ Right <output data-crop-x>${Number(c.photo_crop?.x??50)}%</output><input name="cropX" type="range" min="0" max="100" value="${Number(c.photo_crop?.x??50)}"></label>
+   <label class="muted">Vertical position · Up ↕ Down <output data-crop-y>${Number(c.photo_crop?.y??50)}%</output><input name="cropY" type="range" min="0" max="100" value="${Number(c.photo_crop?.y??50)}"></label>
+   <label class="muted">Zoom · 100%–250% <output data-crop-zoom>${Math.round(Number(c.photo_crop?.zoom||1)*100)}%</output><input name="cropZoom" type="range" min="100" max="250" value="${Math.round(Number(c.photo_crop?.zoom||1)*100)}"></label>
    <label class="muted"><input name="removePhoto" type="checkbox" style="width:auto"> Remove current profile photo</label>
   </div>
   <div data-avatar-tools class="people-avatar-tools">
@@ -914,10 +915,10 @@ async function editFriend(f){
    closePeopleEditor();setStatus($("friendStatus"),"Friend photo and avatar updated ♡");await loadPeopleData();
   }catch(err){if(newPath)await client.storage.from("private-memories").remove([newPath]);status.textContent="Could not update friend: "+err.message;save.disabled=false;}
  });
- const form=modal.querySelector('form');form.elements.avatarMode.value=c.avatar_mode||(c.photo_path?'photo':'emoji');form.elements.avatarColor.value=c.avatar_color||'#e9dfd5';
+ const form=modal.querySelector('form');form.elements.avatarMode.value=(c.avatar_mode==='emoji'||c.avatar_mode==='initials')?c.avatar_mode:(c.photo_path?'photo':'emoji');form.elements.avatarColor.value=c.avatar_color||'#e9dfd5';
  const photoTools=modal.querySelector('[data-photo-tools]'),avatarTools=modal.querySelector('[data-avatar-tools]'),preview=modal.querySelector('[data-crop-avatar]');
  const updateMode=()=>{const photo=form.elements.avatarMode.value==='photo';photoTools.hidden=!photo;avatarTools.hidden=photo;};
- const updateCrop=()=>{const img=preview.querySelector('img');if(img)applyPhotoCrop(img,{photo_crop:{x:Number(form.elements.cropX.value),y:Number(form.elements.cropY.value),zoom:Number(form.elements.cropZoom.value)/100}});};
+ const updateCrop=()=>{const x=Number(form.elements.cropX.value),y=Number(form.elements.cropY.value),z=Number(form.elements.cropZoom.value);modal.querySelector('[data-crop-x]').textContent=x+'%';modal.querySelector('[data-crop-y]').textContent=y+'%';modal.querySelector('[data-crop-zoom]').textContent=z+'%';const img=preview.querySelector('img');if(img)applyPhotoCrop(img,{photo_crop:{x,y,zoom:z/100}});};
  ['cropX','cropY','cropZoom'].forEach(n=>form.elements[n].addEventListener('input',updateCrop));
  form.elements.photo.addEventListener('change',()=>{const file=form.elements.photo.files?.[0];if(!file)return;const url=URL.createObjectURL(file);preview.innerHTML='';const img=document.createElement('img');img.alt='New photo crop preview';img.src=url;img.onload=()=>URL.revokeObjectURL(url);preview.append(img);updateCrop();});
  form.elements.avatarMode.addEventListener('change',updateMode);updateMode();updateCrop();
