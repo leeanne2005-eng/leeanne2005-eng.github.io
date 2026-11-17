@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V10 ♡</title>
 <style>
 :root{--paper:#f6efe3;--wine:#84343c;--wine2:#a34b53;--rose:#ead5d0;--ink:#593239;--muted:#98766f;--card:#fffaf2}
 *{box-sizing:border-box}body{margin:0;background:#eee5d9;color:var(--ink);font-family:Georgia,'Times New Roman',serif}
@@ -86,9 +86,12 @@ footer{color:#8e7c78}
 
 .study-goal-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0;padding:10px 13px;background:#edf0e8;border:1px dashed #b6c0ae;border-radius:12px;color:#657263;font:13px Arial}
 .study-goal-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 12px;margin:8px 0;background:#fbf7f0;border:1px solid #ded2c8;border-radius:13px;box-shadow:0 3px 0 #d8c9bf55}
-.study-goal-check{appearance:none;-webkit-appearance:none;justify-self:center;align-self:center;flex:none;width:23px;height:23px;min-width:23px;min-height:23px;margin:0;border:2px solid #9eaaa0;border-radius:7px;background:#fffdf9;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;box-sizing:border-box}
-.study-goal-check:checked{background:#8e9c88;border-color:#8e9c88}
-.study-goal-check:checked:after{content:"✓";color:white;font:bold 15px/1 Arial;display:block;line-height:1;transform:translateY(-.5px)}
+.study-goal-check{appearance:none;-webkit-appearance:none;justify-self:center;align-self:center;flex:none;width:26px;height:26px;min-width:26px;min-height:26px;margin:0;padding:0;border:2px solid #9eaaa0;border-radius:7px;background:#fffdf9;color:#fff;cursor:pointer;display:grid;place-items:center;line-height:1;font:700 16px/1 Arial;box-sizing:border-box;box-shadow:none;vertical-align:middle}
+.study-goal-check[aria-checked="true"]{background:#8e9c88;border-color:#8e9c88;color:#fff}
+.study-goal-check:focus-visible{outline:3px solid #c6a6a1;outline-offset:3px}
+.study-goal-check:disabled{opacity:.6;cursor:wait}
+.study-goal-item{grid-template-columns:30px minmax(0,1fr) auto}
+@media(max-width:520px){.study-goal-item{grid-template-columns:30px minmax(0,1fr) auto;gap:9px;padding:12px 9px}}
 .study-goal-copy{flex:1;min-width:0;align-self:center}
 .study-goal-title{display:block;color:var(--wine);font-weight:bold;line-height:1.45;overflow-wrap:anywhere}
 .study-goal-item.is-complete .study-goal-title{text-decoration:line-through;color:#899187}
@@ -172,6 +175,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .period-shell{background:linear-gradient(145deg,#fbf3ef,#f4e9e3);border:1px solid #dfc9c2;border-radius:18px;padding:16px;margin:16px 0}.period-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.period-month{font: bold 18px Georgia;color:var(--wine)}.period-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px}.period-weekday{text-align:center;font:11px Arial;color:var(--muted);padding:5px 0}.period-day{min-height:43px;padding:5px 2px;border:1px solid #e4d5ce;background:#fffaf6;color:var(--ink);border-radius:10px;font:12px Arial;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}.period-day.empty{visibility:hidden}.period-day.selected{outline:2px solid var(--wine);outline-offset:1px}.period-day.flow-light{background:#f4dfe0;border-color:#e5bfc2}.period-day.flow-medium{background:#e8c4c8;border-color:#d8a5aa}.period-day.flow-heavy{background:#d59da4;color:#fff;border-color:#c78c95}.period-day .dot{font-size:9px;line-height:1}.period-legend{display:flex;gap:10px;flex-wrap:wrap;font:11px Arial;color:var(--muted);margin-top:12px}.period-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.period-stat{background:#fffaf6;border:1px solid #e5d6ce;border-radius:12px;padding:12px}.period-stat strong{display:block;font:20px Georgia;color:var(--wine)}.period-stat span{font:11px Arial;color:var(--muted)}.period-day-form{background:#fffaf6;border:1px dashed #d7b9b5;border-radius:14px;padding:14px;margin-top:14px}.period-day-form .symptom-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.period-day-form .symptom-list label{font:12px Arial;background:#f4ece7;border-radius:99px;padding:7px 9px}.period-day-form .symptom-list input{width:auto;margin:0 4px 0 0;padding:0}.period-notice{font:12px/1.55 Arial;color:#806f6d;background:#f1e9e2;border-radius:10px;padding:10px;margin-top:12px}
 
 </style>
+<!-- V10 repair: Supabase-compatible habit check-ins and deterministic goal checkbox alignment. -->
 </head>
 <body><main>
 <header><div><div class="eyebrow">A private space for everything that matters</div><h1>My Little World ♡</h1></div><div class="eyebrow">Vintage edition</div></header>
@@ -362,6 +366,11 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <label class="muted">Little details (optional)<textarea id="activityDetails" rows="2" maxlength="1000" placeholder="How did it go? Anything you want to remember?"></textarea></label>
    <button type="submit" id="activitySubmit">＋ Add to today's log</button><div id="activityStatus" role="status"></div>
   </form>
+  <section id="activityHistorySection" style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+   <h2 style="font-size:20px">My Daily Activity Log ♡</h2>
+   <p class="muted">Your saved activities appear here, newest first. Tap a week to open its entries.</p>
+   <div id="activityList" class="muted">Loading your private activity log…</div>
+  </section>
   <section id="habitSection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
    <h2 style="font-size:22px">Daily Habit Tracker 🌷</h2>
    <p class="muted">Create your own habits. Each habit can repeat every day or on selected weekdays.</p>
@@ -412,7 +421,6 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button type="button" class="secondary" id="memoryFavorites">♡ Show favourites</button><button type="button" class="secondary" id="memoryPrint">Print / Save as PDF</button></div>
    <div id="memoryArchive" class="muted">Loading your journal…</div>
   </section>
-  <div style="border-top:1px solid #dfc2bb;margin-top:18px;padding-top:15px"><h2 style="font-size:20px">My Daily Activity Log</h2><p class="muted">Weekly graph shows how many activities you logged. Tap a week to view individual entries.</p><div id="activityList" class="muted">Loading your private activity log…</div></div>
  </div>
 </section>
 
@@ -564,57 +572,129 @@ if($("habitFrequency"))$("habitFrequency").addEventListener("change",()=>{$("hab
 let habitRows=[], habitChecks=[];
 async function currentUser(){const {data:{user},error}=await client.auth.getUser();if(error||!user)throw new Error("Please sign in again.");return user;}
 async function loadHabitBoard(){
- if(!client)return;const host=$("habitBoard");host.textContent="Loading your habits…";
- const month=$("habitMonth").value||todayISO().slice(0,7);
- const year=Number(month.slice(0,4)),monthNumber=Number(month.slice(5,7)),daysInMonth=new Date(year,monthNumber,0).getDate();
- const start=month+"-01", end=month+"-"+String(daysInMonth).padStart(2,"0");
- const {data:definitions,error:defError}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","habit").order("created_at",{ascending:true}));
- if(defError){host.textContent="Could not load habits: "+defError.message;return;}
- const {data:checks,error:checkError}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","habit").gte("entry_date",start).lte("entry_date",end));
- if(checkError){host.textContent="Could not load check-ins: "+checkError.message;return;}
- habitRows=(definitions||[]).filter(x=>x.content?.kind==="habit_definition");
- habitChecks=(checks||[]).filter(x=>x.content?.kind==="habit_checkin");
- const defs=habitRows;
- if(!defs.length){host.innerHTML='<p class="muted">No habits yet. Add your first little routine above ♡</p>';return;}
- host.innerHTML="";
- const head=document.createElement("div");head.className="habit-row";head.innerHTML='<div class="habit-name">My habits</div>'+["M","T","W","T","F","S","S"].map(x=>'<div class="habit-day">'+x+'</div>').join("");host.append(head);
- defs.forEach(h=>{
-  const row=document.createElement("div");row.className="habit-row";
-  const name=document.createElement("div");name.className="habit-name";name.textContent=(h.content.emoji||"♡")+" "+h.title;row.append(name);
-  const freq=h.content.frequency||"daily", selected=h.content.days||[1,2,3,4,5,6,0];
-  for(let day=1;day<=7;day++){
-   const button=document.createElement("span");button.className="habit-day";button.textContent="";row.append(button);
+ if(!client)return;
+ const host=$("habitBoard");
+ host.textContent="Loading your habits…";
+ try{
+  const month=$("habitMonth").value||todayISO().slice(0,7);
+  const year=Number(month.slice(0,4)),monthNumber=Number(month.slice(5,7));
+  const daysInMonth=new Date(year,monthNumber,0).getDate();
+  const start=month+"-01",end=month+"-"+String(daysInMonth).padStart(2,"0");
+
+  // Both habit definitions and check-ins use the database-approved entry_type "habit".
+  // content.kind distinguishes the two record shapes.
+  const {data:allRows,error}=await fetchAllPages(()=>client.from("journal_entries")
+   .select("id,entry_date,title,content,created_at")
+   .eq("entry_type","habit")
+   .order("created_at",{ascending:true}));
+  if(error)throw error;
+
+  const rows=allRows||[];
+  habitRows=rows.filter(x=>x.content?.kind==="habit_definition");
+  habitChecks=rows.filter(x=>x.content?.kind==="habit_checkin"&&x.entry_date>=start&&x.entry_date<=end);
+
+  const defs=habitRows;
+  if(!defs.length){
+   host.innerHTML='<p class="muted">No habits yet. Add your first little routine above ♡</p>';
+   return;
   }
-  host.append(row);
-  const monthGrid=document.createElement("div");monthGrid.style.cssText="display:grid;grid-template-columns:145px repeat(7,minmax(28px,1fr));gap:5px;min-width:390px;margin:3px 0 12px";
-  const label=document.createElement("div");label.className="habit-name";label.textContent="";monthGrid.append(label);
-  const firstOffset=(new Date(Number(month.slice(0,4)),Number(month.slice(5,7))-1,1).getDay()+6)%7;
-  for(let i=0;i<firstOffset;i++){const spacer=document.createElement("span");monthGrid.append(spacer);}
-  let scheduledCount=0,doneCount=0,missedCount=0;
-  for(let d=1;d<=daysInMonth;d++){
-   const date=new Date(Number(month.slice(0,4)),Number(month.slice(5,7))-1,d);
-   const wd=date.getDay();const scheduled=freq==="daily"||selected.includes(wd);
-   const dateStr=month+"-"+String(d).padStart(2,"0");
-   const checked=habitChecks.some(c=>c.content.habit_id===h.id&&c.entry_date===dateStr);
-   if(scheduled&&dateStr<=todayISO()){scheduledCount++;if(checked)doneCount++;else missedCount++;}
-   const b=document.createElement("button");b.className="habit-dot"+(checked?" done":"")+(scheduled?"":" off")+(scheduled&&!checked&&dateStr<todayISO()?" missed":"")+(scheduled&&!checked&&dateStr>todayISO()?" future":"");b.textContent=checked?"✓":String(d);b.style.background=checked?(h.content.color||"#d3a4a5"):"";
-   b.title=dateStr+(checked?" · Done":!scheduled?" · Not scheduled":dateStr<todayISO()?" · Missed":" · Upcoming");
-   b.disabled=!scheduled||dateStr>todayISO();b.onclick=()=>toggleHabit(h,dateStr,checked);monthGrid.append(b);
-  }
-  host.append(monthGrid);
-  const progress=document.createElement("div");progress.className="muted";progress.style.cssText="font-size:12px;margin:-6px 0 10px 145px";progress.textContent=`${doneCount}/${scheduledCount} scheduled days completed · ${scheduledCount?Math.round(doneCount/scheduledCount*100):0}% completion · ${missedCount} missed`;host.append(progress);
-  const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 145px";
-  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:6px 10px;font-size:12px";edit.textContent="Edit habit";edit.onclick=async()=>{const name=prompt("Habit name",h.title);if(name===null)return;if(!name.trim())return alert("Habit name cannot be empty.");const emoji=prompt("Habit emoji",h.content.emoji||"♡");if(emoji===null)return;const frequency=prompt("Frequency: daily or weekly",h.content.frequency||"daily");if(frequency===null)return;if(!["daily","weekly"].includes(frequency.trim().toLowerCase()))return alert("Use daily or weekly.");let days=h.content.days||[1,2,3,4,5,6,0];if(frequency.trim().toLowerCase()==="weekly"){const raw=prompt("Weekdays as numbers separated by commas: Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6, Sun=0",days.join(","));if(raw===null)return;days=[...new Set(raw.split(",").map(x=>Number(x.trim())))];if(!days.length||days.some(x=>![0,1,2,3,4,5,6].includes(x)))return alert("Please enter weekday numbers from 0 to 6.");}const color=prompt("Habit colour (hex code)",h.content.color||"#d3a4a5");if(color===null)return;if(!/^#[0-9a-fA-F]{6}$/.test(color))return alert("Please enter a colour like #d3a4a5.");const {error}=await client.from("journal_entries").update({title:name.trim(),content:{...h.content,emoji:emoji||"♡",frequency:frequency.trim().toLowerCase(),days,color}}).eq("id",h.id);if(error)setStatus($("habitStatus"),"Could not update habit: "+error.message);else loadHabitBoard();};
-  const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:6px 10px;font-size:12px";del.textContent="Delete habit";del.onclick=async()=>{if(!confirm("Delete this habit definition? Past check-ins will remain in your history."))return;const {error}=await client.from("journal_entries").delete().eq("id",h.id);if(error)setStatus($("habitStatus"),"Could not delete habit: "+error.message);else loadHabitBoard();};
-  management.append(edit,del);host.append(management);
- });
+  host.innerHTML="";
+  const head=document.createElement("div");
+  head.className="habit-row";
+  head.innerHTML='<div class="habit-name">My habits</div>'+["M","T","W","T","F","S","S"].map(x=>'<div class="habit-day">'+x+'</div>').join("");
+  host.append(head);
+
+  defs.forEach(h=>{
+   const row=document.createElement("div");row.className="habit-row";
+   const name=document.createElement("div");name.className="habit-name";
+   name.textContent=(h.content.emoji||"♡")+" "+h.title;row.append(name);
+   for(let day=1;day<=7;day++){const spacer=document.createElement("span");spacer.className="habit-day";row.append(spacer);}
+   host.append(row);
+
+   const monthGrid=document.createElement("div");
+   monthGrid.style.cssText="display:grid;grid-template-columns:145px repeat(7,minmax(28px,1fr));gap:5px;min-width:390px;margin:3px 0 12px";
+   const label=document.createElement("div");label.className="habit-name";monthGrid.append(label);
+   const firstOffset=(new Date(year,monthNumber-1,1).getDay()+6)%7;
+   for(let i=0;i<firstOffset;i++){const spacer=document.createElement("span");monthGrid.append(spacer);}
+   let scheduledCount=0,doneCount=0,missedCount=0;
+   for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(year,monthNumber-1,d),wd=date.getDay();
+    const scheduled=(h.content.frequency||"daily")==="daily"||(h.content.days||[1,2,3,4,5,6,0]).includes(wd);
+    const dateStr=month+"-"+String(d).padStart(2,"0");
+    const checked=habitChecks.some(c=>c.content?.habit_id===h.id&&c.entry_date===dateStr);
+    if(scheduled&&dateStr<=todayISO()){scheduledCount++;if(checked)doneCount++;else missedCount++;}
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="habit-dot"+(checked?" done":"")+(scheduled?"":" off")+(scheduled&&!checked&&dateStr<todayISO()?" missed":"")+(scheduled&&!checked&&dateStr>todayISO()?" future":"");
+    b.textContent=checked?"✓":String(d);
+    b.style.background=checked?(h.content.color||"#d3a4a5"):"";
+    b.title=dateStr+(checked?" · Done":!scheduled?" · Not scheduled":dateStr<todayISO()?" · Missed":" · Upcoming");
+    b.disabled=!scheduled||dateStr>todayISO();
+    b.setAttribute("aria-pressed",checked?"true":"false");
+    b.onclick=()=>toggleHabit(h,dateStr,checked);
+    monthGrid.append(b);
+   }
+   host.append(monthGrid);
+
+   const progress=document.createElement("div");progress.className="muted";
+   progress.style.cssText="font-size:12px;margin:-6px 0 10px 145px";
+   progress.textContent=`${doneCount}/${scheduledCount} scheduled days completed · ${scheduledCount?Math.round(doneCount/scheduledCount*100):0}% completion · ${missedCount} missed`;
+   host.append(progress);
+
+   const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 145px;flex-wrap:wrap";
+   const edit=document.createElement("button");edit.type="button";edit.className="secondary";
+   edit.style.cssText="padding:6px 10px;font-size:12px";edit.textContent="Edit habit";
+   edit.onclick=async()=>{
+    const name=prompt("Habit name",h.title);if(name===null)return;if(!name.trim())return alert("Habit name cannot be empty.");
+    const emoji=prompt("Habit emoji",h.content.emoji||"♡");if(emoji===null)return;
+    const frequency=prompt("Frequency: daily or weekly",h.content.frequency||"daily");if(frequency===null)return;
+    if(!["daily","weekly"].includes(frequency.trim().toLowerCase()))return alert("Use daily or weekly.");
+    let days=h.content.days||[1,2,3,4,5,6,0];
+    if(frequency.trim().toLowerCase()==="weekly"){
+     const raw=prompt("Weekdays as numbers separated by commas: Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6, Sun=0",days.join(","));
+     if(raw===null)return;days=[...new Set(raw.split(",").map(x=>Number(x.trim())))];
+     if(!days.length||days.some(x=>![0,1,2,3,4,5,6].includes(x)))return alert("Please enter weekday numbers from 0 to 6.");
+    }
+    const color=prompt("Habit colour (hex code)",h.content.color||"#d3a4a5");if(color===null)return;
+    if(!/^#[0-9a-fA-F]{6}$/.test(color))return alert("Please enter a colour like #d3a4a5.");
+    const {error:updateError}=await client.from("journal_entries").update({title:name.trim(),content:{...h.content,emoji:emoji||"♡",frequency:frequency.trim().toLowerCase(),days,color}}).eq("id",h.id);
+    if(updateError)setStatus($("habitStatus"),"Could not update habit: "+updateError.message);else await loadHabitBoard();
+   };
+   const del=document.createElement("button");del.type="button";del.className="secondary";
+   del.style.cssText="padding:6px 10px;font-size:12px";del.textContent="Delete habit";
+   del.onclick=async()=>{
+    if(!confirm("Delete this habit definition? Past check-ins will remain in your history."))return;
+    const {error:deleteError}=await client.from("journal_entries").delete().eq("id",h.id);
+    if(deleteError)setStatus($("habitStatus"),"Could not delete habit: "+deleteError.message);else await loadHabitBoard();
+   };
+   management.append(edit,del);host.append(management);
+  });
+ }catch(err){
+  host.textContent="Could not load habits: "+(err?.message||String(err));
+  setStatus($("habitStatus"),"Could not load habits: "+(err?.message||String(err)));
+ }
 }
 async function toggleHabit(h,date,wasDone){
- try{const user=await currentUser();const old=habitChecks.find(c=>c.content.habit_id===h.id&&c.entry_date===date);
-  if(wasDone&&old){const {error}=await client.from("journal_entries").delete().eq("id",old.id);if(error)throw error;}
-  else if(!wasDone){const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"habit",entry_date:date,title:h.title,content:{kind:"habit_checkin",habit_id:h.id}});if(error)throw error;}
-  loadHabitBoard();
- }catch(e){setStatus($("habitStatus"),"Could not update check-in: "+e.message);}
+ try{
+  const user=await currentUser();
+  const old=habitChecks.find(c=>c.content?.habit_id===h.id&&c.entry_date===date);
+  setStatus($("habitStatus"),"Saving your check-in…");
+  if(wasDone&&old){
+   const {error}=await client.from("journal_entries").delete().eq("id",old.id);
+   if(error)throw error;
+  }else if(!wasDone){
+   const {error}=await client.from("journal_entries").insert({
+    user_id:user.id,entry_type:"habit",entry_date:date,title:h.title,
+    content:{kind:"habit_checkin",habit_id:h.id}
+   });
+   if(error)throw error;
+  }
+  await loadHabitBoard();
+  setStatus($("habitStatus"),wasDone?"Check-in removed ♡":"Habit check-in saved privately ♡");
+ }catch(e){
+  setStatus($("habitStatus"),"Could not update check-in: "+(e?.message||String(e)));
+  await loadHabitBoard();
+ }
 }
 $("habitForm")?.addEventListener("submit",async e=>{
  e.preventDefault();try{const user=await currentUser();const frequency=$("habitFrequency").value;const days=[...document.querySelectorAll('input[name="habitDay"]:checked')].map(x=>Number(x.value));if(frequency==="weekly"&&!days.length){setStatus($("habitStatus"),"Choose at least one weekday.");return;}
@@ -791,7 +871,7 @@ function renderWeeklySection(host,rows,{metric,record,empty="No records yet ♡"
  const chartRows=sorted.slice(0,maxWeeks).reverse();const vals=chartRows.map(([key,items])=>metric(items,key));const max=Math.max(1,...vals);
  const chart=document.createElement("div");chart.className="week-chart";chart.setAttribute("aria-label","Weekly summary chart");
  chartRows.forEach(([key,items],i)=>{const col=document.createElement("div");col.className="week-col";const value=document.createElement("div");value.className="week-value";value.textContent=formatValue?formatValue(vals[i]):(typeof vals[i]==="number"?(Number.isInteger(vals[i])?String(vals[i]):vals[i].toFixed(1)):String(vals[i]));const wrap=document.createElement("div");wrap.className="week-bar-wrap";const bar=document.createElement("div");bar.className="week-bar";bar.style.height=Math.max(3,Math.round((Number(vals[i])||0)/max*96))+"px";bar.title=weekLabel(key)+": "+value.textContent;wrap.append(bar);const label=document.createElement("div");label.className="week-label";label.textContent=new Date(key+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});col.append(value,wrap,label);chart.append(col);});host.append(chart);
- sorted.forEach(([key,items])=>{const details=document.createElement("details");details.className="week-detail";const summary=document.createElement("summary");summary.textContent=weekLabel(key);const total=document.createElement("span");total.textContent=items.length+ (items.length===1?" record":" records");summary.append(total);details.append(summary);const body=document.createElement("div");items.forEach(item=>{const row=document.createElement("div");row.className="week-record";record(row,item);body.append(row);});details.append(body);host.append(details);});
+ sorted.forEach(([key,items])=>{const details=document.createElement("details");details.className="week-detail";if(key===sorted[0][0])details.open=true;const summary=document.createElement("summary");summary.textContent=weekLabel(key);const total=document.createElement("span");total.textContent=items.length+ (items.length===1?" record":" records");summary.append(total);details.append(summary);const body=document.createElement("div");items.forEach(item=>{const row=document.createElement("div");row.className="week-record";record(row,item);body.append(row);});details.append(body);host.append(details);});
 }
 async function loadActivities(){
  if(!client)return;const list=$("activityList");list.textContent="Loading your private entries…";
@@ -822,19 +902,24 @@ async function loadGoals(){
  summary.append(summaryText,summaryHint);host.append(summary);
  function makeGoalRow(item,isCompleted){
   const row=document.createElement("div");row.className="study-goal-item"+(isCompleted?" is-complete":"");
-  const check=document.createElement("input");check.type="checkbox";check.className="study-goal-check";check.checked=isCompleted;check.setAttribute("aria-label",(isCompleted?"Move ":"Complete ")+(item.title||"study goal"));
+  const check=document.createElement("button");check.type="button";check.className="study-goal-check";check.setAttribute("role","checkbox");check.setAttribute("aria-checked",isCompleted?"true":"false");check.setAttribute("aria-label",(isCompleted?"Move ":"Complete ")+(item.title||"study goal"));check.textContent=isCompleted?"✓":"";
   const copy=document.createElement("div");copy.className="study-goal-copy";
   const title=document.createElement("strong");title.className="study-goal-title";title.textContent=item.title||"Study goal";
   const meta=document.createElement("div");meta.className="study-goal-meta";meta.textContent=item.content?.target_date?"Target date: "+item.content.target_date:"No target date";
   const state=document.createElement("span");state.className="study-goal-state";state.textContent=isCompleted?"✓ Completed":"In progress";
   copy.append(title,meta,state);
   const del=document.createElement("button");del.type="button";del.className="secondary study-goal-delete";del.textContent="Delete";
-  check.onchange=async()=>{
+  check.onclick=async()=>{
+   const nextCompleted=check.getAttribute("aria-checked")!=="true";
    check.disabled=true;del.disabled=true;
-   const nextContent={...(item.content||{}),completed:check.checked,completed_at:check.checked?new Date().toISOString():null};
+   const nextContent={...(item.content||{}),completed:nextCompleted,completed_at:nextCompleted?new Date().toISOString():null};
    const {error:updateError}=await client.from("journal_entries").update({content:nextContent}).eq("id",item.id);
-   if(updateError){check.checked=!check.checked;$("goalStatus").textContent="Could not update goal: "+updateError.message;check.disabled=false;del.disabled=false;return;}
-   $("goalStatus").textContent=check.checked?"Goal completed — moved to Completed Goals ♡":"Goal moved back to your active goals.";
+   if(updateError){
+    check.disabled=false;del.disabled=false;
+    $("goalStatus").textContent="Could not update goal: "+updateError.message;
+    return;
+   }
+   $("goalStatus").textContent=nextCompleted?"Goal completed — moved to Completed Goals ♡":"Goal moved back to your active goals.";
    await loadGoals();
   };
   del.onclick=async()=>{if(!confirm("Delete this study goal?"))return;del.disabled=true;const {error:deleteError}=await client.from("journal_entries").delete().eq("id",item.id);if(deleteError){$("goalStatus").textContent="Could not delete: "+deleteError.message;del.disabled=false;}else{$("goalStatus").textContent="Study goal deleted.";loadGoals();}};
