@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f6efe3"><title>My Little World V16 ♡</title>
+<!-- V19: Travel Journal trips, itinerary stops and private photo memories. -->
 <!-- V18: deduplicate repeated friend profiles in People I Met without deleting records. -->
 <!-- V17: adds Song of the Day records inside Today I Did. -->
 <!-- V16: fixes duplicate welcome greeting and adds user-editable chapter card colours. -->
@@ -244,7 +245,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Daily activities, song of the day, habits, cycle calendar and little memories — all in one place.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goPeople" data-sticker="♡"><span class="module-icon">🫶</span><strong>People I Met</strong><span class="muted">Friends, shared moments, little meetups and your social circle.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photos, journal pages and moments I want to keep.</span><span class="module-open">Open this chapter →</span></button>
-   <div class="module-card blue" aria-disabled="true" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">A new chapter · Coming later</span></div>
+   <button type="button" class="module-card blue" id="goTravel" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">Open this chapter →</span></button>
    <div class="module-card butter" aria-disabled="true" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">Crochet, reading, creative projects and new interests.</span><span class="module-open">A new chapter · Coming later</span></div>
   </div>
   <details class="page-colour-settings" id="pageColourSettings">
@@ -258,6 +259,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
     <label>Today I Did<select data-page-colour="goDaily"><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
     <label>People I Met<select data-page-colour="goPeople"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
     <label>Memories<select data-page-colour="goMemories"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+    <label>Travel Journal<select data-page-colour="goTravel"><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
    </div>
    <p class="page-colour-hint">You can change these whenever you like. This changes the home chapter cards, not the records inside them.</p>
   </details>
@@ -542,6 +544,70 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <h2 style="font-size:21px">📖 Our Little Meetups</h2><div class="people-filter"><label class="muted">Filter by friend<select id="meetupFilterFriend"><option value="">All friends</option></select></label><label class="muted">Month<input id="meetupMonth" type="month"></label></div>
    <div id="meetupsList"><div class="people-empty">Your shared memories will appear here ♡</div></div>
   </section>
+ </div>
+
+
+ <div class="panel section-page" id="travelPanel" data-page="travel">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A scrapbook of places and little adventures</div>
+  <h2>Travel Journal ✈️</h2>
+  <div class="people-hero" style="margin-top:12px">
+   <div style="font-size:28px">✈︎ ♡ 🗺️</div>
+   <h3 style="margin:5px 0;color:var(--wine)">The world is full of little stories.</h3>
+   <p class="muted" style="margin:0">Save your trips, plan each day, keep the places you loved and collect the moments you want to remember.</p>
+  </div>
+  <div class="people-stat-grid" id="travelStats">
+   <div class="people-stat"><strong>—</strong><span>Trips saved</span></div>
+   <div class="people-stat"><strong>—</strong><span>Places explored</span></div>
+   <div class="people-stat"><strong>—</strong><span>Countries</span></div>
+   <div class="people-stat"><strong>—</strong><span>Completed trips</span></div>
+  </div>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:18px">
+   <h2 id="travelFormHeading" style="font-size:21px">＋ Start a new journey</h2>
+   <p class="muted">Create one travel page for each trip. You can add past trips too.</p>
+   <form id="travelTripForm" style="display:grid;gap:10px;margin-top:12px">
+    <div class="formgrid">
+     <label class="muted">Trip name<input id="travelTitle" maxlength="140" required placeholder="e.g. A little escape to Kyoto"></label>
+     <label class="muted">Country<input id="travelCountry" maxlength="100" required placeholder="e.g. Japan"></label>
+     <label class="muted">Main destination / city<input id="travelDestination" maxlength="140" required placeholder="e.g. Kyoto, Osaka and Tokyo"></label>
+     <label class="muted">Trip status<select id="travelStatus"><option value="planned">Planning</option><option value="ongoing">Currently travelling</option><option value="completed">Completed</option></select></label>
+     <label class="muted">Start date<input id="travelStart" type="date" required></label>
+     <label class="muted">End date<input id="travelEnd" type="date" required></label>
+    </div>
+    <label class="muted">Who went with you? (optional)<input id="travelCompanions" maxlength="300" placeholder="Friends, family, solo trip…"></label>
+    <label class="muted">Trip cover photo (optional)<input id="travelCover" type="file" accept="image/*"></label>
+    <label class="muted">The story of this trip<textarea id="travelStory" rows="3" maxlength="4000" placeholder="What made you choose this destination? What do you want to remember?"></textarea></label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit" id="travelTripSubmit">♡ Save this trip</button><button type="button" class="secondary" id="travelTripCancel" hidden>Cancel edit</button></div>
+    <div id="travelTripStatus" class="muted" role="status"></div>
+   </form>
+  </section>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:22px">
+   <h2 style="font-size:21px">🧳 My Journeys</h2>
+   <div class="formgrid" style="margin:10px 0">
+    <label class="muted">Find a trip<input id="travelSearch" type="search" placeholder="Search trip, city or country…"></label>
+    <label class="muted">Show trips<select id="travelFilter"><option value="all">All journeys</option><option value="planned">Planning</option><option value="ongoing">Currently travelling</option><option value="completed">Completed</option></select></label>
+   </div>
+   <div id="travelTripList" class="muted">Your journeys will appear here ♡</div>
+  </section>
+  <section id="travelItinerarySection" style="border-top:1px solid var(--line);padding-top:18px;margin-top:22px">
+   <h2 style="font-size:21px">📍 Add a place to your journey</h2>
+   <p class="muted">Choose a trip, then add places, times, activities, notes and photos for each day.</p>
+   <form id="travelStopForm" style="display:grid;gap:10px;margin-top:12px">
+    <div class="formgrid">
+     <label class="muted">Which trip?<select id="travelStopTrip" required><option value="">Choose a trip</option></select></label>
+     <label class="muted">Date<input id="travelStopDate" type="date" required></label>
+     <label class="muted">Time (optional)<input id="travelStopTime" type="time"></label>
+     <label class="muted">Place / stop<input id="travelStopPlace" maxlength="160" required placeholder="e.g. Fushimi Inari Shrine"></label>
+     <label class="muted">Activity<input id="travelStopActivity" maxlength="180" placeholder="e.g. Explore the shrine and take photos"></label>
+    </div>
+    <label class="muted">Little notes<textarea id="travelStopNotes" rows="2" maxlength="1800" placeholder="What did you see, eat, feel or discover?"></textarea></label>
+    <label class="muted">Photos (up to 6)<input id="travelStopPhotos" type="file" accept="image/*" multiple></label>
+    <button type="submit">＋ Add to itinerary</button>
+    <div id="travelStopStatus" class="muted" role="status"></div>
+   </form>
+   <div id="travelItinerary" style="margin-top:14px"><p class="muted">Choose a trip to see its itinerary.</p></div>
+  </section>
+  <div class="notice">Your travel notes and photos are private. Trip details are saved in your existing Supabase journal_entries table; photos use your existing private-memories storage bucket. No new SQL setup is required.</div>
  </div>
 
 <section class="panel" id="connectionPanel">
@@ -1118,7 +1184,7 @@ document.querySelectorAll("[data-page-colour]").forEach(select=>{
 applyPageColours();
 
 function showPage(page,options={}){
- const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner"];
+ const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner","travel"];
  if(!valid.includes(page))page="home";
  const dashboard=$("dashboardPanel");
  if(dashboard)dashboard.classList.toggle("hidden",page!=="home");
@@ -1133,7 +1199,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadSemesters().then(()=>loadAttendance());}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadSemesters().then(()=>loadAttendance());}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -1408,6 +1474,7 @@ $("goMemories").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$
 $("goCoffee").addEventListener("click",()=>showPage("coffee"));
 $("goDaily").addEventListener("click",()=>showPage("daily"));
 $("goPeople").addEventListener("click",()=>showPage("people"));
+$("goTravel").addEventListener("click",()=>{showPage("travel");loadTravelData();});
 document.querySelectorAll("[data-back]").forEach(btn=>btn.addEventListener("click",()=>showPage("home")));
 window.addEventListener("popstate",()=>{const page=(location.hash||"#home").slice(1);showPage(page,{history:false});});
 
@@ -1511,6 +1578,178 @@ $("activityForm").addEventListener("submit",async e=>{
  $("activityForm").reset();activityDate.value=todayISO();
  setStatus($("activityStatus"),"Saved to your private cloud daily log ♡");loadActivities();
 });
+
+// ===== Travel Journal V19 · trips, daily itinerary and private photo memories =====
+let travelTrips=[],travelStops=[],editingTravelTripId=null,travelSelectedTripId="";
+const travelPhotoCache=new Map();
+function travelEscape(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function travelDateLabel(v){if(!v)return "";const d=new Date(v+"T12:00:00");return Number.isNaN(d.getTime())?v:d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});}
+function travelStatusLabel(v){return v==="completed"?"Completed":v==="ongoing"?"Currently travelling":"Planning";}
+async function travelSignedUrl(path){
+ if(!path||!client)return "";
+ if(travelPhotoCache.has(path))return travelPhotoCache.get(path);
+ const {data,error}=await client.storage.from("private-memories").createSignedUrl(path,3600);
+ const url=error?"":data.signedUrl;if(url)travelPhotoCache.set(path,url);return url;
+}
+function resetTravelTripForm(){
+ $("travelTripForm").reset();editingTravelTripId=null;
+ $("travelTripHeading")?.replaceChildren();
+ $("travelFormHeading").textContent="＋ Start a new journey";
+ $("travelTripSubmit").textContent="♡ Save this trip";$("travelTripCancel").hidden=true;
+}
+function renderTravelStats(){
+ const countries=new Set(travelTrips.map(t=>(t.content?.country||"").trim().toLocaleLowerCase()).filter(Boolean));
+ const places=new Set(travelStops.map(s=>(s.content?.place||"").trim().toLocaleLowerCase()).filter(Boolean));
+ const completed=travelTrips.filter(t=>t.content?.status==="completed").length;
+ $("travelStats").innerHTML=[
+  [travelTrips.length,"Trips saved"],[places.size,"Places explored"],[countries.size,"Countries"],[completed,"Completed trips"]
+ ].map(([n,l])=>`<div class="people-stat"><strong>${n}</strong><span>${l}</span></div>`).join("");
+}
+function renderTravelTripOptions(){
+ const select=$("travelStopTrip"),old=select.value;
+ select.innerHTML='<option value="">Choose a trip</option>'+travelTrips.map(t=>`<option value="${t.id}">${travelEscape(t.title)} · ${travelEscape(t.content?.destination||"")}</option>`).join("");
+ if(travelTrips.some(t=>t.id===old))select.value=old;
+ else if(travelSelectedTripId&&travelTrips.some(t=>t.id===travelSelectedTripId))select.value=travelSelectedTripId;
+ else if(travelTrips.length)select.value=travelTrips[0].id;
+ travelSelectedTripId=select.value||"";
+}
+async function renderTravelTrips(){
+ const host=$("travelTripList"),query=$("travelSearch").value.trim().toLocaleLowerCase(),filter=$("travelFilter").value;
+ const rows=travelTrips.filter(t=>{
+  const c=t.content||{},hay=[t.title,c.country,c.destination,c.companions,c.story].join(" ").toLocaleLowerCase();
+  return (!query||hay.includes(query))&&(filter==="all"||c.status===filter);
+ });
+ host.innerHTML="";
+ if(!rows.length){host.innerHTML='<div class="people-empty">No journeys match yet. Start with your first little adventure ♡</div>';return;}
+ for(const t of rows){
+  const c=t.content||{},card=document.createElement("article");card.className="week-record";card.style.cssText="padding:14px;margin:12px 0;border:1px solid var(--line);border-radius:16px;background:var(--paper);box-shadow:0 4px 0 rgba(80,55,45,.06)";
+  const cover=document.createElement("div");cover.style.cssText="height:150px;border-radius:12px;background:linear-gradient(135deg,#dfe5df,#f0e5dc);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px;color:var(--wine);font-size:38px";
+  if(c.cover_path){const url=await travelSignedUrl(c.cover_path);if(url){const img=document.createElement("img");img.src=url;img.alt="Trip cover";img.style.cssText="width:100%;height:100%;object-fit:cover";cover.replaceChildren(img);}else cover.textContent="✈️";}
+  else cover.textContent="✈️";
+  const title=document.createElement("h3");title.style.cssText="font: bold 22px Georgia,serif;color:var(--wine);margin:4px 0";title.textContent=t.title||"A little journey";
+  const meta=document.createElement("div");meta.className="muted";meta.textContent=`${c.destination||""}${c.country?", "+c.country:""} · ${travelDateLabel(t.entry_date)} – ${travelDateLabel(c.end_date)} · ${travelStatusLabel(c.status)}`;
+  const companions=document.createElement("p");companions.className="muted";companions.textContent=c.companions?`♡ With: ${c.companions}`:"";
+  const story=document.createElement("p");story.className="muted";story.style.whiteSpace="pre-wrap";story.textContent=c.story||"A new page in your travel story.";
+  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+  const view=document.createElement("button");view.type="button";view.textContent="View itinerary";view.onclick=()=>{travelSelectedTripId=t.id;$("travelStopTrip").value=t.id;renderTravelItinerary();$("travelItinerarySection").scrollIntoView({behavior:"smooth",block:"start"});};
+  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit trip";edit.onclick=()=>{editingTravelTripId=t.id;$("travelTitle").value=t.title||"";$("travelCountry").value=c.country||"";$("travelDestination").value=c.destination||"";$("travelStatus").value=c.status||"planned";$("travelStart").value=t.entry_date||"";$("travelEnd").value=c.end_date||"";$("travelCompanions").value=c.companions||"";$("travelStory").value=c.story||"";$("travelCover").value="";$("travelFormHeading").textContent="✎ Edit this journey";$("travelTripSubmit").textContent="Save trip changes";$("travelTripCancel").hidden=false;$("travelTripForm").scrollIntoView({behavior:"smooth",block:"center"});};
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Delete trip";del.onclick=()=>deleteTravelTrip(t);
+  actions.append(view,edit,del);card.append(cover,title,meta,companions,story,actions);host.append(card);
+ }
+}
+async function renderTravelItinerary(){
+ const tripId=$("travelStopTrip").value||travelSelectedTripId;travelSelectedTripId=tripId;
+ const host=$("travelItinerary");host.innerHTML="";
+ const trip=travelTrips.find(t=>t.id===tripId);
+ if(!trip){host.innerHTML='<p class="muted">Choose a trip to see its itinerary.</p>';return;}
+ const stops=travelStops.filter(s=>s.content?.trip_id===tripId).sort((a,b)=>(a.entry_date||"").localeCompare(b.entry_date||"")||(a.content?.time||"").localeCompare(b.content?.time||""));
+ if(!stops.length){host.innerHTML='<div class="people-empty">No places added to this trip yet. Add your first stop above ♡</div>';return;}
+ const byDate=new Map();stops.forEach(s=>{if(!byDate.has(s.entry_date))byDate.set(s.entry_date,[]);byDate.get(s.entry_date).push(s);});
+ for(const [date,items] of byDate){
+  const day=document.createElement("section");day.style.cssText="margin:14px 0;padding:13px;border:1px dashed var(--line);border-radius:14px;background:rgba(255,255,255,.35)";
+  const heading=document.createElement("h3");heading.style.cssText="font: bold 18px Georgia,serif;color:var(--wine);margin:0 0 10px";heading.textContent=travelDateLabel(date);day.append(heading);
+  for(const s of items){
+   const c=s.content||{},entry=document.createElement("article");entry.style.cssText="padding:11px;margin:8px 0;border-radius:12px;background:var(--paper);border:1px solid var(--line)";
+   const h=document.createElement("strong");h.style.cssText="display:block;color:var(--wine);font: bold 17px Georgia,serif";h.textContent=(c.time?c.time+" · ":"")+"📍 "+(c.place||s.title||"Place");
+   const act=document.createElement("div");act.className="muted";act.textContent=c.activity||"";
+   const note=document.createElement("p");note.className="muted";note.style.whiteSpace="pre-wrap";note.textContent=c.notes||"";
+   entry.append(h,act,note);
+   const paths=c.photo_paths||[];
+   for(const path of paths){const url=await travelSignedUrl(path);if(url){const img=document.createElement("img");img.src=url;img.alt="Travel memory";img.loading="lazy";img.style.cssText="width:100%;max-width:180px;max-height:150px;object-fit:cover;border-radius:9px;margin:6px 6px 0 0";entry.append(img);}}
+   const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap";
+   const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:6px 10px";edit.textContent="Edit stop";edit.onclick=()=>editTravelStop(s);
+   const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:6px 10px";del.textContent="Delete";del.onclick=()=>deleteTravelStop(s);
+   actions.append(edit,del);entry.append(actions);day.append(entry);
+  }
+  host.append(day);
+ }
+}
+function editTravelStop(s){
+ const c=s.content||{};$("travelStopTrip").value=c.trip_id||"";$("travelStopDate").value=s.entry_date||"";$("travelStopTime").value=c.time||"";$("travelStopPlace").value=c.place||"";$("travelStopActivity").value=c.activity||"";$("travelStopNotes").value=c.notes||"";
+ editingTravelStopId=s.id;$("travelStopForm").dataset.editing="true";
+ $("travelStopForm").querySelector('button[type="submit"]').textContent="Save stop changes";
+ $("travelStopPhotos").value="";$("travelStopStatus").textContent="Editing a saved stop. Existing photos will be kept.";
+ $("travelStopForm").scrollIntoView({behavior:"smooth",block:"center"});
+}
+let editingTravelStopId=null;
+async function deleteTravelStop(s){
+ if(!confirm("Delete this itinerary stop and its attached photos?"))return;
+ const paths=s.content?.photo_paths||[];
+ if(paths.length){const {error:se}=await client.storage.from("private-memories").remove(paths);if(se){setStatus($("travelStopStatus"),"Could not remove photos: "+se.message);return;}}
+ const {error}=await client.from("journal_entries").delete().eq("id",s.id);
+ if(error)setStatus($("travelStopStatus"),"Could not delete stop: "+error.message);
+ else{travelStops=travelStops.filter(x=>x.id!==s.id);renderTravelItinerary();setStatus($("travelStopStatus"),"Itinerary stop deleted.");}
+}
+async function deleteTravelTrip(t){
+ if(!confirm(`Delete "${t.title}" and all its itinerary stops and travel photos?`))return;
+ const related=[...travelStops.filter(s=>s.content?.trip_id===t.id)];
+ const paths=[t.content?.cover_path,...related.flatMap(s=>s.content?.photo_paths||[])].filter(Boolean);
+ if(paths.length){const {error:se}=await client.storage.from("private-memories").remove(paths);if(se){setStatus($("travelTripStatus"),"Could not remove trip photos: "+se.message);return;}}
+ const ids=[t.id,...related.map(s=>s.id)];
+ const {error}=await client.from("journal_entries").delete().in("id",ids);
+ if(error){setStatus($("travelTripStatus"),"Could not delete trip: "+error.message);return;}
+ travelTrips=travelTrips.filter(x=>x.id!==t.id);travelStops=travelStops.filter(x=>x.content?.trip_id!==t.id);
+ if(travelSelectedTripId===t.id)travelSelectedTripId="";
+ renderTravelStats();renderTravelTripOptions();renderTravelTrips();renderTravelItinerary();setStatus($("travelTripStatus"),"Trip and its itinerary have been deleted.");
+}
+async function loadTravelData(){
+ if(!client)return;
+ $("travelTripList").textContent="Loading your journeys…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").order("entry_date",{ascending:false}));
+ if(error){$("travelTripList").textContent="Could not load Travel Journal: "+error.message;return;}
+ const rows=data||[];
+ travelTrips=rows.filter(r=>r.content?.kind==="travel_trip");
+ travelStops=rows.filter(r=>r.content?.kind==="travel_stop");
+ renderTravelStats();renderTravelTripOptions();await renderTravelTrips();await renderTravelItinerary();
+}
+$("travelTripForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("travelTripStatus"),"Please connect your private database first.");return;}
+ let newCoverPath="";
+ try{
+  const user=await currentUser(),title=$("travelTitle").value.trim(),start=$("travelStart").value,end=$("travelEnd").value;
+  if(!title||!start||!end)throw new Error("Please enter a trip name and both dates.");
+  if(end<start)throw new Error("The end date cannot be earlier than the start date.");
+  const file=$("travelCover").files?.[0];
+  if(file&&file.size>8*1024*1024)throw new Error("Trip cover photo must be smaller than 8 MB.");
+  if(file){newCoverPath=user.id+"/travel/cover_"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error:up}=await client.storage.from("private-memories").upload(newCoverPath,file,{upsert:false,contentType:file.type||"image/jpeg"});if(up)throw up;}
+  const existing=travelTrips.find(t=>t.id===editingTravelTripId),old=existing?.content||{};
+  const content={kind:"travel_trip",country:$("travelCountry").value.trim(),destination:$("travelDestination").value.trim(),status:$("travelStatus").value,end_date:end,companions:$("travelCompanions").value.trim(),story:$("travelStory").value.trim(),cover_path:newCoverPath||old.cover_path||""};
+  const payload={entry_date:start,title,content};
+  let result;
+  if(editingTravelTripId)result=await client.from("journal_entries").update(payload).eq("id",editingTravelTripId);
+  else result=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",...payload});
+  if(result.error)throw result.error;
+  if(newCoverPath&&old.cover_path){const {error:rm}=await client.storage.from("private-memories").remove([old.cover_path]);if(rm)console.warn("Old trip cover could not be removed:",rm.message);}
+  resetTravelTripForm();setStatus($("travelTripStatus"),"Your journey has been saved privately ♡");await loadTravelData();
+ }catch(err){if(newCoverPath)await client.storage.from("private-memories").remove([newCoverPath]);setStatus($("travelTripStatus"),"Could not save trip: "+err.message);}
+});
+$("travelTripCancel")?.addEventListener("click",resetTravelTripForm);
+$("travelStopTrip")?.addEventListener("change",()=>{travelSelectedTripId=$("travelStopTrip").value;renderTravelItinerary();});
+$("travelSearch")?.addEventListener("input",renderTravelTrips);
+$("travelFilter")?.addEventListener("change",renderTravelTrips);
+$("travelStopForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("travelStopStatus"),"Please connect your private database first.");return;}
+ const uploaded=[];
+ try{
+  const user=await currentUser(),tripId=$("travelStopTrip").value,date=$("travelStopDate").value,place=$("travelStopPlace").value.trim();
+  if(!tripId||!date||!place)throw new Error("Choose a trip, date and place.");
+  const trip=travelTrips.find(t=>t.id===tripId);if(!trip)throw new Error("The selected trip could not be found.");
+  if(date<trip.entry_date||date>(trip.content?.end_date||trip.entry_date))throw new Error("This stop date must be within the trip dates. You can edit the trip dates first if needed.");
+  const files=[...($("travelStopPhotos").files||[])];if(files.length>6)throw new Error("Choose up to 6 photos per stop.");if(files.some(f=>f.size>8*1024*1024))throw new Error("Each photo must be smaller than 8 MB.");
+  const existing=travelStops.find(s=>s.id===editingTravelStopId),oldPaths=existing?.content?.photo_paths||[];
+  for(const file of files){const path=user.id+"/travel/stop_"+Date.now()+"_"+Math.random().toString(36).slice(2,8)+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error:up}=await client.storage.from("private-memories").upload(path,file,{upsert:false,contentType:file.type||"image/jpeg"});if(up)throw up;uploaded.push(path);}
+  const content={kind:"travel_stop",trip_id:tripId,time:$("travelStopTime").value,place,activity:$("travelStopActivity").value.trim(),notes:$("travelStopNotes").value.trim(),photo_paths:[...oldPaths,...uploaded]};
+  const payload={entry_date:date,title:place,content};
+  let result;
+  if(editingTravelStopId)result=await client.from("journal_entries").update(payload).eq("id",editingTravelStopId);
+  else result=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",...payload});
+  if(result.error)throw result.error;
+  if(editingTravelStopId&&files.length){} // Newly added photos are appended; existing photos stay.
+  editingTravelStopId=null;$("travelStopForm").dataset.editing="false";$("travelStopForm").reset();$("travelStopForm").querySelector('button[type="submit"]').textContent="＋ Add to itinerary";
+  travelSelectedTripId=tripId;setStatus($("travelStopStatus"),"Your place has been added to the itinerary ♡");await loadTravelData();$("travelStopTrip").value=tripId;renderTravelItinerary();
+ }catch(err){if(uploaded.length)await client.storage.from("private-memories").remove(uploaded);setStatus($("travelStopStatus"),"Could not save itinerary stop: "+err.message);}
+});
+
 $("googleLogin").addEventListener("click",async()=>{
  if(!client){setStatus($("status"),"Save your Supabase settings first.");return;}
  setStatus($("status"),"Opening Google sign-in…");
@@ -1523,6 +1762,9 @@ renderTimetable();
 if($("financeMonth"))$("financeMonth").value=currentMonthISO();
 if($("coffeeMonth"))$("coffeeMonth").value=currentMonthISO();
 if($("habitMonth"))$("habitMonth").value=currentMonthISO();
+if($("travelStart"))$("travelStart").value=todayISO();
+if($("travelEnd"))$("travelEnd").value=todayISO();
+if($("travelStopDate"))$("travelStopDate").value=todayISO();
 if($("memoryDate"))$("memoryDate").value=todayISO();
 if($("songDate"))$("songDate").value=todayISO();
 if($("periodDate"))$("periodDate").value=todayISO();
