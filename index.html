@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World V10 ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V11 ♡</title>
 <style>
 :root{--paper:#f6efe3;--wine:#84343c;--wine2:#a34b53;--rose:#ead5d0;--ink:#593239;--muted:#98766f;--card:#fffaf2}
 *{box-sizing:border-box}body{margin:0;background:#eee5d9;color:var(--ink);font-family:Georgia,'Times New Roman',serif}
@@ -164,6 +164,20 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 @media(max-width:390px){.scrapbook-intro-grid{grid-template-columns:1fr .65fr}.intro-quote{padding-left:19px}.intro-quote p{font-size:15px}.polaroid{width:72px;height:91px}}
 
 
+
+/* V12 People I Met in-page editors */
+.people-editor-backdrop{position:fixed;inset:0;z-index:9999;background:#30232699;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto}
+.people-editor{width:min(100%,620px);max-height:min(88vh,820px);overflow:auto;background:#fffaf4;border:1px solid #d9c8bd;border-radius:18px;padding:18px;box-shadow:0 14px 45px #24191b55}
+.people-editor h3{font: bold 22px Georgia;color:var(--wine);margin:0 0 12px}
+.people-editor form{display:grid;gap:11px}
+.people-editor .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.people-editor label{display:grid;gap:5px}
+.people-editor-actions{display:flex;gap:8px;flex-wrap:wrap}
+.people-editor .photo-remove-list{display:grid;gap:7px}
+.people-editor .photo-remove-list label{display:flex;align-items:center;gap:8px;font:12px Arial}
+.people-editor .photo-remove-list img{width:54px;height:54px;object-fit:cover;border-radius:8px}
+@media(max-width:520px){.people-editor{padding:14px}.people-editor .formgrid{grid-template-columns:1fr}.people-editor-backdrop{align-items:flex-start;padding:8px}}
+
 /* People I Met · friendship scrapbook */
 .people-hero{background:linear-gradient(135deg,#f5e9e2,#e9eee6 58%,#e8edf2);border:1px dashed #cbbab0;border-radius:18px;padding:18px;margin:14px 0}.people-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}.people-stat{background:#fffaf4;border:1px solid #dfd2c8;border-radius:14px;padding:13px}.people-stat strong{display:block;font: bold 23px Georgia;color:var(--wine)}.people-stat span{font:11px Arial;color:var(--muted)}.people-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}.person-card{background:#fffaf4;border:1px solid #dfd2c8;border-radius:16px;padding:13px;box-shadow:0 3px 0 #d7c9bf55;min-width:0}.person-avatar{width:68px;height:68px;border-radius:50%;background:#e9dfd5;display:grid;place-items:center;font-size:28px;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 1px #d8c8bd}.person-avatar img{width:100%;height:100%;object-fit:cover}.person-card h3{margin:10px 0 3px;color:var(--wine);font-size:18px}.person-meta{font:12px/1.55 Arial;color:var(--muted)}.people-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.people-actions button{padding:7px 10px;font-size:11px}.meetup-card{background:#fbf7f0;border:1px solid #dfd2c8;border-radius:14px;padding:13px;margin:10px 0}.meetup-card h3{margin:4px 0;color:var(--wine);font-size:17px}.meetup-photo{width:100%;max-height:210px;object-fit:cover;border-radius:10px;margin-top:9px}.social-orbit{position:relative;min-height:330px;background:radial-gradient(circle,#f8f0e8 0 28%,#edf0e8 29% 48%,#f3e9e5 49% 70%,#f8f2ea 71%);border:1px dashed #cdbdb2;border-radius:18px;overflow:hidden;margin-top:12px}.orbit-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;background:#80666a;color:#fff;display:grid;place-items:center;text-align:center;font: bold 13px Arial;box-shadow:0 4px 0 #cdbdb2}.orbit-person{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;max-width:90px;text-align:center;font:11px Arial;color:#62565a}.orbit-person .person-avatar{width:48px;height:48px;font-size:20px}.orbit-person small{color:#887b78;font-size:9px}.people-filter{display:flex;gap:9px;align-items:end;flex-wrap:wrap;margin:12px 0}.people-filter label{max-width:190px;flex:1}.people-empty{background:#f5eee6;border:1px dashed #d2c2b7;border-radius:14px;padding:18px;text-align:center;color:var(--muted);font:13px/1.6 Arial}
 
@@ -175,7 +189,12 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .period-shell{background:linear-gradient(145deg,#fbf3ef,#f4e9e3);border:1px solid #dfc9c2;border-radius:18px;padding:16px;margin:16px 0}.period-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.period-month{font: bold 18px Georgia;color:var(--wine)}.period-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px}.period-weekday{text-align:center;font:11px Arial;color:var(--muted);padding:5px 0}.period-day{min-height:43px;padding:5px 2px;border:1px solid #e4d5ce;background:#fffaf6;color:var(--ink);border-radius:10px;font:12px Arial;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}.period-day.empty{visibility:hidden}.period-day.selected{outline:2px solid var(--wine);outline-offset:1px}.period-day.flow-light{background:#f4dfe0;border-color:#e5bfc2}.period-day.flow-medium{background:#e8c4c8;border-color:#d8a5aa}.period-day.flow-heavy{background:#d59da4;color:#fff;border-color:#c78c95}.period-day .dot{font-size:9px;line-height:1}.period-legend{display:flex;gap:10px;flex-wrap:wrap;font:11px Arial;color:var(--muted);margin-top:12px}.period-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.period-stat{background:#fffaf6;border:1px solid #e5d6ce;border-radius:12px;padding:12px}.period-stat strong{display:block;font:20px Georgia;color:var(--wine)}.period-stat span{font:11px Arial;color:var(--muted)}.period-day-form{background:#fffaf6;border:1px dashed #d7b9b5;border-radius:14px;padding:14px;margin-top:14px}.period-day-form .symptom-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.period-day-form .symptom-list label{font:12px Arial;background:#f4ece7;border-radius:99px;padding:7px 9px}.period-day-form .symptom-list input{width:auto;margin:0 4px 0 0;padding:0}.period-notice{font:12px/1.55 Arial;color:#806f6d;background:#f1e9e2;border-radius:10px;padding:10px;margin-top:12px}
 
 </style>
-<!-- V10 repair: Supabase-compatible habit check-ins and deterministic goal checkbox alignment. -->
+<!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
+<style>
+.habit-edit-panel{max-width:100%;}
+@media(max-width:600px){#habitBoard [data-habit-editor]{margin-left:0!important;margin-right:0!important;max-width:100%!important}#habitBoard .habit-edit-form input,#habitBoard .habit-edit-form select{width:100%;min-width:0;box-sizing:border-box}}
+</style>
+<!-- V12: People I Met full module with in-page friend and meetup editors; includes V11 Habit Editor and V10 repairs. -->
 </head>
 <body><main>
 <header><div><div class="eyebrow">A private space for everything that matters</div><h1>My Little World ♡</h1></div><div class="eyebrow">Vintage edition</div></header>
@@ -448,7 +467,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
   <div class="people-hero"><div style="font-size:26px">♡ ✿ ♡</div><h3 style="margin:5px 0;color:var(--wine)">Little moments become lifelong memories.</h3><p class="muted" style="margin:0">Keep track of the people you spend time with — from spontaneous coffee dates to long-awaited catch-ups. You can add past meetups whenever you remember them.</p></div>
   <div class="people-stat-grid" id="peopleStats"><div class="people-stat"><strong>—</strong><span>Friends saved</span></div><div class="people-stat"><strong>—</strong><span>Meetups recorded</span></div><div class="people-stat"><strong>—</strong><span>Total time together</span></div><div class="people-stat"><strong>—</strong><span>Most met friend</span></div></div>
   <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:18px">
-   <h2 style="font-size:21px">♡ Friends Directory</h2><p class="muted">Create a little profile for each friend. Add a real photo or use an emoji avatar.</p>
+   <h2 style="font-size:21px">♡ Friends Directory</h2><p class="muted">Create a little profile for each friend. Add a real photo or use an emoji avatar. Profiles and meetup records are saved privately to your signed-in account.</p>
    <form id="friendForm" style="display:grid;gap:10px;margin-top:12px">
     <div class="formgrid"><label class="muted">Friend's name<input id="friendName" maxlength="100" required placeholder="e.g. Aisyah"></label><label class="muted">Nickname (optional)<input id="friendNickname" maxlength="80" placeholder="What you call them"></label><label class="muted">Avatar emoji<input id="friendEmoji" maxlength="6" value="🌷" placeholder="🧸"></label><label class="muted">Birthday (optional)<input id="friendBirthday" type="date"></label></div>
     <label class="muted">A little note (optional)<textarea id="friendNotes" rows="2" maxlength="800" placeholder="How you know each other, little details to remember…"></textarea></label>
@@ -644,21 +663,52 @@ async function loadHabitBoard(){
    const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 145px;flex-wrap:wrap";
    const edit=document.createElement("button");edit.type="button";edit.className="secondary";
    edit.style.cssText="padding:6px 10px;font-size:12px";edit.textContent="Edit habit";
-   edit.onclick=async()=>{
-    const name=prompt("Habit name",h.title);if(name===null)return;if(!name.trim())return alert("Habit name cannot be empty.");
-    const emoji=prompt("Habit emoji",h.content.emoji||"♡");if(emoji===null)return;
-    const frequency=prompt("Frequency: daily or weekly",h.content.frequency||"daily");if(frequency===null)return;
-    if(!["daily","weekly"].includes(frequency.trim().toLowerCase()))return alert("Use daily or weekly.");
-    let days=h.content.days||[1,2,3,4,5,6,0];
-    if(frequency.trim().toLowerCase()==="weekly"){
-     const raw=prompt("Weekdays as numbers separated by commas: Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6, Sun=0",days.join(","));
-     if(raw===null)return;days=[...new Set(raw.split(",").map(x=>Number(x.trim())))];
-     if(!days.length||days.some(x=>![0,1,2,3,4,5,6].includes(x)))return alert("Please enter weekday numbers from 0 to 6.");
-    }
-    const color=prompt("Habit colour (hex code)",h.content.color||"#d3a4a5");if(color===null)return;
-    if(!/^#[0-9a-fA-F]{6}$/.test(color))return alert("Please enter a colour like #d3a4a5.");
-    const {error:updateError}=await client.from("journal_entries").update({title:name.trim(),content:{...h.content,emoji:emoji||"♡",frequency:frequency.trim().toLowerCase(),days,color}}).eq("id",h.id);
-    if(updateError)setStatus($("habitStatus"),"Could not update habit: "+updateError.message);else await loadHabitBoard();
+   edit.onclick=()=>{
+    const existing=host.querySelector(`[data-habit-editor="${h.id}"]`);
+    if(existing){existing.remove();return;}
+    host.querySelectorAll("[data-habit-editor]").forEach(x=>x.remove());
+    const esc=s=>String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+    const editor=document.createElement("div");
+    editor.dataset.habitEditor=h.id;
+    editor.style.cssText="margin:8px 0 18px 145px;padding:14px;border:1px dashed var(--line);border-radius:14px;background:var(--paper);max-width:520px;box-sizing:border-box";
+    editor.innerHTML=`<form class="habit-edit-form" style="display:grid;gap:10px">
+      <strong>Edit habit ♡</strong>
+      <label class="muted">Habit name<input name="title" required maxlength="80" value="${esc(h.title)}"></label>
+      <label class="muted">Emoji<input name="emoji" maxlength="4" value="${esc(h.content.emoji||"♡")}"></label>
+      <label class="muted">Frequency<select name="frequency"><option value="daily">Every day</option><option value="weekly">Selected weekdays</option></select></label>
+      <fieldset class="habit-edit-days" style="border:0;padding:0;margin:0"><legend class="muted">Repeat on</legend><div style="display:flex;flex-wrap:wrap;gap:10px">
+       ${[[1,"Mon"],[2,"Tue"],[3,"Wed"],[4,"Thu"],[5,"Fri"],[6,"Sat"],[0,"Sun"]].map(([v,n])=>`<label class="muted" style="display:flex;align-items:center;gap:4px"><input type="checkbox" name="days" value="${v}" style="width:auto">${n}</label>`).join("")}
+      </div></fieldset>
+      <label class="muted">Colour<select name="color"><option value="#d3a4a5">Dusty pink</option><option value="#a9b8c7">Dusty blue</option><option value="#a8b2a0">Sage green</option><option value="#c4a98b">Caramel</option><option value="#d5c69f">Buttercream</option></select></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit">Save changes</button><button type="button" class="secondary" data-cancel-edit>Cancel</button></div>
+      <div class="muted" role="status" data-edit-status></div>
+     </form>`;
+    management.after(editor);
+    const form=editor.querySelector("form");
+    form.elements.frequency.value=h.content.frequency||"daily";
+    form.elements.color.value=h.content.color||"#d3a4a5";
+    const selectedDays=h.content.days||[1,2,3,4,5,6,0];
+    form.querySelectorAll('input[name="days"]').forEach(box=>box.checked=selectedDays.includes(Number(box.value)));
+    const daysField=editor.querySelector(".habit-edit-days");
+    const updateDaysVisibility=()=>{daysField.style.opacity=form.elements.frequency.value==="weekly"?"1":".45";daysField.style.pointerEvents=form.elements.frequency.value==="weekly"?"auto":"none";};
+    form.elements.frequency.addEventListener("change",updateDaysVisibility);updateDaysVisibility();
+    editor.querySelector("[data-cancel-edit]").onclick=()=>editor.remove();
+    form.onsubmit=async ev=>{
+     ev.preventDefault();
+     const status=editor.querySelector("[data-edit-status]");
+     const title=form.elements.title.value.trim();
+     const frequency=form.elements.frequency.value;
+     const days=[...form.querySelectorAll('input[name="days"]:checked')].map(x=>Number(x.value));
+     if(!title){status.textContent="Please enter a habit name.";return;}
+     if(frequency==="weekly"&&!days.length){status.textContent="Choose at least one weekday.";return;}
+     const save=form.querySelector('button[type="submit"]');save.disabled=true;status.textContent="Saving changes…";
+     try{
+      const {error:updateError}=await client.from("journal_entries").update({title,content:{...h.content,emoji:form.elements.emoji.value.trim()||"♡",frequency,days,color:form.elements.color.value}}).eq("id",h.id);
+      if(updateError)throw updateError;
+      setStatus($("habitStatus"),"Habit updated successfully ♡");
+      await loadHabitBoard();
+     }catch(err){status.textContent="Could not update habit: "+(err?.message||String(err));save.disabled=false;}
+    };
    };
    const del=document.createElement("button");del.type="button";del.className="secondary";
    del.style.cssText="padding:6px 10px;font-size:12px";del.textContent="Delete habit";
@@ -793,11 +843,102 @@ function renderFriendCards(stats){
  host.innerHTML="";if(!rows.length){host.innerHTML='<div class="people-empty">No friends found yet. Add someone special above ♡</div>';return;}
  rows.forEach(async f=>{const st=stats.get(f.id)||{count:0,minutes:0},card=document.createElement("article");card.className="person-card";const avatar=document.createElement("div");avatar.className="person-avatar";avatar.textContent=f.content.emoji||"♡";if(f.content.photo_path){const url=await signedPeoplePhoto(f.content.photo_path);if(url){const img=document.createElement("img");img.src=url;img.alt=f.title+" profile";avatar.innerHTML="";avatar.append(img);}}const name=document.createElement("h3");name.textContent=f.title;const nickname=document.createElement("div");nickname.className="person-meta";nickname.textContent=f.content.nickname?`“${f.content.nickname}”`:"Your friend";const meta=document.createElement("div");meta.className="person-meta";meta.textContent=`${st.count} meetups · ${fmtDuration(st.minutes)} together`+(f.content.birthday?` · Birthday ${f.content.birthday}`:"");const note=document.createElement("p");note.className="person-meta";note.textContent=f.content.notes||"A little place in your story.";const actions=document.createElement("div");actions.className="people-actions";const meet=document.createElement("button");meet.textContent="＋ Meetup";meet.onclick=()=>{friendSelect.value=f.id;$("meetupActivity").focus();$("meetupForm").scrollIntoView({behavior:"smooth",block:"center"});};const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=()=>editFriend(f);const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteFriend(f);actions.append(meet,edit,del);card.append(avatar,name,nickname,meta,note,actions);host.append(card);});
 }
-async function editFriend(f){const name=prompt("Friend's name",f.title);if(name===null)return;if(!name.trim())return alert("Please enter a name.");const nickname=prompt("Nickname",f.content.nickname||"");if(nickname===null)return;const notes=prompt("A little note",f.content.notes||"");if(notes===null)return;const birthday=prompt("Birthday (YYYY-MM-DD, optional)",f.content.birthday||"");if(birthday===null)return;if(birthday&&!/^\d{4}-\d{2}-\d{2}$/.test(birthday))return alert("Use YYYY-MM-DD for birthday.");const {error}=await client.from("journal_entries").update({title:name.trim(),content:{...f.content,nickname,notes,birthday}}).eq("id",f.id);if(error)setStatus($("friendStatus"),"Could not update friend: "+error.message);else loadPeopleData();}
+function closePeopleEditor(){document.getElementById("peopleEditorBackdrop")?.remove();}
+function openPeopleEditor(title,inner,submitHandler){
+ closePeopleEditor();
+ const backdrop=document.createElement("div");backdrop.id="peopleEditorBackdrop";backdrop.className="people-editor-backdrop";
+ backdrop.innerHTML=`<section class="people-editor" role="dialog" aria-modal="true" aria-label="${escapePeopleText(title)}"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h3>${escapePeopleText(title)}</h3><button type="button" class="secondary" data-editor-close aria-label="Close editor">✕</button></div>${inner}</section>`;
+ document.body.append(backdrop);
+ backdrop.addEventListener("click",e=>{if(e.target===backdrop||e.target.closest("[data-editor-close]"))closePeopleEditor();});
+ const form=backdrop.querySelector("form");form?.addEventListener("submit",async e=>{e.preventDefault();await submitHandler(form,backdrop);});
+ return backdrop;
+}
+async function editFriend(f){
+ const c=f.content||{},esc=escapePeopleText;
+ const inner=`<form>
+  <div class="formgrid">
+   <label class="muted">Friend's name<input name="name" required maxlength="100" value="${esc(f.title)}"></label>
+   <label class="muted">Nickname<input name="nickname" maxlength="80" value="${esc(c.nickname||"")}"></label>
+   <label class="muted">Avatar emoji<input name="emoji" maxlength="6" value="${esc(c.emoji||"🌷")}"></label>
+   <label class="muted">Birthday<input name="birthday" type="date" value="${esc(c.birthday||"")}"></label>
+  </div>
+  <label class="muted">A little note<textarea name="notes" rows="3" maxlength="800">${esc(c.notes||"")}</textarea></label>
+  <label class="muted">Replace profile photo (optional)<input name="photo" type="file" accept="image/*"></label>
+  <label class="muted"><input name="removePhoto" type="checkbox" style="width:auto"> Remove current profile photo</label>
+  <div class="people-editor-actions"><button type="submit">Save friend</button><button type="button" class="secondary" data-editor-close>Cancel</button></div>
+  <p class="muted" role="status" data-editor-status></p>
+ </form>`;
+ const modal=openPeopleEditor("Edit friend ♡",inner,async(form,backdrop)=>{
+  const status=backdrop.querySelector("[data-editor-status]"),save=form.querySelector('[type="submit"]');
+  const name=form.elements.name.value.trim(),birthday=form.elements.birthday.value,file=form.elements.photo.files?.[0];
+  if(!name){status.textContent="Please enter a name.";return;}
+  if(birthday&&!/^\d{4}-\d{2}-\d{2}$/.test(birthday)){status.textContent="Please check the birthday.";return;}
+  if(file&&file.size>8*1024*1024){status.textContent="Profile photo must be smaller than 8 MB.";return;}
+  save.disabled=true;status.textContent="Saving friend profile…";
+  let newPath=null;
+  try{
+   if(file){const user=await currentUser();newPath=user.id+"/people/friend_"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error:uploadError}=await client.storage.from("private-memories").upload(newPath,file,{upsert:false,contentType:file.type});if(uploadError)throw uploadError;}
+   const removeOld=form.elements.removePhoto.checked;
+   const nextPath=newPath||(removeOld?null:c.photo_path||null);
+   const {error}=await client.from("journal_entries").update({title:name,content:{...c,nickname:form.elements.nickname.value.trim(),emoji:form.elements.emoji.value.trim()||"🌷",birthday,notes:form.elements.notes.value.trim(),photo_path:nextPath}}).eq("id",f.id);
+   if(error)throw error;
+   if(c.photo_path&&(newPath||removeOld)){const {error:removeError}=await client.storage.from("private-memories").remove([c.photo_path]);if(removeError)console.warn("Old profile photo could not be removed:",removeError.message);}
+   closePeopleEditor();setStatus($("friendStatus"),"Friend profile updated ♡");await loadPeopleData();
+  }catch(err){if(newPath)await client.storage.from("private-memories").remove([newPath]);status.textContent="Could not update friend: "+err.message;save.disabled=false;}
+ });
+}
 async function deleteFriend(f){if(!confirm(`Delete ${f.title}'s profile? Their meetup records will remain but become unlinked.`))return;const paths=f.content.photo_path?[f.content.photo_path]:[];if(paths.length){const {error}=await client.storage.from("private-memories").remove(paths);if(error){setStatus($("friendStatus"),"Could not delete profile photo: "+error.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",f.id);if(error)setStatus($("friendStatus"),"Could not delete friend: "+error.message);else loadPeopleData();}
 function renderSocialCircle(stats){const host=$("socialCircle");host.innerHTML='<div class="orbit-center">ME ♡</div>';const ranked=[...peopleRows].sort((a,b)=>{const sa=stats.get(a.id)||{count:0,minutes:0},sb=stats.get(b.id)||{count:0,minutes:0};return (sb.count*0.55+sb.minutes/60*0.45)-(sa.count*0.55+sa.minutes/60*0.45);}).slice(0,10);if(!ranked.length){$("socialCircleNote").textContent="Add friends and meetup records to see your social circle bloom.";return;}const radius=Math.min(126,Math.max(94,host.clientWidth*.34));ranked.forEach((f,i)=>{const st=stats.get(f.id)||{count:0,minutes:0},angle=(-Math.PI/2)+(Math.PI*2*i/ranked.length),x=50+Math.cos(angle)*Math.min(43,radius/host.clientWidth*100),y=50+Math.sin(angle)*34,node=document.createElement("div");node.className="orbit-person";node.style.left=x+"%";node.style.top=y+"%";const avatar=document.createElement("div");avatar.className="person-avatar";avatar.textContent=f.content.emoji||"♡";const label=document.createElement("strong");label.textContent=f.title;const small=document.createElement("small");small.textContent=`${st.count} · ${fmtDuration(st.minutes)}`;node.append(avatar,label,small);host.append(node);if(f.content.photo_path)signedPeoplePhoto(f.content.photo_path).then(url=>{if(url){const img=document.createElement("img");img.src=url;img.alt="";avatar.textContent="";avatar.append(img);}});});$("socialCircleNote").textContent="Closest circles are suggested by a balance of meetup frequency and total time together. It is only a gentle snapshot ♡";}
 function renderMeetups(){const host=$("meetupsList"),friendId=$("meetupFilterFriend").value,month=$("meetupMonth").value;const names=new Map(peopleRows.map(f=>[f.id,f.title]));const rows=selectedMeetups().filter(m=>(!friendId||m.content.friend_id===friendId)&&(!month||m.entry_date.startsWith(month))).sort((a,b)=>b.entry_date.localeCompare(a.entry_date)||String(b.created_at).localeCompare(String(a.created_at)));host.innerHTML="";if(!rows.length){host.innerHTML='<div class="people-empty">No meetups in this view yet. Add a new memory or adjust the filters ♡</div>';return;}rows.forEach(async m=>{const card=document.createElement("article");card.className="meetup-card";const date=document.createElement("div");date.className="eyebrow";date.textContent=new Date(m.entry_date+"T12:00:00").toLocaleDateString("en-MY",{weekday:"long",day:"numeric",month:"long",year:"numeric"});const title=document.createElement("h3");title.textContent=`${m.content.activity||"A little meetup"} · ${names.get(m.content.friend_id)||m.content.friend_name||"Friend"}`;const meta=document.createElement("div");meta.className="person-meta";meta.textContent=[m.content.place,fmtDuration(m.content.duration_minutes),m.content.start_time&&m.content.end_time?`${m.content.start_time}–${m.content.end_time}`:""].filter(Boolean).join(" · ");const notes=document.createElement("p");notes.className="person-meta";notes.textContent=m.content.notes||"A moment worth keeping.";card.append(date,title,meta,notes);if(m.content.photo_paths?.length){const photoGrid=document.createElement("div");photoGrid.className="people-card-grid";for(const path of m.content.photo_paths.slice(0,4)){const url=await signedPeoplePhoto(path);if(url){const img=document.createElement("img");img.className="meetup-photo";img.src=url;img.alt="Meetup memory";photoGrid.append(img);}}card.append(photoGrid);}const actions=document.createElement("div");actions.className="people-actions";const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit details";edit.onclick=()=>editMeetup(m);const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteMeetup(m);actions.append(edit,del);card.append(actions);host.append(card);});}
-async function editMeetup(m){const date=prompt("Meetup date (YYYY-MM-DD)",m.entry_date);if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Use YYYY-MM-DD.");const activity=prompt("What did you do?",m.content.activity||"");if(activity===null)return;const place=prompt("Where?",m.content.place||"");if(place===null)return;const notes=prompt("A little story",m.content.notes||"");if(notes===null)return;const {error}=await client.from("journal_entries").update({entry_date:date,title:activity.trim()||"Meetup",content:{...m.content,activity:activity.trim(),place,notes}}).eq("id",m.id);if(error)setStatus($("meetupStatus"),"Could not update meetup: "+error.message);else loadPeopleData();}
+async function editMeetup(m){
+ const c=m.content||{},esc=escapePeopleText;
+ const friendOptions=peopleRows.map(f=>`<option value="${esc(f.id)}" ${f.id===c.friend_id?"selected":""}>${esc(f.title)}${f.content.nickname?" · "+esc(f.content.nickname):""}</option>`).join("");
+ const existingPhotos=(c.photo_paths||[]).map((path,i)=>`<label><input type="checkbox" name="removePhoto" value="${esc(path)}" style="width:auto"><span>Remove photo ${i+1}</span></label>`).join("");
+ const inner=`<form>
+  <div class="formgrid">
+   <label class="muted">Friend<select name="friend" required>${friendOptions}</select></label>
+   <label class="muted">Meetup date<input name="date" type="date" required value="${esc(m.entry_date)}"></label>
+   <label class="muted">Activity<input name="activity" maxlength="140" required value="${esc(c.activity||m.title||"")}"></label>
+   <label class="muted">Place<input name="place" maxlength="160" value="${esc(c.place||"")}"></label>
+  </div>
+  <label class="muted">Time entry method<select name="timeMode"><option value="range">Start + end time (calculate automatically)</option><option value="duration">Enter duration directly</option></select></label>
+  <div class="formgrid">
+   <label class="muted">Start time<input name="start" type="time" value="${esc(c.start_time||"")}"></label>
+   <label class="muted">End time<input name="end" type="time" value="${esc(c.end_time||"")}"></label>
+   <label class="muted">Duration (minutes)<input name="duration" type="number" min="1" max="1440" value="${esc(c.duration_minutes||"")}"></label>
+  </div>
+  <label class="muted">A little story<textarea name="notes" rows="3" maxlength="1500">${esc(c.notes||"")}</textarea></label>
+  ${existingPhotos?`<div><strong>Existing photos</strong><div class="photo-remove-list">${existingPhotos}</div></div>`:""}
+  <label class="muted">Add more photos (optional)<input name="photos" type="file" accept="image/*" multiple></label>
+  <div class="people-editor-actions"><button type="submit">Save meetup</button><button type="button" class="secondary" data-editor-close>Cancel</button></div>
+  <p class="muted" role="status" data-editor-status></p>
+ </form>`;
+ const modal=openPeopleEditor("Edit meetup ♡",inner,async(form,backdrop)=>{
+  const status=backdrop.querySelector("[data-editor-status]"),save=form.querySelector('[type="submit"]');
+  const mode=form.elements.timeMode.value;let duration=0,start="",end="";
+  if(mode==="range"){start=form.elements.start.value;end=form.elements.end.value;if(!start||!end){status.textContent="Please enter both start and end times.";return;}const a=Number(start.slice(0,2))*60+Number(start.slice(3)),b=Number(end.slice(0,2))*60+Number(end.slice(3));duration=b-a;if(duration<=0){status.textContent="End time must be later than start time. For overnight meetups, enter duration directly.";return;}}
+  else{duration=Number(form.elements.duration.value);if(!Number.isInteger(duration)||duration<1||duration>1440){status.textContent="Enter a duration between 1 and 1440 minutes.";return;}}
+  const files=[...(form.elements.photos.files||[])];if(files.length>6){status.textContent="Choose up to 6 new photos.";return;}if(files.some(file=>file.size>8*1024*1024)){status.textContent="Each photo must be smaller than 8 MB.";return;}
+  const friend=peopleRows.find(f=>f.id===form.elements.friend.value);if(!friend){status.textContent="Please choose a friend.";return;}
+  save.disabled=true;status.textContent="Saving meetup…";
+  const uploaded=[];
+  try{
+   const user=await currentUser();
+   for(const file of files){const path=user.id+"/people/meetup_"+Date.now()+"_"+Math.random().toString(36).slice(2,8)+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error}=await client.storage.from("private-memories").upload(path,file,{upsert:false,contentType:file.type});if(error)throw error;uploaded.push(path);}
+   const removed=[...form.querySelectorAll('input[name="removePhoto"]:checked')].map(x=>x.value);
+   const remaining=(c.photo_paths||[]).filter(path=>!removed.includes(path));
+   const content={...c,kind:"friend_meetup",friend_id:friend.id,friend_name:friend.title,activity:form.elements.activity.value.trim(),place:form.elements.place.value.trim(),time_mode:mode,start_time:start,end_time:end,duration_minutes:duration,notes:form.elements.notes.value.trim(),photo_paths:[...remaining,...uploaded]};
+   const {error}=await client.from("journal_entries").update({entry_date:form.elements.date.value,title:content.activity,content}).eq("id",m.id);
+   if(error)throw error;
+   if(removed.length){const {error:removeError}=await client.storage.from("private-memories").remove(removed);if(removeError)console.warn("Some removed meetup photos could not be deleted:",removeError.message);}
+   closePeopleEditor();setStatus($("meetupStatus"),"Meetup updated ♡");await loadPeopleData();
+  }catch(err){if(uploaded.length)await client.storage.from("private-memories").remove(uploaded);status.textContent="Could not update meetup: "+err.message;save.disabled=false;}
+ });
+ const form=modal.querySelector("form");
+ form.elements.timeMode.value=c.time_mode||((c.start_time&&c.end_time)?"range":"duration");
+ const updateMode=()=>{const range=form.elements.timeMode.value==="range";form.elements.start.disabled=!range;form.elements.end.disabled=!range;form.elements.duration.disabled=range;};
+ form.elements.timeMode.addEventListener("change",updateMode);updateMode();
+}
 async function deleteMeetup(m){if(!confirm("Delete this meetup record and its attached photos?"))return;if(m.content.photo_paths?.length){const {error}=await client.storage.from("private-memories").remove(m.content.photo_paths);if(error){setStatus($("meetupStatus"),"Could not remove photos: "+error.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",m.id);if(error)setStatus($("meetupStatus"),"Could not delete meetup: "+error.message);else loadPeopleData();}
 $("friendForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){setStatus($("friendStatus"),"Connect your database first.");return;}try{const user=await currentUser(),file=$("friendPhoto").files?.[0];if(file&&file.size>8*1024*1024)throw new Error("Profile photo must be smaller than 8 MB.");let photo_path=null;if(file){photo_path=user.id+"/people/friend_"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error}=await client.storage.from("private-memories").upload(photo_path,file,{upsert:false,contentType:file.type});if(error)throw error;}const payload={user_id:user.id,entry_type:"note",entry_date:todayISO(),title:$("friendName").value.trim(),content:{kind:"friend_profile",nickname:$("friendNickname").value.trim(),emoji:$("friendEmoji").value||"🌷",birthday:$("friendBirthday").value||"",notes:$("friendNotes").value.trim(),photo_path}};const {error}=await client.from("journal_entries").insert(payload);if(error)throw error;$("friendForm").reset();$("friendEmoji").value="🌷";setStatus($("friendStatus"),"Friend added to your private circle ♡");loadPeopleData();}catch(err){setStatus($("friendStatus"),"Could not save friend: "+err.message);}});
 $("meetupTimeMode").addEventListener("change",()=>{const range=$("meetupTimeMode").value==="range";$("meetupStart").disabled=!range;$("meetupEnd").disabled=!range;$("meetupDuration").disabled=range;$("meetupTimeHelp").textContent=range?"Choose start and end time. The total duration will be calculated automatically.":"Enter the total number of minutes you spent together.";});
