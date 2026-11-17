@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6efe3"><title>My Little World ♡</title>
+<style>
+:root{--paper:#f6efe3;--wine:#84343c;--wine2:#a34b53;--rose:#ead5d0;--ink:#593239;--muted:#98766f;--card:#fffaf2}
+*{box-sizing:border-box}body{margin:0;background:#eee5d9;color:var(--ink);font-family:Georgia,'Times New Roman',serif}
+main{max-width:1000px;margin:auto;min-height:100vh;background:var(--paper);padding:clamp(20px,5vw,48px)}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--wine2);padding-bottom:18px}
+h1{font-size:clamp(36px,7vw,62px);font-style:italic;color:var(--wine);margin:0}.eyebrow{font:11px Arial;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.panel{background:var(--card);border:1px solid #c99591;padding:22px;margin-top:20px;border-radius:4px}
+.hero{padding:clamp(24px,6vw,56px);text-align:center;background:linear-gradient(135deg,#f9f1e5,#f0dfd8)}
+h2{font-size:27px;color:var(--wine);margin:0 0 10px}.muted{color:var(--muted);font:14px/1.6 Arial}
+button{border:0;border-radius:4px;background:var(--wine);color:white;padding:13px 18px;font:14px Arial;cursor:pointer}
+button.secondary{background:#f1e1dc;color:var(--wine);border:1px solid #c99591}
+.google{background:white;color:#333;border:1px solid #ddd;display:inline-flex;align-items:center;gap:12px;margin-top:18px}
+.google b{font-size:18px;color:#4285f4}.hidden{display:none!important}.section-page{display:none}.section-page.active{display:block}.page-back{margin:0 0 14px}.page-intro{margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:18px}
+.tile{background:#fffaf2;border:1px solid #dfc2bb;padding:18px;min-height:110px}.tile-link{display:block;text-align:left;width:100%;font-family:Georgia,'Times New Roman',serif;color:var(--ink);cursor:pointer}.tile-link small{display:block;margin-top:12px;color:var(--wine2);font:12px Arial}.tile .emoji{font-size:27px}.tile strong{display:block;color:var(--wine);margin:8px 0 4px}
+.notice{background:#f6e8e1;padding:12px;border-left:3px solid var(--wine2);font:13px/1.5 Arial;margin-top:15px}
+footer{text-align:center;color:var(--muted);font-style:italic;margin:35px 0 10px}
+#status,#activityStatus,#configStatus{font:13px/1.5 Arial;margin-top:12px;color:var(--wine)}
+.table-wrap{overflow-x:auto;margin-top:10px}.timetable{width:100%;border-collapse:collapse;font:13px/1.45 Arial;min-width:520px}.timetable th,.timetable td{padding:10px 8px;text-align:left;border-bottom:1px solid #ead5d0;vertical-align:top}.timetable th{color:var(--wine);background:#f5e9e1}.timetable td:first-child{font-weight:bold;color:var(--wine)}
+input,select,textarea{padding:11px;border:1px solid #d8b9b1;border-radius:4px;width:100%;margin-top:5px;background:white;color:#593239;font:14px Arial}
+label{display:block}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.week-chart{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;align-items:end;margin:14px 0 18px;padding:14px 10px 8px;background:#fbf3e9;border:1px solid #ead5d0;border-radius:4px}.week-col{display:flex;flex-direction:column;align-items:center;justify-content:end;gap:6px;min-width:0}.week-bar-wrap{height:105px;width:100%;display:flex;align-items:end;justify-content:center}.week-bar{width:min(34px,75%);min-height:3px;background:linear-gradient(180deg,#b66c70,#84343c);border-radius:3px 3px 0 0}.week-value{font:11px Arial;color:var(--wine);font-weight:bold}.week-label{font:10px Arial;color:var(--muted);text-align:center;white-space:nowrap}.week-detail{border-top:1px solid #ead5d0;padding:11px 2px}.week-detail summary{cursor:pointer;color:var(--wine);font: bold 14px Arial;display:flex;justify-content:space-between;gap:8px}.week-detail summary span{color:var(--muted);font-weight:normal;font-size:12px}.week-record{padding:10px 0;border-bottom:1px solid #f0e2dc}.week-record:last-child{border-bottom:0}
+.finance-goal-card{margin:18px 0;padding:18px;background:linear-gradient(135deg,#fbf3e9,#f3e2dc);border:1px solid #dfc2bb;border-radius:12px}.finance-goal-track{height:13px;background:#ead5d0;border-radius:20px;overflow:hidden;margin:12px 0 7px}.finance-goal-track span{display:block;height:100%;background:linear-gradient(90deg,#d5a29a,#84343c);border-radius:20px;max-width:100%}.finance-goal-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font:12px Arial;color:var(--muted)}
+.finance-viz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}.finance-viz-card{background:#fbf3e9;border:1px solid #ead5d0;border-radius:4px;padding:14px}.finance-viz-card h3{font: bold 14px Arial;color:var(--wine);margin:0 0 12px}.finance-donut-wrap{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}.finance-donut{width:148px;height:148px;border-radius:50%;position:relative;flex:none}.finance-donut:after{content:"";position:absolute;inset:29px;border-radius:50%;background:var(--card);border:1px solid #ead5d0}.finance-legend{font:12px/1.9 Arial;color:var(--ink);min-width:105px}.finance-legend span{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.finance-meter{height:9px;background:#ead5d0;border-radius:10px;overflow:hidden;margin:5px 0 10px}.finance-meter span{display:block;height:100%;background:linear-gradient(90deg,#c58a83,#84343c);border-radius:10px}.finance-rank{font:12px Arial;color:var(--ink);margin:8px 0}.finance-rank-head{display:flex;justify-content:space-between;gap:8px}.
+@media(max-width:520px){main{padding:18px}.study-goal-item{grid-template-columns:24px minmax(0,1fr) auto;gap:9px;padding:12px 9px}.study-goal-delete{padding:8px 10px;font-size:12px}.study-goal-copy{min-width:0}.study-goal-title{overflow-wrap:anywhere}}
+@media print{
+ body.print-journal *{visibility:hidden!important}
+ body.print-journal #memoryArchive,body.print-journal #memoryArchive *{visibility:visible!important}
+ body.print-journal #memoryArchive{position:absolute;left:0;top:0;width:100%;padding:12px}
+ body.print-journal .memory-card{break-inside:avoid;box-shadow:none}
+}
+
+/* ===== My Little World 2.0 · Vintage Morandi × Playful Scrapbook ===== */
+:root{--paper:#f1e9df;--wine:#80666a;--wine2:#9b7c80;--rose:#d3b8b8;--ink:#514448;--muted:#887b78;--card:#fbf7f0;--sage:#a8b2a0;--blue:#a9b8c7;--caramel:#b89b7d;--butter:#d5c69f;--line:#d9cbc0}
+body{background:#ded8d2;color:var(--ink);font-family:Georgia,'Times New Roman',serif}
+main{background:var(--paper);max-width:1120px;box-shadow:0 12px 50px #5d4c4b18}
+header{border-bottom:1px dashed #bca9a1;align-items:flex-end}
+h1{color:var(--wine);letter-spacing:-1.5px;text-shadow:1px 2px 0 #fff8}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 0 #d8c9bf55}
+button{background:var(--wine);border-radius:12px}button.secondary{background:#eee4df;color:var(--wine);border:1px solid #cdbab4;border-radius:12px}
+input,select,textarea{border-radius:10px;border-color:#d7c7bd;background:#fffdf9}
+.tile{border-radius:16px;background:#fffaf4;border:1px solid #dfd2c8}
+.tile strong{color:var(--wine)}
+.notice{background:#f0e8df;border-left-color:var(--sage);border-radius:0 10px 10px 0}
+footer{color:#8e7c78}
+.home-shell{position:relative;overflow:hidden;background:#f7f0e7;border:1px solid #d9cbc0;border-radius:22px;padding:clamp(18px,4vw,34px);margin-top:18px}
+.home-shell:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:#d8c7c355;right:-70px;top:-80px}
+.home-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.home-kicker{font:10px Arial,sans-serif;letter-spacing:2.2px;text-transform:uppercase;color:#97847d}
+.home-date{font:12px Arial,sans-serif;color:#927e78;background:#eee4da;padding:7px 11px;border-radius:99px}
+.home-title{font-size:clamp(35px,7vw,66px);line-height:.98;color:#80666a;margin:24px 0 8px;letter-spacing:-2px}
+.home-subtitle{font-size:15px;color:#8c7b76;font-style:italic;margin:0;max-width:520px;line-height:1.6}
+.home-deco{position:absolute;right:6%;top:64px;font-size:clamp(46px,8vw,76px);transform:rotate(9deg);filter:drop-shadow(2px 4px 0 #d9c8be);opacity:.9}
+.home-note{position:relative;z-index:1;margin-top:22px;padding:12px 15px;background:#e9eee6;border:1px dashed #b6c0ae;border-radius:12px;color:#657263;font-size:13px;display:flex;gap:9px;align-items:center}
+.home-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 12px;flex-wrap:wrap}
+.home-section-head h2{margin:0;font-size:23px;color:#80666a}
+.home-section-head small{font:11px Arial;color:#988780;letter-spacing:1px;text-transform:uppercase}
+.home-modules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:0}
+.module-card{position:relative;overflow:hidden;display:block;text-align:left;width:100%;min-height:150px;padding:17px 17px 15px;background:var(--module-bg,#f1e5dc);border:1px solid var(--module-border,#d9c9bf);border-radius:17px;color:var(--ink);font-family:Georgia,serif;box-shadow:0 4px 0 #d7c9bf66;transition:transform .18s,box-shadow .18s}
+.module-card:hover{transform:translateY(-3px);box-shadow:0 7px 0 #d7c9bf66}
+.module-card:after{content:attr(data-sticker);position:absolute;right:13px;top:10px;font-size:28px;transform:rotate(10deg);opacity:.88}
+.module-icon{font-size:28px;display:block;margin-bottom:13px;filter:drop-shadow(1px 2px 0 #fff8)}
+.module-card strong{font-size:19px;color:#655358;display:block;margin-bottom:5px}
+.module-card .muted{font-size:12px;color:#827671;max-width:88%}
+.module-open{display:inline-block;margin-top:13px;font:10px Arial;letter-spacing:1px;text-transform:uppercase;color:#80666a}
+.module-card.sage{--module-bg:#e8ece3;--module-border:#cbd4c5}
+.module-card.rose{--module-bg:#f0e2e1;--module-border:#ddc5c4}
+.module-card.blue{--module-bg:#e5ebf0;--module-border:#cbd5df}
+.module-card.butter{--module-bg:#f1ead8;--module-border:#ddd1b4}
+.module-card.caramel{--module-bg:#eee4d9;--module-border:#d8c4b2}
+.home-lower{display:grid;grid-template-columns:1.1fr .9fr;gap:13px;margin-top:16px}
+.home-mini{background:#fbf8f2;border:1px dashed #d4c4ba;border-radius:16px;padding:16px}
+.home-mini h3{font-size:16px;color:#80666a;margin:0 0 8px}
+.home-mini p{font:12px/1.6 Arial;color:#8b7d77;margin:0}
+.sticker-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.sticker{font:11px Arial;color:#716568;background:#fffdf8;border:1px solid #d8cbc1;border-radius:99px;padding:7px 10px;box-shadow:0 2px 0 #ddd0c6;transform:rotate(-2deg)}
+.sticker:nth-child(2n){transform:rotate(2deg);background:#edf0e8}.sticker:nth-child(3n){background:#f3e6e5}
+.home-account{font:11px Arial;color:#94847e;margin-top:15px;overflow-wrap:anywhere}
+@media(max-width:650px){.home-modules{grid-template-columns:1fr}.module-card{min-height:130px}.home-lower{grid-template-columns:1fr}.home-deco{right:5%;top:78px;opacity:.55}.home-title{max-width:75%}}
+
+
+.study-goal-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0;padding:10px 13px;background:#edf0e8;border:1px dashed #b6c0ae;border-radius:12px;color:#657263;font:13px Arial}
+.study-goal-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 12px;margin:8px 0;background:#fbf7f0;border:1px solid #ded2c8;border-radius:13px;box-shadow:0 3px 0 #d8c9bf55}
+.study-goal-check{appearance:none;-webkit-appearance:none;justify-self:center;align-self:center;flex:none;width:23px;height:23px;min-width:23px;min-height:23px;margin:0;border:2px solid #9eaaa0;border-radius:7px;background:#fffdf9;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;box-sizing:border-box}
+.study-goal-check:checked{background:#8e9c88;border-color:#8e9c88}
+.study-goal-check:checked:after{content:"✓";color:white;font:bold 15px/1 Arial;display:block;line-height:1;transform:translateY(-.5px)}
+.study-goal-copy{flex:1;min-width:0;align-self:center}
+.study-goal-title{display:block;color:var(--wine);font-weight:bold;line-height:1.45;overflow-wrap:anywhere}
+.study-goal-item.is-complete .study-goal-title{text-decoration:line-through;color:#899187}
+.study-goal-meta{font:12px/1.5 Arial;color:var(--muted);margin-top:4px}
+.study-goal-state{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:99px;background:#edf0e8;color:#657263;font:11px Arial}
+.study-goal-item.is-complete .study-goal-state{background:#e4ebe0}
+.study-goal-delete{padding:7px 10px!important;flex:none;align-self:center;font-size:12px!important}
+
+
+.completed-goals-archive{margin-top:16px;background:#f0ebe4;border:1px dashed #cdbdb1;border-radius:13px;padding:0 12px}
+.completed-goals-archive>summary{padding:13px 2px;color:var(--wine);font-weight:600;cursor:pointer;list-style:none}
+.completed-goals-archive>summary::-webkit-details-marker{display:none}
+.completed-goals-archive>summary:after{content:"＋";float:right;color:#8e9c88}
+.completed-goals-archive[open]>summary:after{content:"−"}
+
+.habit-row{display:grid;grid-template-columns:145px repeat(7,minmax(28px,1fr));gap:5px;align-items:center;margin:7px 0;min-width:390px}
+.habit-day{font:10px Arial;color:var(--muted);text-align:center}.habit-dot{width:28px;height:28px;border-radius:8px;border:1px solid #d8cbc2;background:#f4eee8;color:#6f6260;padding:0;font:12px Arial}
+.habit-dot.done{color:#fff;border-color:transparent}.habit-dot.off{opacity:.35;cursor:not-allowed}.habit-dot.missed{border-color:#c98d8d;background:#f4e3e0;color:#8c5557}.habit-dot.future{opacity:.75}.habit-name{font:13px Arial;color:var(--ink);display:flex;align-items:center;gap:5px}
+.memory-card{background:#fffaf3;border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.memory-photo{width:100%;max-width:180px;max-height:180px;object-fit:cover;border-radius:8px;margin:6px 6px 0 0}
+@media(max-width:520px){.habit-row{grid-template-columns:105px repeat(7,28px);}.habit-name{font-size:11px}}
+.memory-card{background:#fffaf3;border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.memory-photo{width:100%;max-width:180px;max-height:180px;object-fit:cover;border-radius:8px;margin:6px 6px 0 0}
+
+/* ===== V5 · layered scrapbook / stationery details ===== */
+:root{--v5-plum:#76616b;--v5-rose:#d9b9b5;--v5-green:#aebba8;--v5-blue:#b6c4cf;--v5-gold:#d8c49a}
+body{background-color:#d8d2cb;background-image:radial-gradient(#a99a8c33 .8px,transparent .8px);background-size:13px 13px}
+main{position:relative;border-radius:4px 4px 22px 22px}
+main:before{content:"";position:absolute;left:12px;top:0;bottom:0;width:1px;background:#d7c4b8;opacity:.7}
+header{position:relative;padding:10px 4px 20px}
+header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:0;bottom:-9px;padding:3px 10px;background:var(--paper);font:9px Arial;letter-spacing:1.7px;color:#a18c83}
+.home-shell{background-color:#f8f1e8;background-image:linear-gradient(90deg,transparent 0 97%,#e9ddd2 97% 97.2%,transparent 97.2%),radial-gradient(#d5c7bb55 .7px,transparent .7px);background-size:auto,10px 10px;border-radius:24px;box-shadow:0 9px 0 #cfc2b755,0 18px 35px #76645a12}
+.home-shell:after{content:"";position:absolute;left:-28px;top:190px;width:65px;height:22px;background:#d9c7a8aa;transform:rotate(-42deg);border:1px solid #c8b48f88}
+.home-kicker{display:flex;align-items:center;gap:7px}.tiny-flower{font-size:17px;color:#a28e83}
+.scrapbook-ribbon{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:15px auto 0;width:max-content;max-width:100%;padding:7px 18px;background:#e9ddd2;border:1px dashed #cdb9ac;border-radius:3px;transform:rotate(-1deg);color:#826e70;font:9px Arial;letter-spacing:1.2px;text-transform:uppercase;box-shadow:2px 3px 0 #d4c6bb}
+.scrapbook-ribbon span+span{color:#a18c83}
+.home-title{position:relative;z-index:1;text-shadow:2px 3px 0 #fffaf2,4px 5px 0 #d9c9bf55}
+.home-deco{right:9%;top:75px;color:#b69b91;text-shadow:2px 4px 0 #fffaf2;transform:rotate(14deg)}
+.scrapbook-intro-grid{display:grid;grid-template-columns:1.15fr .72fr 1fr;gap:13px;align-items:center;margin:20px 0 8px;position:relative;z-index:1}
+.intro-quote{position:relative;padding:16px 17px 14px 24px;background:#e9eee6;border:1px solid #cbd4c5;border-radius:4px 15px 15px 15px;min-height:112px;box-shadow:3px 4px 0 #d7ded2}
+.quote-mark{position:absolute;left:8px;top:1px;font-size:35px;color:#9eae99;line-height:1}
+.intro-quote p{font-size:17px;font-style:italic;line-height:1.35;color:#687668;margin:15px 0 8px}
+.intro-quote small,.intro-side-note small{font:10px Arial;color:#8b8178;letter-spacing:.5px}
+.polaroid-stack{height:124px;position:relative;display:grid;place-items:center}
+.polaroid{position:absolute;width:83px;height:101px;background:#fffdf8;border:1px solid #e1d6ca;box-shadow:2px 4px 9px #78685b22;display:flex;align-items:center;justify-content:center}
+.polaroid-back{font-size:39px;color:#9eafad;transform:rotate(-12deg);background:#e7edf0}
+.polaroid-front{flex-direction:column;gap:6px;transform:rotate(8deg);font-size:34px;color:#b48d91;padding-top:7px}
+.polaroid-front small{font:italic 11px Georgia;color:#8d7777}
+.polaroid-pin{position:absolute;top:3px;right:13px;color:#a96f73;font-size:22px;font-style:normal;transform:rotate(12deg)}
+.intro-side-note{position:relative;padding:13px 14px;background:#f2e8d6;border:1px dashed #d6c6a9;border-radius:14px 4px 14px 4px;min-height:104px;display:flex;flex-direction:column;gap:6px;transform:rotate(1deg)}
+.side-note-icon{font-size:19px;color:#b29a68}.intro-side-note strong{font:13px Georgia;color:#776b5e}.side-note-line{height:1px;background:#d9c9ad;margin:3px 0}
+.home-note{box-shadow:2px 3px 0 #dce3d7;position:relative}.note-sparkle{margin-left:auto;color:#91a18a;font-size:18px}
+.module-caption{display:flex;align-items:center;justify-content:center;gap:12px;color:#a18d82;font:9px Arial;letter-spacing:2px;margin:-1px 0 13px}.module-caption span{color:#c3a99e;font-size:14px}
+.module-card{min-height:164px;border-radius:5px 17px 17px 17px;box-shadow:0 5px 0 #d7c9bf66,0 9px 16px #8d7c6c0d}
+.module-card:nth-child(3n+1){border-top:4px solid #d4c39c}.module-card:nth-child(3n+2){border-top:4px solid #c9a9a9}.module-card:nth-child(3n){border-top:4px solid #aebba8}
+.module-card:before{content:"";position:absolute;top:-1px;left:50%;width:54px;height:12px;transform:translateX(-50%) rotate(-2deg);background:#fffaf0a8;border:1px solid #e4d8ca88}
+.module-card:after{font-size:31px;right:15px;top:15px;filter:drop-shadow(1px 2px 0 #fff9)}
+.module-icon{font-size:31px;margin-bottom:10px}.module-card strong{font-size:20px;letter-spacing:-.3px}
+.module-open{padding-top:6px;border-top:1px dashed #cdbdb2;min-width:75%;font-size:9px}
+.scrapbook-bottom-strip{display:flex;justify-content:center;align-items:center;gap:clamp(9px,3vw,25px);flex-wrap:wrap;margin:22px 0 2px;padding:10px;background:#f0e5df;border-top:1px dashed #d2bcb5;border-bottom:1px dashed #d2bcb5;color:#917a79;font:italic 12px Georgia;letter-spacing:.4px}
+.scrapbook-bottom-strip span:nth-child(odd){color:#b28f91;font-size:16px}
+.home-mini{position:relative;background:#fffaf3;background-image:linear-gradient(#e9ded455 1px,transparent 1px);background-size:100% 24px;border-radius:4px 15px 15px 15px;box-shadow:3px 4px 0 #d7c9bf66}
+.home-mini:first-child:after{content:"✿";position:absolute;right:15px;top:9px;color:#b8a58e;font-size:22px;transform:rotate(12deg)}
+.home-mini:nth-child(2){background:#e9eee8;border-color:#cbd4c5}
+.sticker{box-shadow:1px 3px 0 #d5c8bf}
+.panel{position:relative}
+.panel:not(.hero):not(#dashboardPanel){background-image:radial-gradient(#d7c9bf30 .65px,transparent .65px);background-size:9px 9px}
+.panel h2{letter-spacing:-.5px}
+@media(max-width:650px){main:before{left:6px}.scrapbook-intro-grid{grid-template-columns:1fr .72fr;gap:9px}.intro-side-note{grid-column:1/-1;min-height:auto;transform:none}.intro-quote{min-height:116px}.polaroid-stack{height:116px}.scrapbook-ribbon{font-size:8px;justify-content:center}.home-deco{right:4%;top:88px}.module-card{min-height:145px}.module-card:before{width:42px}}
+@media(max-width:390px){.scrapbook-intro-grid{grid-template-columns:1fr .65fr}.intro-quote{padding-left:19px}.intro-quote p{font-size:15px}.polaroid{width:72px;height:91px}}
+
+
+/* People I Met · friendship scrapbook */
+.people-hero{background:linear-gradient(135deg,#f5e9e2,#e9eee6 58%,#e8edf2);border:1px dashed #cbbab0;border-radius:18px;padding:18px;margin:14px 0}.people-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}.people-stat{background:#fffaf4;border:1px solid #dfd2c8;border-radius:14px;padding:13px}.people-stat strong{display:block;font: bold 23px Georgia;color:var(--wine)}.people-stat span{font:11px Arial;color:var(--muted)}.people-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}.person-card{background:#fffaf4;border:1px solid #dfd2c8;border-radius:16px;padding:13px;box-shadow:0 3px 0 #d7c9bf55;min-width:0}.person-avatar{width:68px;height:68px;border-radius:50%;background:#e9dfd5;display:grid;place-items:center;font-size:28px;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 1px #d8c8bd}.person-avatar img{width:100%;height:100%;object-fit:cover}.person-card h3{margin:10px 0 3px;color:var(--wine);font-size:18px}.person-meta{font:12px/1.55 Arial;color:var(--muted)}.people-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.people-actions button{padding:7px 10px;font-size:11px}.meetup-card{background:#fbf7f0;border:1px solid #dfd2c8;border-radius:14px;padding:13px;margin:10px 0}.meetup-card h3{margin:4px 0;color:var(--wine);font-size:17px}.meetup-photo{width:100%;max-height:210px;object-fit:cover;border-radius:10px;margin-top:9px}.social-orbit{position:relative;min-height:330px;background:radial-gradient(circle,#f8f0e8 0 28%,#edf0e8 29% 48%,#f3e9e5 49% 70%,#f8f2ea 71%);border:1px dashed #cdbdb2;border-radius:18px;overflow:hidden;margin-top:12px}.orbit-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;background:#80666a;color:#fff;display:grid;place-items:center;text-align:center;font: bold 13px Arial;box-shadow:0 4px 0 #cdbdb2}.orbit-person{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;max-width:90px;text-align:center;font:11px Arial;color:#62565a}.orbit-person .person-avatar{width:48px;height:48px;font-size:20px}.orbit-person small{color:#887b78;font-size:9px}.people-filter{display:flex;gap:9px;align-items:end;flex-wrap:wrap;margin:12px 0}.people-filter label{max-width:190px;flex:1}.people-empty{background:#f5eee6;border:1px dashed #d2c2b7;border-radius:14px;padding:18px;text-align:center;color:var(--muted);font:13px/1.6 Arial}
+
+
+.studycorner-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.studycorner-mode{margin-top:12px}.outline-tree{margin-top:16px;padding:14px;background:#f3eee7;border:1px dashed #cdbdb2;border-radius:14px}.outline-node{margin:8px 0;padding:11px 12px;background:#fffaf4;border:1px solid #dfd2c8;border-radius:11px}.outline-node-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.outline-node strong{color:var(--wine)}.outline-node p{margin:5px 0 0}.outline-node-actions{display:flex;gap:6px;flex-wrap:wrap}.outline-node-actions button{padding:6px 9px;font-size:11px}.mindmap-board{position:relative;min-height:440px;margin-top:16px;overflow:hidden;border:1px dashed #cdbdb2;border-radius:16px;background-color:#faf6ef;background-image:radial-gradient(#d7c9bf 1px,transparent 1px);background-size:18px 18px;touch-action:pan-y}.mindmap-center{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);padding:15px 20px;background:#80666a;color:white;border-radius:18px;font:bold 13px Arial;box-shadow:0 4px 0 #d2c3b9;z-index:2}.mindmap-node{position:absolute;z-index:3;min-width:110px;max-width:170px;padding:10px 12px;background:#fffaf4;border:1px solid #cdbdb2;border-radius:12px;box-shadow:0 3px 0 #d8c9bf;cursor:grab;touch-action:none;user-select:none}.mindmap-node strong{display:block;font: bold 13px Arial;color:#655358;overflow-wrap:anywhere}.mindmap-node small{display:block;font:11px/1.4 Arial;color:#887b78;margin-top:4px;overflow-wrap:anywhere}.mindmap-node button{margin-top:7px;padding:4px 7px;font-size:10px}.mindmap-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}.mindmap-lines line{stroke:#b89b9b;stroke-width:2;stroke-dasharray:4 4}@media(max-width:520px){.mindmap-board{min-height:520px}.mindmap-node{max-width:145px;min-width:96px;padding:8px}.outline-node-head{align-items:flex-start;flex-direction:column}}
+
+
+/* Period calendar */
+.period-shell{background:linear-gradient(145deg,#fbf3ef,#f4e9e3);border:1px solid #dfc9c2;border-radius:18px;padding:16px;margin:16px 0}.period-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.period-month{font: bold 18px Georgia;color:var(--wine)}.period-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px}.period-weekday{text-align:center;font:11px Arial;color:var(--muted);padding:5px 0}.period-day{min-height:43px;padding:5px 2px;border:1px solid #e4d5ce;background:#fffaf6;color:var(--ink);border-radius:10px;font:12px Arial;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}.period-day.empty{visibility:hidden}.period-day.selected{outline:2px solid var(--wine);outline-offset:1px}.period-day.flow-light{background:#f4dfe0;border-color:#e5bfc2}.period-day.flow-medium{background:#e8c4c8;border-color:#d8a5aa}.period-day.flow-heavy{background:#d59da4;color:#fff;border-color:#c78c95}.period-day .dot{font-size:9px;line-height:1}.period-legend{display:flex;gap:10px;flex-wrap:wrap;font:11px Arial;color:var(--muted);margin-top:12px}.period-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.period-stat{background:#fffaf6;border:1px solid #e5d6ce;border-radius:12px;padding:12px}.period-stat strong{display:block;font:20px Georgia;color:var(--wine)}.period-stat span{font:11px Arial;color:var(--muted)}.period-day-form{background:#fffaf6;border:1px dashed #d7b9b5;border-radius:14px;padding:14px;margin-top:14px}.period-day-form .symptom-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.period-day-form .symptom-list label{font:12px Arial;background:#f4ece7;border-radius:99px;padding:7px 9px}.period-day-form .symptom-list input{width:auto;margin:0 4px 0 0;padding:0}.period-notice{font:12px/1.55 Arial;color:#806f6d;background:#f1e9e2;border-radius:10px;padding:10px;margin-top:12px}
+
+</style>
+</head>
+<body><main>
+<header><div><div class="eyebrow">A private space for everything that matters</div><h1>My Little World ♡</h1></div><div class="eyebrow">Vintage edition</div></header>
+
+<section id="signedOut" class="panel hero">
+ <div style="font-size:42px">🌷 ☕ 📖</div><h2>Welcome to your little world.</h2>
+ <p class="muted">A private place to learn, grow, remember and enjoy the little things.</p>
+ <button class="google" id="googleLogin"><b>G</b> Continue with Google</button>
+ <div id="status" role="status">Checking your private connection…</div>
+ <div class="notice">Your space is private by design. Your journal entries are protected by Supabase Row Level Security.</div>
+</section>
+
+<section id="signedIn" class="hidden">
+ <div class="home-shell" id="dashboardPanel">
+  <div class="home-topline"><div class="home-kicker"><span class="tiny-flower">✿</span> A personal scrapbook · Since today, for a lifetime</div><div class="home-date" id="homeDate">YOUR LITTLE WORLD</div></div>
+  <div class="scrapbook-ribbon"><span>little moments, big memories</span><span>✧ vol. 01 · the everyday edition ✧</span></div>
+  <div class="home-deco" aria-hidden="true">✿</div>
+  <h2 class="home-title">My Little<br>World <span style="font-size:.62em">♡</span></h2>
+  <p class="home-subtitle">A little place for everything that makes my life mine.</p>
+  <div class="home-note"><span style="font-size:20px">📎</span><span>Welcome back, <strong id="welcome">friend ♡</strong> — keep the little moments, too.</span><span class="note-sparkle">✦</span></div>
+  <div class="scrapbook-intro-grid">
+   <div class="intro-quote"><span class="quote-mark">“</span><p>Collect moments, not perfect days.</p><small>A gentle reminder for today</small></div>
+   <div class="polaroid-stack" aria-label="Decorative scrapbook illustration"><div class="polaroid polaroid-back">☁︎</div><div class="polaroid polaroid-front"><span>✿</span><small>little joys</small></div><i class="polaroid-pin">♡</i></div>
+   <div class="intro-side-note"><span class="side-note-icon">✧</span><strong>Make room for wonder</strong><small>Study · save · savour · remember</small><div class="side-note-line"></div><small>your story is still unfolding</small></div>
+  </div>
+  <div class="home-section-head"><div><small>01 · Your spaces</small><h2>Open a little world</h2></div><small>Choose a section ↴</small></div>
+  <div class="module-caption"><span>✂︎</span> YOUR LIFE, IN LITTLE CHAPTERS <span>✂︎</span></div>
+  <div class="home-modules">
+   <button type="button" class="module-card blue" id="goStudyCorner" data-sticker="✎"><span class="module-icon">🧠</span><strong>Study Corner</strong><span class="muted">Chapter outlines, visual mind maps and ideas that connect.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card butter" id="goAcademic" aria-label="Open Academic Life" data-sticker="✎"><span class="module-icon">📚</span><strong>Academic & Career</strong><span class="muted">Classes, attendance, study goals and the journey beyond graduation.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card caramel" id="goFinance" data-sticker="♡"><span class="module-icon">💰</span><strong>My Finances</strong><span class="muted">Daily expenses, income, savings and little money goals.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card rose" id="goCoffee" data-sticker="☕"><span class="module-icon">☕</span><strong>Coffee Diary</strong><span class="muted">Coffee moments, favourite cafés, photos and tiny reviews.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Small wins, daily activities and things worth remembering.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card rose" id="goPeople" data-sticker="♡"><span class="module-icon">🫶</span><strong>People I Met</strong><span class="muted">Friends, shared moments, little meetups and your social circle.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card blue" id="goLifestyle" data-sticker="☁"><span class="module-icon">🌿</span><strong>My Lifestyle</strong><span class="muted">Habits, routines, movement and gentle self-care.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photos, journal pages and moments I want to keep.</span><span class="module-open">Open this chapter →</span></button>
+   <div class="module-card blue" aria-disabled="true" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">A new chapter · Coming later</span></div>
+   <div class="module-card butter" aria-disabled="true" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">Crochet, reading, creative projects and new interests.</span><span class="module-open">A new chapter · Coming later</span></div>
+  </div>
+  <div class="scrapbook-bottom-strip"><span>♡</span><span>the beauty is in the details</span><span>✿</span><span>one day at a time</span><span>♡</span></div>
+  <div class="home-lower">
+   <div class="home-mini"><h3>Little things make a life ♡</h3><p>This space grows with you. New semesters, new places, new routines — your memories stay part of one lifetime story.</p><div class="sticker-row"><span class="sticker">✿ keep growing</span><span class="sticker">♡ little by little</span><span class="sticker">☕ slow moments</span></div></div>
+   <div class="home-mini"><h3>Your account & privacy</h3><p id="account">Signed in with Google</p><p style="margin-top:7px">Private by default · Share only what you choose.</p><button class="secondary" id="logout" style="margin-top:12px;padding:9px 13px">Sign out</button></div>
+  </div>
+ </div>
+
+ <div class="panel section-page" id="academicPanel" data-page="academic">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow" id="semesterLabel">28 September – 31 December 2026</div><h2>Academic Life 📚</h2>
+  <p class="muted">Your semester space — weekly timetable, class attendance and study goals.</p>
+  <h2 style="font-size:20px;margin-top:20px">Weekly Timetable</h2>
+  <div class="formgrid" style="margin:12px 0">
+   <label class="muted">Semester archive<select id="semesterSelect"></select></label>
+   <label class="muted">Semester dates<span id="semesterDates" style="display:block;padding:11px 0;color:var(--ink)">28 Sep – 31 Dec 2026</span></label>
+  </div>
+  <details class="week-detail" style="margin:10px 0"><summary>＋ Create a new semester</summary>
+   <form id="semesterForm" class="formgrid" style="padding:12px 0">
+    <label class="muted">Semester name<input id="semesterName" maxlength="100" required placeholder="e.g. Year 3 · Semester 1"></label>
+    <label class="muted">Start date<input id="semesterStart" type="date" required></label>
+    <label class="muted">End date<input id="semesterEnd" type="date" required></label>
+    <button type="submit">Create semester</button>
+   </form><div id="semesterStatus" class="muted"></div>
+  </details>
+  <div class="table-wrap"><table class="timetable"><thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Venue</th><th>Manage</th></tr></thead><tbody id="timetableBody"></tbody></table></div>
+  <details class="week-detail" style="margin-top:12px"><summary>＋ Add a class to this timetable</summary>
+   <form id="classForm" class="formgrid" style="padding:12px 0">
+    <label class="muted">Day<select id="classDay"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select></label>
+    <label class="muted">Course<input id="className" maxlength="150" required placeholder="Course code and name"></label>
+    <label class="muted">Time<input id="classTime" maxlength="60" required placeholder="e.g. 8:00–11:00 AM"></label>
+    <label class="muted">Venue<input id="classVenue" maxlength="80" placeholder="Room"></label>
+    <label class="muted">Lecturer<input id="classLecturer" maxlength="100" placeholder="Lecturer name"></label>
+    <button type="submit">Add class</button>
+   </form><div id="timetableStatus" class="muted"></div>
+  </details>
+  <div class="notice">Friday, Saturday and Sunday: no scheduled classes.</div>
+  <h2 style="font-size:20px;margin-top:22px">My Study Goals</h2>
+  <form id="goalForm" class="formgrid" style="margin-top:10px"><label class="muted">Goal<input id="goalTitle" maxlength="120" placeholder="e.g. Revise TCM319 twice this week" required></label><label class="muted">Target date<input id="goalDate" type="date"></label><button type="submit">＋ Add study goal</button></form>
+  <div id="goalStatus" role="status" class="muted" style="margin-top:8px"></div><p class="muted">Tick the little box when you complete a goal. Your progress is saved privately ♡</p><div id="goalList" class="muted" style="margin-top:8px">Loading goals…</div>
+ </div>
+
+ <div class="panel section-page" id="attendancePanel" data-page="academic">
+  <div class="eyebrow">My academic life</div><h2>Class Attendance 📚</h2>
+  <p class="muted">Choose a date to see your scheduled classes. Mark each class as Present, Absent or MC, then save your attendance privately.</p>
+  <label class="muted" style="max-width:280px">Attendance date<input id="attendanceDate" type="date"></label>
+  <div id="attendanceClasses" style="margin-top:14px" class="muted">Loading your timetable…</div>
+  <button id="saveAttendance" style="margin-top:14px">Save attendance</button><div id="attendanceStatus" role="status" style="font:13px/1.5 Arial;margin-top:10px;color:var(--wine)"></div>
+  <div style="border-top:1px solid #dfc2bb;margin-top:18px;padding-top:15px"><h2 style="font-size:20px">Attendance Summary</h2><div id="attendanceSummary" class="muted">Loading summary…</div></div>
+ </div>
+
+ <div class="panel section-page" id="coffeePanel" data-page="coffee">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">Little coffee moments</div><h2>Coffee Diary ☕</h2>
+  <p class="muted">Keep a private record of your daily coffee, where you enjoyed it, its price and a photo.</p>
+  <form id="coffeeForm" style="display:grid;gap:10px;margin-top:15px">
+   <div class="formgrid">
+    <label class="muted">Coffee name<input id="coffeeName" required maxlength="120" placeholder="e.g. Iced latte"></label>
+    <label class="muted">Shop / brand<input id="coffeeShop" maxlength="120" placeholder="e.g. Ban Heong"></label>
+    <label class="muted">Location<input id="coffeeLocation" maxlength="180" placeholder="Where did you get it?"></label>
+    <label class="muted">Price (RM)<input id="coffeePrice" type="number" min="0" step="0.01" placeholder="e.g. 8.50"></label>
+    <label class="muted">Date<input id="coffeeDate" type="date" required></label>
+   </div>
+   <label class="muted">Coffee photo (optional)<input id="coffeePhoto" type="file" accept="image/*"></label>
+   <label class="muted">Little notes<textarea id="coffeeNotes" rows="2" maxlength="1000" placeholder="Taste, mood, who you were with…"></textarea></label>
+   <button type="submit">＋ Save coffee moment</button><div id="coffeeStatus" role="status" style="font:13px/1.5 Arial;color:var(--wine)"></div>
+  </form>
+  <div style="border-top:1px solid #dfc2bb;margin-top:18px;padding-top:15px"><h2 style="font-size:20px">Monthly Coffee Overview</h2><label class="muted" style="max-width:250px">View a month<input id="coffeeMonth" type="month"></label><div id="coffeeStats" class="grid"></div></div>
+  <div style="border-top:1px solid #dfc2bb;margin-top:18px;padding-top:15px"><h2 style="font-size:20px">My Coffee Memories</h2><p class="muted">Weekly graph shows total spending (RM). Tap a week to reveal individual coffee entries.</p><div id="coffeeList" class="muted">Loading your coffee diary…</div></div>
+ </div>
+
+
+ <div class="panel section-page" id="financePanel" data-page="finance">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A gentle look at where your money goes</div><h2>My Finances 💰</h2>
+  <p class="muted">Track everyday spending, income and savings in one private place. All amounts are in RM.</p>
+  <label class="muted" style="max-width:260px;margin-top:12px">View a month<input id="financeMonth" type="month"></label>
+  <div class="grid" id="financeSummary"><div class="tile"><strong>RM 0.00</strong><span class="muted">Spent this month</span></div><div class="tile"><strong>RM 0.00</strong><span class="muted">Income this month</span></div><div class="tile"><strong>RM 0.00</strong><span class="muted">Savings balance</span></div></div>
+  <section class="finance-goal-card" aria-labelledby="budgetHeading">
+   <div class="eyebrow">Plan gently, spend mindfully</div><h2 id="budgetHeading" style="font-size:20px;margin:4px 0 12px">Monthly Budget ♡</h2>
+   <form id="financeBudgetForm" class="formgrid">
+    <label class="muted">Budget amount (RM)<input id="financeBudgetAmount" type="number" min="0.01" step="0.01" required placeholder="e.g. 500"></label>
+    <label class="muted">Budget category<select id="financeBudgetCategory"><option value="all">All spending</option><option value="food">Food & drinks</option><option value="shopping">Shopping</option><option value="transport">Transport</option><option value="study">Study</option><option value="entertainment">Leisure & entertainment</option><option value="personal">Personal care</option><option value="bills">Bills & essentials</option><option value="health">Health</option><option value="other">Other</option></select></label>
+    <button type="submit">Save monthly budget</button>
+   </form>
+   <div id="financeBudgetStatus" class="muted" role="status" style="margin-top:8px"></div>
+   <div id="financeBudgetList" style="margin-top:12px"></div>
+  </section>
+  <div class="notice">If you already have savings, add them once as “Starting savings balance”. Then record deposits and withdrawals to keep your balance up to date.</div>
+  <section class="finance-goal-card" aria-labelledby="savingsGoalHeading">
+   <div class="eyebrow">A little progress, every day</div><h2 id="savingsGoalHeading" style="font-size:20px;margin:4px 0 12px">My Savings Goal ✧</h2>
+   <div id="savingsGoalDisplay" class="muted">Set a savings target and watch your progress grow ♡</div>
+   <form id="savingsGoalForm" class="formgrid" style="margin-top:14px;align-items:end">
+    <label class="muted">My target (RM)<input id="savingsGoalAmount" type="number" min="0.01" step="0.01" required placeholder="e.g. 5000"></label>
+    <label class="muted">What am I saving for?<input id="savingsGoalTitle" maxlength="100" placeholder="e.g. Emergency fund / Travel"></label>
+    <button type="submit">Save savings goal ♡</button>
+   </form>
+   <div id="savingsGoalStatus" role="status" class="muted" style="font-size:12px;margin-top:7px"></div>
+  </section>
+  <h2 style="font-size:20px;margin-top:24px">＋ Add a transaction</h2>
+  <form id="financeForm" style="display:grid;gap:10px;margin-top:12px">
+   <div class="formgrid">
+    <label class="muted">Transaction type<select id="financeKind" required><option value="expense">Daily expense</option><option value="income">Income</option><option value="saving_deposit">Savings deposit</option><option value="saving_withdrawal">Savings withdrawal</option><option value="opening_savings">Starting savings balance</option></select></label>
+    <label class="muted">Amount (RM)<input id="financeAmount" type="number" min="0.01" step="0.01" required placeholder="e.g. 12.50"></label>
+    <label class="muted">Date<input id="financeDate" type="date" required></label>
+    <label class="muted">Category<select id="financeCategory"><option value="food">🍽️ Food & drinks</option><option value="shopping">🛍️ Shopping</option><option value="transport">🚗 Transport</option><option value="study">📚 Study</option><option value="entertainment">🎮 Leisure & entertainment</option><option value="personal">🧴 Personal care</option><option value="bills">🏠 Bills & essentials</option><option value="health">🌷 Health</option><option value="other">✦ Other</option></select></label>
+   </div>
+   <label class="muted">What was it for?<input id="financeTitle" maxlength="120" required placeholder="e.g. Lunch at campus / Monthly allowance"></label>
+   <div class="formgrid"><label class="muted">Payment method (optional)<select id="financeMethod"><option value="">Not specified</option><option>Cash</option><option>Debit card</option><option>Credit card</option><option>Online banking</option><option>E-wallet</option><option>Other</option></select></label><label class="muted">Notes (optional)<input id="financeNotes" maxlength="300" placeholder="A little detail…"></label></div>
+   <button type="submit">＋ Save transaction</button><div id="financeStatus" role="status" style="font:13px/1.5 Arial;color:var(--wine)"></div>
+  </form>
+  <div style="border-top:1px solid #dfc2bb;margin-top:24px;padding-top:18px"><h2 style="font-size:20px">My Money at a Glance</h2><p class="muted">A visual summary of this month's spending, in the same soft vintage palette.</p><div id="financeVisuals"></div></div>
+  <div style="border-top:1px solid #dfc2bb;margin-top:22px;padding-top:18px"><h2 style="font-size:20px">Transactions for this month</h2><p class="muted">The weekly graph summarises expenses. Switch the month above to revisit older records; you can edit or delete a transaction.</p><div id="financeList" class="muted">Loading your finance records…</div></div>
+ </div>
+
+ <div class="panel section-page" id="dailyPanel" data-page="daily">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A little record of today</div><h2>Today I Did ✍️</h2>
+  <p class="muted">Write down what you did today — big or small. Entries are saved to your private cloud database.</p>
+  <section id="periodSection" class="period-shell">
+   <div class="eyebrow">A private note to yourself</div><h2 style="margin-top:5px">My Cycle Calendar 🌸</h2>
+   <p class="muted">Track period days, flow, symptoms and how you feel. Choose any past date to add or update a record.</p>
+   <div class="period-stats" id="periodStats"><div class="period-stat"><strong>—</strong><span>Average cycle</span></div><div class="period-stat"><strong>—</strong><span>Last period start</span></div><div class="period-stat"><strong>—</strong><span>Logged days</span></div></div>
+   <div class="period-head"><button type="button" class="secondary" id="periodPrev">←</button><strong class="period-month" id="periodMonthLabel">Month</strong><button type="button" class="secondary" id="periodNext">→</button></div>
+   <div class="period-calendar" id="periodCalendar"></div>
+   <div class="period-legend"><span>🌸 Period day</span><span>· Light flow</span><span>● Medium flow</span><span>♥ Heavy flow</span><span>✧ Selected date</span></div>
+   <div class="period-day-form">
+    <h3 style="margin:0 0 8px;color:var(--wine)" id="periodFormTitle">Log a day</h3>
+    <form id="periodForm" style="display:grid;gap:10px">
+     <label class="muted">Date<input id="periodDate" type="date" required></label>
+     <label class="muted">Period flow<select id="periodFlow"><option value="none">No period / not bleeding</option><option value="spotting">Spotting</option><option value="light">Light</option><option value="medium">Medium</option><option value="heavy">Heavy</option></select></label>
+     <label class="muted">Mood<select id="periodMood"><option value="">Not specified</option><option>😊 Good</option><option>😌 Calm</option><option>🥺 Sensitive</option><option>😣 Irritated</option><option>😴 Tired</option><option>😔 Low</option></select></label>
+     <div class="muted">Symptoms (optional)<div class="symptom-list">
+      <label><input type="checkbox" name="periodSymptom" value="Cramps">Cramps</label><label><input type="checkbox" name="periodSymptom" value="Bloating">Bloating</label><label><input type="checkbox" name="periodSymptom" value="Headache">Headache</label><label><input type="checkbox" name="periodSymptom" value="Breast tenderness">Breast tenderness</label><label><input type="checkbox" name="periodSymptom" value="Acne">Acne</label><label><input type="checkbox" name="periodSymptom" value="Fatigue">Fatigue</label><label><input type="checkbox" name="periodSymptom" value="Backache">Backache</label><label><input type="checkbox" name="periodSymptom" value="Other">Other</label>
+     </div></div>
+     <label class="muted">Notes<textarea id="periodNotes" rows="2" maxlength="1200" placeholder="Anything you want to remember…"></textarea></label>
+     <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit">♡ Save this day</button><button type="button" class="secondary" id="periodDelete">Delete record</button></div>
+     <div id="periodStatus" class="muted" role="status"></div>
+    </form>
+   </div>
+   <div class="period-notice">Your cycle notes are private to your signed-in account. Cycle length and next-period estimates are approximate and based only on the dates you record; they are not contraception, fertility, or medical advice. You can leave predictions unused.</div>
+  </section>
+  <form id="activityForm" style="display:grid;gap:10px;margin-top:15px">
+   <label class="muted">What did you do?<input id="activityTitle" required maxlength="120" placeholder="e.g. Attended TCM319 lecture"></label>
+   <div class="formgrid">
+    <label class="muted">Category<select id="activityCategory"><option value="study">📚 Study</option><option value="work">💻 Work / project</option><option value="exercise">🏃 Exercise</option><option value="selfcare">🌷 Self-care</option><option value="social">♡ Social</option><option value="other">✦ Other</option></select></label>
+    <label class="muted">Time (optional)<input id="activityTime" type="time"></label>
+    <label class="muted">Date<input id="activityDate" type="date" required></label>
+   </div>
+   <label class="muted">Little details (optional)<textarea id="activityDetails" rows="2" maxlength="1000" placeholder="How did it go? Anything you want to remember?"></textarea></label>
+   <button type="submit" id="activitySubmit">＋ Add to today's log</button><div id="activityStatus" role="status"></div>
+  </form>
+  <section id="habitSection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
+   <h2 style="font-size:22px">Daily Habit Tracker 🌷</h2>
+   <p class="muted">Create your own habits. Each habit can repeat every day or on selected weekdays.</p>
+   <form id="habitForm" class="formgrid" style="margin-top:12px">
+    <label class="muted">Habit name<input id="habitName" maxlength="80" required placeholder="e.g. Exercise"></label>
+    <label class="muted">Emoji<input id="habitEmoji" maxlength="4" value="♡" placeholder="🌷"></label>
+    <label class="muted">Frequency<select id="habitFrequency"><option value="daily">Every day</option><option value="weekly">Selected weekdays</option></select></label>
+    <label class="muted">Colour<select id="habitColor"><option value="#d3a4a5">Dusty pink</option><option value="#a9b8c7">Dusty blue</option><option value="#a8b2a0">Sage green</option><option value="#c4a98b">Caramel</option><option value="#d5c69f">Buttercream</option></select></label>
+    <label class="muted" id="habitDaysLabel" style="grid-column:1/-1">Repeat on
+     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font:13px Arial">
+      <label><input type="checkbox" name="habitDay" value="1" checked style="width:auto"> Mon</label>
+      <label><input type="checkbox" name="habitDay" value="2" checked style="width:auto"> Tue</label>
+      <label><input type="checkbox" name="habitDay" value="3" checked style="width:auto"> Wed</label>
+      <label><input type="checkbox" name="habitDay" value="4" checked style="width:auto"> Thu</label>
+      <label><input type="checkbox" name="habitDay" value="5" checked style="width:auto"> Fri</label>
+      <label><input type="checkbox" name="habitDay" value="6" checked style="width:auto"> Sat</label>
+      <label><input type="checkbox" name="habitDay" value="0" checked style="width:auto"> Sun</label>
+     </div>
+    </label>
+    <button type="submit">＋ Add my habit</button>
+   </form>
+   <div id="habitStatus" class="muted" role="status" style="margin-top:8px"></div>
+   <label class="muted" style="max-width:230px;margin-top:14px">Month<input id="habitMonth" type="month"></label>
+   <div id="habitBoard" style="overflow-x:auto;margin-top:12px">Loading habits…</div>
+  </section>
+
+  <section id="journalSection" style="border-top:1px solid var(--line);margin-top:24px;padding-top:18px">
+   <h2 style="font-size:22px">My Little Journal 📖</h2>
+   <p class="muted">Write about your day, add your own generated images or photos, and revisit these moments in future years.</p>
+   <form id="memoryForm" style="display:grid;gap:10px;margin-top:12px">
+    <div class="formgrid">
+     <label class="muted">Date<input id="memoryDate" type="date" required></label>
+     <label class="muted">Page title<input id="memoryTitle" maxlength="120" placeholder="A little Tuesday ♡"></label>
+     <label class="muted">Mood<select id="memoryMood"><option value="">Choose a mood</option><option>🥰 Lovely</option><option>😊 Happy</option><option>😌 Peaceful</option><option>🥺 Emotional</option><option>😴 Tired</option><option>🌱 Productive</option></select></label>
+     <label class="muted">Layout<select id="memoryLayout"><option value="template">Ready-made · Daily Moments</option><option value="photo">Ready-made · Photo Diary</option><option value="weekly">Ready-made · Weekly Recap</option><option value="special">Ready-made · Special Memories</option><option value="free">Free Scrapbook · simple layout</option></select></label>
+    </div>
+    <label class="muted">Your story<textarea id="memoryText" rows="5" maxlength="8000" placeholder="What happened today? What would you like your future self to remember?"></textarea></label>
+    <label class="muted">Add your images<input id="memoryPhotos" type="file" accept="image/*" multiple></label>
+    <label class="muted">Photo caption (optional)<input id="memoryCaption" maxlength="300" placeholder="A little detail about these pictures…"></label>
+    <button type="submit">♡ Save this journal page</button>
+    <div id="memoryStatus" class="muted" role="status"></div>
+   </form>
+   <div class="notice">Your journal text and photos are private. Photos are uploaded to your existing private-memories bucket.</div>
+   <h2 style="font-size:20px;margin-top:22px">On This Day ♡</h2>
+   <div id="onThisDay" class="muted">Looking for memories from this date…</div>
+   <h2 style="font-size:20px;margin-top:22px">My Journal Archive</h2>
+   <div class="formgrid" style="margin:10px 0"><label class="muted">Search memories<input id="memorySearch" type="search" placeholder="Search titles and stories…"></label><label class="muted">Filter by month<input id="memoryMonthFilter" type="month"></label></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button type="button" class="secondary" id="memoryFavorites">♡ Show favourites</button><button type="button" class="secondary" id="memoryPrint">Print / Save as PDF</button></div>
+   <div id="memoryArchive" class="muted">Loading your journal…</div>
+  </section>
+  <div style="border-top:1px solid #dfc2bb;margin-top:18px;padding-top:15px"><h2 style="font-size:20px">My Daily Activity Log</h2><p class="muted">Weekly graph shows how many activities you logged. Tap a week to view individual entries.</p><div id="activityList" class="muted">Loading your private activity log…</div></div>
+ </div>
+</section>
+
+
+ <div class="panel section-page" id="studyCornerPanel" data-page="studycorner">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A gentle space to think, connect and remember</div><h2>Study Corner 🧠</h2>
+  <p class="muted">Build a chapter tree or arrange ideas on a freeform board. Your notes are private and saved to your signed-in account.</p>
+  <div class="studycorner-tabs"><button type="button" class="secondary" id="showOutline">Tree Outline</button><button type="button" class="secondary" id="showMindMap">Freeform Mind Map</button></div>
+  <section id="outlineMode" class="studycorner-mode">
+   <div class="people-hero"><strong>Chapter / topic outline</strong><p class="muted" style="margin:5px 0 0">Add a main topic, then add subtopics under it. Use this as a structured chapter notebook.</p></div>
+   <form id="outlineForm" class="formgrid"><label class="muted">Topic title<input id="outlineTitle" maxlength="140" required placeholder="e.g. Parkinson's disease"></label><label class="muted">Parent topic<select id="outlineParent"><option value="">Main topic (no parent)</option></select></label><label class="muted">Short note<input id="outlineNote" maxlength="500" placeholder="Key idea or reminder"></label><button type="submit">＋ Add topic</button></form>
+   <div id="outlineTree" class="outline-tree"><p class="muted">Your chapter outline will appear here.</p></div>
+  </section>
+  <section id="mindMapMode" class="studycorner-mode hidden">
+   <div class="people-hero"><strong>Freeform idea board</strong><p class="muted" style="margin:5px 0 0">Add connected ideas, drag the cards around, and save your layout. On a tablet, use your finger or stylus to move nodes.</p></div>
+   <form id="mindNodeForm" class="formgrid"><label class="muted">Idea<input id="mindNodeTitle" maxlength="120" required placeholder="e.g. α-synuclein"></label><label class="muted">Connect to<select id="mindNodeParent"><option value="">Central idea</option></select></label><label class="muted">Detail<textarea id="mindNodeNote" rows="1" maxlength="500" placeholder="Add a short explanation…"></textarea></label><button type="submit">＋ Add idea</button></form>
+   <div id="mindMapBoard" class="mindmap-board"><div class="mindmap-center">CENTRAL IDEA</div></div><p class="muted" id="mindMapStatus" role="status"></p>
+  </section>
+ </div>
+
+ <div class="panel section-page" id="peoplePanel" data-page="people">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A scrapbook of the people in your life</div><h2>People I Met 🫶</h2>
+  <div class="people-hero"><div style="font-size:26px">♡ ✿ ♡</div><h3 style="margin:5px 0;color:var(--wine)">Little moments become lifelong memories.</h3><p class="muted" style="margin:0">Keep track of the people you spend time with — from spontaneous coffee dates to long-awaited catch-ups. You can add past meetups whenever you remember them.</p></div>
+  <div class="people-stat-grid" id="peopleStats"><div class="people-stat"><strong>—</strong><span>Friends saved</span></div><div class="people-stat"><strong>—</strong><span>Meetups recorded</span></div><div class="people-stat"><strong>—</strong><span>Total time together</span></div><div class="people-stat"><strong>—</strong><span>Most met friend</span></div></div>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:18px">
+   <h2 style="font-size:21px">♡ Friends Directory</h2><p class="muted">Create a little profile for each friend. Add a real photo or use an emoji avatar.</p>
+   <form id="friendForm" style="display:grid;gap:10px;margin-top:12px">
+    <div class="formgrid"><label class="muted">Friend's name<input id="friendName" maxlength="100" required placeholder="e.g. Aisyah"></label><label class="muted">Nickname (optional)<input id="friendNickname" maxlength="80" placeholder="What you call them"></label><label class="muted">Avatar emoji<input id="friendEmoji" maxlength="6" value="🌷" placeholder="🧸"></label><label class="muted">Birthday (optional)<input id="friendBirthday" type="date"></label></div>
+    <label class="muted">A little note (optional)<textarea id="friendNotes" rows="2" maxlength="800" placeholder="How you know each other, little details to remember…"></textarea></label>
+    <label class="muted">Profile photo (optional)<input id="friendPhoto" type="file" accept="image/*"></label>
+    <button type="submit">＋ Add friend to my circle</button><div id="friendStatus" class="muted" role="status"></div>
+   </form>
+   <div class="formgrid" style="margin-top:14px"><label class="muted">Find a friend<input id="friendSearch" type="search" placeholder="Search names and notes…"></label><label class="muted">Sort friends<select id="friendSort"><option value="recent">Recently added</option><option value="met">Met most often</option><option value="time">Most time together</option><option value="name">Name A–Z</option></select></label></div>
+   <div id="friendsList" class="people-card-grid"><div class="people-empty">Your circle starts with one friend ♡</div></div>
+  </section>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:22px">
+   <h2 style="font-size:21px">✿ Record a Meetup</h2><p class="muted">Choose a friend and record the date, activity, place, photos and how long you spent together. Past dates are welcome.</p>
+   <form id="meetupForm" style="display:grid;gap:10px;margin-top:12px">
+    <div class="formgrid"><label class="muted">Who did you meet?<select id="meetupFriend" required><option value="">Choose a friend</option></select></label><label class="muted">Meetup date<input id="meetupDate" type="date" required></label><label class="muted">What did you do?<input id="meetupActivity" maxlength="140" required placeholder="e.g. Coffee and catching up"></label><label class="muted">Where did you meet?<input id="meetupPlace" maxlength="160" placeholder="Café, campus, mall…"></label></div>
+    <div class="people-hero" style="margin:2px 0;padding:14px"><strong style="color:var(--wine)">How should we record your time together?</strong><div class="formgrid" style="margin-top:8px"><label class="muted">Time entry method<select id="meetupTimeMode"><option value="range">Start + end time (calculate automatically)</option><option value="duration">Enter duration directly</option></select></label><label class="muted">Start time<input id="meetupStart" type="time"></label><label class="muted">End time<input id="meetupEnd" type="time"></label><label class="muted">Duration (minutes)<input id="meetupDuration" type="number" min="1" max="1440" placeholder="e.g. 120"></label></div><p class="muted" id="meetupTimeHelp" style="margin:8px 0 0">Choose start and end time. The total duration will be calculated automatically.</p></div>
+    <label class="muted">A little story (optional)<textarea id="meetupNotes" rows="3" maxlength="1500" placeholder="What did you talk about? What made this meetup special?"></textarea></label>
+    <label class="muted">Photos (optional)<input id="meetupPhotos" type="file" accept="image/*" multiple></label>
+    <button type="submit">♡ Save this meetup</button><div id="meetupStatus" class="muted" role="status"></div>
+   </form>
+  </section>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:22px">
+   <h2 style="font-size:21px">♡ My Social Circle</h2><p class="muted">Friends are arranged using both how often you meet and the total time you have spent together. This is a playful reflection, not a judgement of friendship.</p>
+   <div class="people-filter"><label class="muted">From<input id="peopleFrom" type="date"></label><label class="muted">To<input id="peopleTo" type="date"></label><button type="button" class="secondary" id="peopleResetRange">All time</button></div>
+   <div id="socialCircle" class="social-orbit"><div class="orbit-center">ME ♡</div></div>
+   <div id="socialCircleNote" class="muted" style="margin-top:8px">Your circle will grow with the moments you save.</div>
+  </section>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:22px">
+   <h2 style="font-size:21px">📖 Our Little Meetups</h2><div class="people-filter"><label class="muted">Filter by friend<select id="meetupFilterFriend"><option value="">All friends</option></select></label><label class="muted">Month<input id="meetupMonth" type="month"></label></div>
+   <div id="meetupsList"><div class="people-empty">Your shared memories will appear here ♡</div></div>
+  </section>
+ </div>
+
+<section class="panel" id="connectionPanel">
+ <div class="eyebrow">Private connection settings</div><h2>Connect your cloud database</h2>
+ <p class="muted">These are browser-safe public client settings. Never enter a service-role key or Google OAuth client secret here.</p>
+ <form id="configForm" style="display:grid;gap:10px">
+  <label class="muted">Supabase Project URL<input id="projectUrl" type="url" autocomplete="url" placeholder="https://your-project.supabase.co" required></label>
+  <label class="muted">Supabase Publishable Key<input id="publishableKey" type="password" autocomplete="off" placeholder="sb_publishable_…" required></label>
+  <div class="formgrid">
+   <button type="submit">Save connection settings</button>
+   <button type="button" class="secondary" id="testConnection">Test database connection</button>
+  </div>
+  <div id="configStatus" role="status">Connection settings are stored only in this browser.</div>
+ </form>
+</section>
+<footer>Small steps, soft days, a life well remembered. ♡</footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const DEFAULT_URL = "https://njdcnqoagwomamwmnrhv.supabase.co";
+const DEFAULT_KEY = "sb_publishable_gZwoMzdsg_K4aR28P9QMDQ_vWCJaT5N";
+const $ = id => document.getElementById(id);
+const todayISO = () => {const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+const currentMonthISO = () => todayISO().slice(0,7);
+const homeDateEl = document.getElementById("homeDate");
+if(homeDateEl){homeDateEl.textContent=new Intl.DateTimeFormat("en-MY",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date()).toUpperCase();}
+let client = null;
+let currentSession = null;
+const activityDate = $("activityDate");
+activityDate.value = todayISO();
+$("coffeeDate").value = todayISO();
+$("financeDate").value = todayISO();
+const attendanceDate = $("attendanceDate");
+attendanceDate.value = todayISO();
+let classSchedule = [
+ {id:"mon-tcm319",day:1,name:"TCM319 — Internal Medicine of TCM",time:"8:00–11:00 AM",lecturer:"Wang Yujie",venue:"A1#G03"},
+ {id:"mon-tcm301",day:1,name:"TCM301 — Treatise on Exogenous Febrile Disease",time:"1:00–3:00 PM",lecturer:"Lim Chee Hoong",venue:"A3#507"},
+ {id:"tue-tcm301",day:2,name:"TCM301 — Treatise on Exogenous Febrile Disease",time:"12:00–2:00 PM",lecturer:"Lim Chee Hoong",venue:"A1#G03"},
+ {id:"tue-tcm319",day:2,name:"TCM319 — Internal Medicine of TCM",time:"4:00–6:00 PM",lecturer:"Wang Yujie",venue:"A3#505"},
+ {id:"wed-tcm319",day:3,name:"TCM319 — Internal Medicine of TCM",time:"9:00–11:00 AM",lecturer:"Wang Yujie",venue:"A2#G09"},
+ {id:"wed-med304",day:3,name:"MED304 — Critical Thinking in Clinical Practice",time:"11:00 AM–12:00 PM",lecturer:"Aslam Muhammad Shahzad",venue:"A2#104"},
+ {id:"thu-tcm319",day:4,name:"TCM319 — Internal Medicine of TCM",time:"8:00–11:00 AM",lecturer:"Wang Yujie",venue:"A1#G03"},
+ {id:"thu-med302",day:4,name:"MED302 — Research Project",time:"12:00–3:00 PM",lecturer:"Aslam Muhammad Shahzad",venue:"A1#103"}
+];
+let attendanceDraft={}; let attendanceRows=[];
+let semesterRows=[];let activeSemester=null;
+const defaultSemester={id:"sem-2026-fall",name:"Current Semester",start_date:"2026-09-28",end_date:"2026-12-31",classes:classSchedule.map(c=>({...c}))};
+function renderTimetable(){
+ const body=$("timetableBody");if(!body)return;body.innerHTML="";
+ const days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+ [...classSchedule].sort((a,b)=>a.day-b.day||String(a.time).localeCompare(String(b.time))).forEach(c=>{
+  const tr=document.createElement("tr");
+  [days[c.day]||"—",c.time||"",c.name||"",c.venue||""].forEach(value=>{const td=document.createElement("td");td.textContent=value;tr.append(td);});
+  const manage=document.createElement("td");const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:6px 8px;font-size:11px";edit.textContent="Edit";edit.onclick=async()=>{const name=prompt("Course name",c.name);if(name===null)return;const time=prompt("Class time",c.time);if(time===null)return;const venue=prompt("Venue",c.venue||"");if(venue===null)return;const lecturer=prompt("Lecturer",c.lecturer||"");if(lecturer===null)return;Object.assign(c,{name:name.trim(),time,venue,lecturer});renderTimetable();await saveActiveSemester();};
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:6px 8px;font-size:11px;margin-left:5px";del.textContent="×";del.onclick=async()=>{if(!confirm("Remove this class from the selected semester? Past attendance records will remain."))return;classSchedule=classSchedule.filter(x=>x.id!==c.id);renderTimetable();await saveActiveSemester();};manage.append(edit,del);tr.append(manage);body.append(tr);
+ });
+ if(!classSchedule.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;td.textContent="No classes in this semester yet.";tr.append(td);body.append(tr);}
+}
+function renderSemesterSelect(){
+ const select=$("semesterSelect");if(!select)return;select.innerHTML="";
+ semesterRows.forEach(row=>{const option=document.createElement("option");option.value=row.id;option.textContent=row.name;select.append(option);});
+ if(activeSemester)select.value=activeSemester.id;
+ $("semesterDates").textContent=activeSemester?[activeSemester.start_date,activeSemester.end_date].filter(Boolean).join(" – "):"No dates set";
+ $("semesterLabel").textContent=activeSemester?[activeSemester.start_date,activeSemester.end_date].filter(Boolean).join(" – "):"No semester dates";
+ if(activeSemester){attendanceDate.min=activeSemester.start_date||"";attendanceDate.max=activeSemester.end_date||"";if((activeSemester.start_date&&attendanceDate.value<activeSemester.start_date)||(activeSemester.end_date&&attendanceDate.value>activeSemester.end_date))attendanceDate.value=activeSemester.start_date||todayISO();}
+}
+async function saveActiveSemester(){
+ if(!client||!activeSemester)return;
+ const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("timetableStatus"),"Please sign in again.");return false;}
+ const payload={user_id:user.id,entry_type:"note",entry_date:activeSemester.start_date||todayISO(),title:"MLW_SEMESTER",content:{kind:"semester_record",semester_id:activeSemester.id,name:activeSemester.name,start_date:activeSemester.start_date,end_date:activeSemester.end_date,classes:classSchedule}};
+ const result=activeSemester.db_id?await client.from("journal_entries").update({entry_date:payload.entry_date,title:payload.title,content:payload.content}).eq("id",activeSemester.db_id):await client.from("journal_entries").insert(payload).select("id").single();
+ if(result.error){setStatus($("timetableStatus"),"Could not save timetable: "+result.error.message);return false;}
+ if(!activeSemester.db_id)activeSemester.db_id=result.data?.id;
+ activeSemester.classes=classSchedule.map(c=>({...c}));
+ setStatus($("timetableStatus"),"Timetable saved to your private semester archive ♡");return true;
+}
+async function loadSemesters(){
+ if(!client){semesterRows=[defaultSemester];activeSemester=semesterRows[0];classSchedule=activeSemester.classes.map(c=>({...c}));renderSemesterSelect();renderTimetable();return;}
+ const {data,error}=await client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","note").eq("title","MLW_SEMESTER").order("entry_date",{ascending:false});
+ if(error){setStatus($("semesterStatus"),"Could not load semester archive: "+error.message);semesterRows=[defaultSemester];activeSemester=semesterRows[0];classSchedule=activeSemester.classes.map(c=>({...c}));renderSemesterSelect();renderTimetable();return;}
+ semesterRows=(data||[]).filter(r=>r.content?.kind==="semester_record").map(r=>({id:r.content.semester_id,db_id:r.id,name:r.content.name,start_date:r.content.start_date,end_date:r.content.end_date,classes:r.content.classes||[]}));
+ if(!semesterRows.length){semesterRows=[{...defaultSemester,classes:defaultSemester.classes.map(c=>({...c}))}];activeSemester=semesterRows[0];classSchedule=activeSemester.classes.map(c=>({...c}));renderSemesterSelect();renderTimetable();await saveActiveSemester();return;}
+ activeSemester=semesterRows[0];classSchedule=activeSemester.classes.map(c=>({...c}));renderSemesterSelect();renderTimetable();
+}
+$("semesterSelect")?.addEventListener("change",()=>{const chosen=semesterRows.find(x=>x.id===$("semesterSelect").value);if(!chosen)return;activeSemester=chosen;classSchedule=chosen.classes.map(c=>({...c}));renderSemesterSelect();renderTimetable();attendanceDraft={};loadAttendance();});
+$("semesterForm")?.addEventListener("submit",async e=>{e.preventDefault();const name=$("semesterName").value.trim(),start=$("semesterStart").value,end=$("semesterEnd").value;if(!name||!start||!end||end<start){setStatus($("semesterStatus"),"Please enter a name and a valid date range.");return;}if(!client){setStatus($("semesterStatus"),"Connect your database first.");return;}if(activeSemester&&!activeSemester.db_id){const saved=await saveActiveSemester();if(!saved)return;}const next={id:"sem-"+Date.now(),name,start_date:start,end_date:end,classes:[]};semesterRows.unshift(next);activeSemester=next;classSchedule=[];renderSemesterSelect();renderTimetable();$("semesterForm").reset();const savedNew=await saveActiveSemester();if(!savedNew){setStatus($("semesterStatus"),"The semester is shown here but could not be saved yet. Please check your connection and try adding a class again.");return;}setStatus($("semesterStatus"),"New semester created. Your previous semester remains archived ♡");await loadAttendance();});
+$("classForm")?.addEventListener("submit",async e=>{e.preventDefault();const name=$("className").value.trim(),time=$("classTime").value.trim();if(!name||!time)return;classSchedule.push({id:"class-"+Date.now(),day:Number($("classDay").value),name,time,venue:$("classVenue").value.trim(),lecturer:$("classLecturer").value.trim()});renderTimetable();$("classForm").reset();await saveActiveSemester();});
+
+// ===== Daily Habit Tracker =====
+if($("habitMonth"))$("habitMonth").value=todayISO().slice(0,7);
+if($("habitFrequency"))$("habitFrequency").addEventListener("change",()=>{$("habitDaysLabel").style.opacity=$("habitFrequency").value==="weekly"?"1":".45";});
+let habitRows=[], habitChecks=[];
+async function currentUser(){const {data:{user},error}=await client.auth.getUser();if(error||!user)throw new Error("Please sign in again.");return user;}
+async function loadHabitBoard(){
+ if(!client)return;const host=$("habitBoard");host.textContent="Loading your habits…";
+ const month=$("habitMonth").value||todayISO().slice(0,7);
+ const year=Number(month.slice(0,4)),monthNumber=Number(month.slice(5,7)),daysInMonth=new Date(year,monthNumber,0).getDate();
+ const start=month+"-01", end=month+"-"+String(daysInMonth).padStart(2,"0");
+ const {data:definitions,error:defError}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","habit").order("created_at",{ascending:true}));
+ if(defError){host.textContent="Could not load habits: "+defError.message;return;}
+ const {data:checks,error:checkError}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","habit").gte("entry_date",start).lte("entry_date",end));
+ if(checkError){host.textContent="Could not load check-ins: "+checkError.message;return;}
+ habitRows=(definitions||[]).filter(x=>x.content?.kind==="habit_definition");
+ habitChecks=(checks||[]).filter(x=>x.content?.kind==="habit_checkin");
+ const defs=habitRows;
+ if(!defs.length){host.innerHTML='<p class="muted">No habits yet. Add your first little routine above ♡</p>';return;}
+ host.innerHTML="";
+ const head=document.createElement("div");head.className="habit-row";head.innerHTML='<div class="habit-name">My habits</div>'+["M","T","W","T","F","S","S"].map(x=>'<div class="habit-day">'+x+'</div>').join("");host.append(head);
+ defs.forEach(h=>{
+  const row=document.createElement("div");row.className="habit-row";
+  const name=document.createElement("div");name.className="habit-name";name.textContent=(h.content.emoji||"♡")+" "+h.title;row.append(name);
+  const freq=h.content.frequency||"daily", selected=h.content.days||[1,2,3,4,5,6,0];
+  for(let day=1;day<=7;day++){
+   const button=document.createElement("span");button.className="habit-day";button.textContent="";row.append(button);
+  }
+  host.append(row);
+  const monthGrid=document.createElement("div");monthGrid.style.cssText="display:grid;grid-template-columns:145px repeat(7,minmax(28px,1fr));gap:5px;min-width:390px;margin:3px 0 12px";
+  const label=document.createElement("div");label.className="habit-name";label.textContent="";monthGrid.append(label);
+  const firstOffset=(new Date(Number(month.slice(0,4)),Number(month.slice(5,7))-1,1).getDay()+6)%7;
+  for(let i=0;i<firstOffset;i++){const spacer=document.createElement("span");monthGrid.append(spacer);}
+  let scheduledCount=0,doneCount=0,missedCount=0;
+  for(let d=1;d<=daysInMonth;d++){
+   const date=new Date(Number(month.slice(0,4)),Number(month.slice(5,7))-1,d);
+   const wd=date.getDay();const scheduled=freq==="daily"||selected.includes(wd);
+   const dateStr=month+"-"+String(d).padStart(2,"0");
+   const checked=habitChecks.some(c=>c.content.habit_id===h.id&&c.entry_date===dateStr);
+   if(scheduled&&dateStr<=todayISO()){scheduledCount++;if(checked)doneCount++;else missedCount++;}
+   const b=document.createElement("button");b.className="habit-dot"+(checked?" done":"")+(scheduled?"":" off")+(scheduled&&!checked&&dateStr<todayISO()?" missed":"")+(scheduled&&!checked&&dateStr>todayISO()?" future":"");b.textContent=checked?"✓":String(d);b.style.background=checked?(h.content.color||"#d3a4a5"):"";
+   b.title=dateStr+(checked?" · Done":!scheduled?" · Not scheduled":dateStr<todayISO()?" · Missed":" · Upcoming");
+   b.disabled=!scheduled||dateStr>todayISO();b.onclick=()=>toggleHabit(h,dateStr,checked);monthGrid.append(b);
+  }
+  host.append(monthGrid);
+  const progress=document.createElement("div");progress.className="muted";progress.style.cssText="font-size:12px;margin:-6px 0 10px 145px";progress.textContent=`${doneCount}/${scheduledCount} scheduled days completed · ${scheduledCount?Math.round(doneCount/scheduledCount*100):0}% completion · ${missedCount} missed`;host.append(progress);
+  const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 145px";
+  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:6px 10px;font-size:12px";edit.textContent="Edit habit";edit.onclick=async()=>{const name=prompt("Habit name",h.title);if(name===null)return;if(!name.trim())return alert("Habit name cannot be empty.");const emoji=prompt("Habit emoji",h.content.emoji||"♡");if(emoji===null)return;const frequency=prompt("Frequency: daily or weekly",h.content.frequency||"daily");if(frequency===null)return;if(!["daily","weekly"].includes(frequency.trim().toLowerCase()))return alert("Use daily or weekly.");let days=h.content.days||[1,2,3,4,5,6,0];if(frequency.trim().toLowerCase()==="weekly"){const raw=prompt("Weekdays as numbers separated by commas: Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6, Sun=0",days.join(","));if(raw===null)return;days=[...new Set(raw.split(",").map(x=>Number(x.trim())))];if(!days.length||days.some(x=>![0,1,2,3,4,5,6].includes(x)))return alert("Please enter weekday numbers from 0 to 6.");}const color=prompt("Habit colour (hex code)",h.content.color||"#d3a4a5");if(color===null)return;if(!/^#[0-9a-fA-F]{6}$/.test(color))return alert("Please enter a colour like #d3a4a5.");const {error}=await client.from("journal_entries").update({title:name.trim(),content:{...h.content,emoji:emoji||"♡",frequency:frequency.trim().toLowerCase(),days,color}}).eq("id",h.id);if(error)setStatus($("habitStatus"),"Could not update habit: "+error.message);else loadHabitBoard();};
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:6px 10px;font-size:12px";del.textContent="Delete habit";del.onclick=async()=>{if(!confirm("Delete this habit definition? Past check-ins will remain in your history."))return;const {error}=await client.from("journal_entries").delete().eq("id",h.id);if(error)setStatus($("habitStatus"),"Could not delete habit: "+error.message);else loadHabitBoard();};
+  management.append(edit,del);host.append(management);
+ });
+}
+async function toggleHabit(h,date,wasDone){
+ try{const user=await currentUser();const old=habitChecks.find(c=>c.content.habit_id===h.id&&c.entry_date===date);
+  if(wasDone&&old){const {error}=await client.from("journal_entries").delete().eq("id",old.id);if(error)throw error;}
+  else if(!wasDone){const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"habit",entry_date:date,title:h.title,content:{kind:"habit_checkin",habit_id:h.id}});if(error)throw error;}
+  loadHabitBoard();
+ }catch(e){setStatus($("habitStatus"),"Could not update check-in: "+e.message);}
+}
+$("habitForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();try{const user=await currentUser();const frequency=$("habitFrequency").value;const days=[...document.querySelectorAll('input[name="habitDay"]:checked')].map(x=>Number(x.value));if(frequency==="weekly"&&!days.length){setStatus($("habitStatus"),"Choose at least one weekday.");return;}
+ const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"habit",entry_date:todayISO(),title:$("habitName").value.trim(),content:{kind:"habit_definition",emoji:$("habitEmoji").value||"♡",frequency,days,color:$("habitColor").value}});
+ if(error)throw error;$("habitForm").reset();$("habitEmoji").value="♡";setStatus($("habitStatus"),"Your habit was saved ♡");loadHabitBoard();
+ }catch(err){setStatus($("habitStatus"),"Could not save habit: "+err.message);}
+});
+$("habitMonth")?.addEventListener("change",loadHabitBoard);
+
+// ===== My Little Journal =====
+let memoryRows=[];let showMemoryFavorites=false;
+function renderMemoryArchive(){
+ const archive=$("memoryArchive");archive.innerHTML="";
+ const q=($("memorySearch")?.value||"").trim().toLowerCase(),month=$("memoryMonthFilter")?.value||"";
+ const rows=memoryRows.filter(m=>(!showMemoryFavorites||m.content?.favorite)&&(!month||(m.entry_date||"").startsWith(month))&&(!q||[m.title,m.content?.story,m.content?.caption].join(" ").toLowerCase().includes(q)));
+ if(!rows.length){archive.textContent="No matching memories yet ♡";return;}
+ rows.forEach(m=>renderMemoryCard(archive,m,false));
+}
+async function loadMemories(){
+ if(!client)return;const archive=$("memoryArchive"),today=$("onThisDay");archive.textContent="Loading your journal…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","memory").order("entry_date",{ascending:false}));
+ if(error){archive.textContent="Could not load memories: "+error.message;return;}memoryRows=data||[];
+ const md=todayISO().slice(5,10);const past=memoryRows.filter(x=>x.entry_date.slice(5,10)===md&&x.entry_date!==todayISO());
+ today.innerHTML=past.length?"":'<p class="muted">No memories from this date yet. Your future self will thank you for starting today ♡</p>';
+ past.forEach(m=>renderMemoryCard(today,m,true));
+ if(!memoryRows.length){archive.textContent="Your story starts here. Save your first little memory ♡";return;}
+ renderMemoryArchive();
+}
+function renderMemoryCard(host,m,isPast){
+ const card=document.createElement("article");card.className="memory-card";
+ const date=document.createElement("div");date.className="eyebrow";date.textContent=(isPast?"On this day · ":"")+m.entry_date;card.append(date);
+ const title=document.createElement("h3");title.style.cssText="color:var(--wine);margin:7px 0";title.textContent=m.title||"A little memory";card.append(title);
+ if(m.content.mood){const mood=document.createElement("div");mood.textContent=m.content.mood;card.append(mood);}
+ if(m.content.story){const p=document.createElement("p");p.className="muted";p.textContent=m.content.story;card.append(p);}
+ if(m.content.caption){const p=document.createElement("p");p.className="muted";p.textContent=m.content.caption;card.append(p);}
+ (m.content.photos||[]).forEach(async photo=>{const img=document.createElement("img");img.className="memory-photo";img.alt="Journal memory";card.append(img);if(photo.path){const {data,error}=await client.storage.from("private-memories").createSignedUrl(photo.path,3600);if(!error)img.src=data.signedUrl;}});
+ const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+ const fav=document.createElement("button");fav.type="button";fav.className="secondary";fav.style.cssText="padding:7px 10px";fav.textContent=m.content.favorite?"♥ Favourited":"♡ Favourite";fav.onclick=async()=>{const {error}=await client.from("journal_entries").update({content:{...m.content,favorite:!m.content.favorite}}).eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not update favourite: "+error.message);else loadMemories();};actions.append(fav);
+ const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit text";edit.onclick=async()=>{const title=prompt("Page title",m.title||"");if(title===null)return;const date=prompt("Date (YYYY-MM-DD)",m.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const story=prompt("Your story",m.content.story||"");if(story===null)return;const caption=prompt("Photo caption",m.content.caption||"");if(caption===null)return;const {error}=await client.from("journal_entries").update({title:title.trim()||"A little memory",entry_date:date,content:{...m.content,story,caption}}).eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not update memory: "+error.message);else loadMemories();};actions.append(edit);
+ const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete memory";del.onclick=async()=>{if(!confirm("Delete this journal page? Its attached photos will also be removed."))return;const paths=(m.content.photos||[]).map(p=>p.path).filter(Boolean);if(paths.length){const {error:storageError}=await client.storage.from("private-memories").remove(paths);if(storageError){setStatus($("memoryStatus"),"Could not remove attached photos: "+storageError.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not delete memory: "+error.message);else loadMemories();};actions.append(del);card.append(actions);
+ host.append(card);
+}
+$("memoryForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("memoryStatus"),"Connect your account first.");return;}
+ try{const user=await currentUser();const files=[...($("memoryPhotos").files||[])];const urls=[];
+  if(files.length>10){setStatus($("memoryStatus"),"Please choose no more than 10 photos per journal page.");return;}
+  if(files.some(file=>file.size>8*1024*1024)){setStatus($("memoryStatus"),"Each photo must be smaller than 8 MB.");return;}
+  for(const file of files){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const path=user.id+"/journal/"+Date.now()+"_"+safe;
+   const {error:upErr}=await client.storage.from("private-memories").upload(path,file,{upsert:false,contentType:file.type});if(upErr)throw upErr;
+   const {data}=client.storage.from("private-memories").getPublicUrl(path);
+   // Private bucket: store the object path; signed URLs are generated when rendering.
+   urls.push({path});
+  }
+  const payload={user_id:user.id,entry_type:"memory",entry_date:$("memoryDate").value,title:$("memoryTitle").value.trim()||"A little memory",content:{story:$("memoryText").value.trim(),mood:$("memoryMood").value,layout:$("memoryLayout").value,caption:$("memoryCaption").value.trim(),photos:urls}};
+  const {error}=await client.from("journal_entries").insert(payload);if(error)throw error;
+  $("memoryForm").reset();$("memoryDate").value=todayISO();setStatus($("memoryStatus"),"Your journal page was saved privately ♡");loadMemories();
+ }catch(err){setStatus($("memoryStatus"),"Could not save journal page: "+err.message);}
+});
+$("memorySearch")?.addEventListener("input",renderMemoryArchive);
+$("memoryMonthFilter")?.addEventListener("change",renderMemoryArchive);
+$("memoryFavorites")?.addEventListener("click",()=>{showMemoryFavorites=!showMemoryFavorites;$("memoryFavorites").textContent=showMemoryFavorites?"♡ Show all memories":"♡ Show favourites";renderMemoryArchive();});
+$("memoryPrint")?.addEventListener("click",()=>{document.body.classList.add("print-journal");window.print();});
+window.addEventListener("afterprint",()=>document.body.classList.remove("print-journal"));
+
+// ===== People I Met · friend profiles and meetup timeline =====
+let peopleRows=[],meetupRows=[];
+const peoplePhotoUrlCache=new Map();
+function fmtDuration(minutes){minutes=Math.max(0,Number(minutes)||0);const h=Math.floor(minutes/60),m=minutes%60;return h?`${h}h${m?` ${m}m`:""}`:`${m}m`;}
+function escapePeopleText(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+async function signedPeoplePhoto(path){if(!path||!client)return "";if(peoplePhotoUrlCache.has(path))return peoplePhotoUrlCache.get(path);const {data,error}=await client.storage.from("private-memories").createSignedUrl(path,3600);const url=error?"":data.signedUrl;if(url)peoplePhotoUrlCache.set(path,url);return url;}
+async function loadPeopleData(){
+ if(!client)return;
+ const friends=$("friendsList"),meetups=$("meetupsList");if(friends)friends.innerHTML='<div class="people-empty">Gathering your little circle…</div>';
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").order("created_at",{ascending:false}));
+ if(error){setStatus($("friendStatus"),"Could not load People I Met: "+error.message);return;}
+ const rows=data||[];peopleRows=rows.filter(r=>r.content?.kind==="friend_profile");meetupRows=rows.filter(r=>r.content?.kind==="friend_meetup");
+ renderPeople();
+}
+function selectedMeetups(){const from=$("peopleFrom")?.value||"",to=$("peopleTo")?.value||"";return meetupRows.filter(m=>(!from||m.entry_date>=from)&&(!to||m.entry_date<=to));}
+function getFriendStats(){const stats=new Map(peopleRows.map(f=>[f.id,{count:0,minutes:0}]));selectedMeetups().forEach(m=>{const st=stats.get(m.content.friend_id);if(st){st.count++;st.minutes+=Number(m.content.duration_minutes)||0;}});return stats;}
+function renderPeople(){
+ const stats=getFriendStats();const totalMeetups=selectedMeetups();const totalMinutes=totalMeetups.reduce((n,m)=>n+(Number(m.content.duration_minutes)||0),0);
+ const ranked=[...peopleRows].sort((a,b)=>(stats.get(b.id)?.count||0)-(stats.get(a.id)?.count||0)||(stats.get(b.id)?.minutes||0)-(stats.get(a.id)?.minutes||0));
+ const top=ranked[0],topStat=top?stats.get(top.id):null;
+ $("peopleStats").innerHTML=`<div class="people-stat"><strong>${peopleRows.length}</strong><span>Friends saved</span></div><div class="people-stat"><strong>${totalMeetups.length}</strong><span>Meetups in range</span></div><div class="people-stat"><strong>${fmtDuration(totalMinutes)}</strong><span>Time together</span></div><div class="people-stat"><strong>${top?escapePeopleText(top.title):"—"}</strong><span>${topStat?.count?`${topStat.count} meetups · most met`:"Most met friend"}</span></div>`;
+ const friendSelect=$("meetupFriend"),filterSelect=$("meetupFilterFriend");const prev=friendSelect.value,prevFilter=filterSelect.value;
+ friendSelect.innerHTML='<option value="">Choose a friend</option>';filterSelect.innerHTML='<option value="">All friends</option>';
+ peopleRows.forEach(f=>{const label=f.title+(f.content.nickname?` · ${f.content.nickname}`:"");[friendSelect,filterSelect].forEach((sel,i)=>{const op=document.createElement("option");op.value=f.id;op.textContent=label;sel.append(op);});});
+ if(peopleRows.some(f=>f.id===prev))friendSelect.value=prev;if(peopleRows.some(f=>f.id===prevFilter))filterSelect.value=prevFilter;
+ renderFriendCards(stats);renderSocialCircle(stats);renderMeetups();
+}
+function renderFriendCards(stats){
+ const host=$("friendsList"),q=($("friendSearch").value||"").toLowerCase(),sort=$("friendSort").value;
+ let rows=peopleRows.filter(f=>[f.title,f.content.nickname,f.content.notes].join(" ").toLowerCase().includes(q));
+ rows.sort((a,b)=>sort==="name"?a.title.localeCompare(b.title):sort==="met"?(stats.get(b.id)?.count||0)-(stats.get(a.id)?.count||0):sort==="time"?(stats.get(b.id)?.minutes||0)-(stats.get(a.id)?.minutes||0):String(b.created_at).localeCompare(String(a.created_at)));
+ host.innerHTML="";if(!rows.length){host.innerHTML='<div class="people-empty">No friends found yet. Add someone special above ♡</div>';return;}
+ rows.forEach(async f=>{const st=stats.get(f.id)||{count:0,minutes:0},card=document.createElement("article");card.className="person-card";const avatar=document.createElement("div");avatar.className="person-avatar";avatar.textContent=f.content.emoji||"♡";if(f.content.photo_path){const url=await signedPeoplePhoto(f.content.photo_path);if(url){const img=document.createElement("img");img.src=url;img.alt=f.title+" profile";avatar.innerHTML="";avatar.append(img);}}const name=document.createElement("h3");name.textContent=f.title;const nickname=document.createElement("div");nickname.className="person-meta";nickname.textContent=f.content.nickname?`“${f.content.nickname}”`:"Your friend";const meta=document.createElement("div");meta.className="person-meta";meta.textContent=`${st.count} meetups · ${fmtDuration(st.minutes)} together`+(f.content.birthday?` · Birthday ${f.content.birthday}`:"");const note=document.createElement("p");note.className="person-meta";note.textContent=f.content.notes||"A little place in your story.";const actions=document.createElement("div");actions.className="people-actions";const meet=document.createElement("button");meet.textContent="＋ Meetup";meet.onclick=()=>{friendSelect.value=f.id;$("meetupActivity").focus();$("meetupForm").scrollIntoView({behavior:"smooth",block:"center"});};const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=()=>editFriend(f);const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteFriend(f);actions.append(meet,edit,del);card.append(avatar,name,nickname,meta,note,actions);host.append(card);});
+}
+async function editFriend(f){const name=prompt("Friend's name",f.title);if(name===null)return;if(!name.trim())return alert("Please enter a name.");const nickname=prompt("Nickname",f.content.nickname||"");if(nickname===null)return;const notes=prompt("A little note",f.content.notes||"");if(notes===null)return;const birthday=prompt("Birthday (YYYY-MM-DD, optional)",f.content.birthday||"");if(birthday===null)return;if(birthday&&!/^\d{4}-\d{2}-\d{2}$/.test(birthday))return alert("Use YYYY-MM-DD for birthday.");const {error}=await client.from("journal_entries").update({title:name.trim(),content:{...f.content,nickname,notes,birthday}}).eq("id",f.id);if(error)setStatus($("friendStatus"),"Could not update friend: "+error.message);else loadPeopleData();}
+async function deleteFriend(f){if(!confirm(`Delete ${f.title}'s profile? Their meetup records will remain but become unlinked.`))return;const paths=f.content.photo_path?[f.content.photo_path]:[];if(paths.length){const {error}=await client.storage.from("private-memories").remove(paths);if(error){setStatus($("friendStatus"),"Could not delete profile photo: "+error.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",f.id);if(error)setStatus($("friendStatus"),"Could not delete friend: "+error.message);else loadPeopleData();}
+function renderSocialCircle(stats){const host=$("socialCircle");host.innerHTML='<div class="orbit-center">ME ♡</div>';const ranked=[...peopleRows].sort((a,b)=>{const sa=stats.get(a.id)||{count:0,minutes:0},sb=stats.get(b.id)||{count:0,minutes:0};return (sb.count*0.55+sb.minutes/60*0.45)-(sa.count*0.55+sa.minutes/60*0.45);}).slice(0,10);if(!ranked.length){$("socialCircleNote").textContent="Add friends and meetup records to see your social circle bloom.";return;}const radius=Math.min(126,Math.max(94,host.clientWidth*.34));ranked.forEach((f,i)=>{const st=stats.get(f.id)||{count:0,minutes:0},angle=(-Math.PI/2)+(Math.PI*2*i/ranked.length),x=50+Math.cos(angle)*Math.min(43,radius/host.clientWidth*100),y=50+Math.sin(angle)*34,node=document.createElement("div");node.className="orbit-person";node.style.left=x+"%";node.style.top=y+"%";const avatar=document.createElement("div");avatar.className="person-avatar";avatar.textContent=f.content.emoji||"♡";const label=document.createElement("strong");label.textContent=f.title;const small=document.createElement("small");small.textContent=`${st.count} · ${fmtDuration(st.minutes)}`;node.append(avatar,label,small);host.append(node);if(f.content.photo_path)signedPeoplePhoto(f.content.photo_path).then(url=>{if(url){const img=document.createElement("img");img.src=url;img.alt="";avatar.textContent="";avatar.append(img);}});});$("socialCircleNote").textContent="Closest circles are suggested by a balance of meetup frequency and total time together. It is only a gentle snapshot ♡";}
+function renderMeetups(){const host=$("meetupsList"),friendId=$("meetupFilterFriend").value,month=$("meetupMonth").value;const names=new Map(peopleRows.map(f=>[f.id,f.title]));const rows=selectedMeetups().filter(m=>(!friendId||m.content.friend_id===friendId)&&(!month||m.entry_date.startsWith(month))).sort((a,b)=>b.entry_date.localeCompare(a.entry_date)||String(b.created_at).localeCompare(String(a.created_at)));host.innerHTML="";if(!rows.length){host.innerHTML='<div class="people-empty">No meetups in this view yet. Add a new memory or adjust the filters ♡</div>';return;}rows.forEach(async m=>{const card=document.createElement("article");card.className="meetup-card";const date=document.createElement("div");date.className="eyebrow";date.textContent=new Date(m.entry_date+"T12:00:00").toLocaleDateString("en-MY",{weekday:"long",day:"numeric",month:"long",year:"numeric"});const title=document.createElement("h3");title.textContent=`${m.content.activity||"A little meetup"} · ${names.get(m.content.friend_id)||m.content.friend_name||"Friend"}`;const meta=document.createElement("div");meta.className="person-meta";meta.textContent=[m.content.place,fmtDuration(m.content.duration_minutes),m.content.start_time&&m.content.end_time?`${m.content.start_time}–${m.content.end_time}`:""].filter(Boolean).join(" · ");const notes=document.createElement("p");notes.className="person-meta";notes.textContent=m.content.notes||"A moment worth keeping.";card.append(date,title,meta,notes);if(m.content.photo_paths?.length){const photoGrid=document.createElement("div");photoGrid.className="people-card-grid";for(const path of m.content.photo_paths.slice(0,4)){const url=await signedPeoplePhoto(path);if(url){const img=document.createElement("img");img.className="meetup-photo";img.src=url;img.alt="Meetup memory";photoGrid.append(img);}}card.append(photoGrid);}const actions=document.createElement("div");actions.className="people-actions";const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit details";edit.onclick=()=>editMeetup(m);const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteMeetup(m);actions.append(edit,del);card.append(actions);host.append(card);});}
+async function editMeetup(m){const date=prompt("Meetup date (YYYY-MM-DD)",m.entry_date);if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Use YYYY-MM-DD.");const activity=prompt("What did you do?",m.content.activity||"");if(activity===null)return;const place=prompt("Where?",m.content.place||"");if(place===null)return;const notes=prompt("A little story",m.content.notes||"");if(notes===null)return;const {error}=await client.from("journal_entries").update({entry_date:date,title:activity.trim()||"Meetup",content:{...m.content,activity:activity.trim(),place,notes}}).eq("id",m.id);if(error)setStatus($("meetupStatus"),"Could not update meetup: "+error.message);else loadPeopleData();}
+async function deleteMeetup(m){if(!confirm("Delete this meetup record and its attached photos?"))return;if(m.content.photo_paths?.length){const {error}=await client.storage.from("private-memories").remove(m.content.photo_paths);if(error){setStatus($("meetupStatus"),"Could not remove photos: "+error.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",m.id);if(error)setStatus($("meetupStatus"),"Could not delete meetup: "+error.message);else loadPeopleData();}
+$("friendForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){setStatus($("friendStatus"),"Connect your database first.");return;}try{const user=await currentUser(),file=$("friendPhoto").files?.[0];if(file&&file.size>8*1024*1024)throw new Error("Profile photo must be smaller than 8 MB.");let photo_path=null;if(file){photo_path=user.id+"/people/friend_"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error}=await client.storage.from("private-memories").upload(photo_path,file,{upsert:false,contentType:file.type});if(error)throw error;}const payload={user_id:user.id,entry_type:"note",entry_date:todayISO(),title:$("friendName").value.trim(),content:{kind:"friend_profile",nickname:$("friendNickname").value.trim(),emoji:$("friendEmoji").value||"🌷",birthday:$("friendBirthday").value||"",notes:$("friendNotes").value.trim(),photo_path}};const {error}=await client.from("journal_entries").insert(payload);if(error)throw error;$("friendForm").reset();$("friendEmoji").value="🌷";setStatus($("friendStatus"),"Friend added to your private circle ♡");loadPeopleData();}catch(err){setStatus($("friendStatus"),"Could not save friend: "+err.message);}});
+$("meetupTimeMode").addEventListener("change",()=>{const range=$("meetupTimeMode").value==="range";$("meetupStart").disabled=!range;$("meetupEnd").disabled=!range;$("meetupDuration").disabled=range;$("meetupTimeHelp").textContent=range?"Choose start and end time. The total duration will be calculated automatically.":"Enter the total number of minutes you spent together.";});
+$("meetupForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){setStatus($("meetupStatus"),"Connect your database first.");return;}try{const user=await currentUser(),friend=peopleRows.find(f=>f.id===$("meetupFriend").value);if(!friend)throw new Error("Please choose a friend first.");const mode=$("meetupTimeMode").value;let duration=0,start="",end="";if(mode==="range"){start=$("meetupStart").value;end=$("meetupEnd").value;if(!start||!end)throw new Error("Please enter both start and end times.");let a=Number(start.slice(0,2))*60+Number(start.slice(3)),b=Number(end.slice(0,2))*60+Number(end.slice(3));duration=b-a;if(duration<=0)throw new Error("End time must be later than start time. For an overnight meetup, use direct duration entry.");}else{duration=Number($("meetupDuration").value);if(!Number.isInteger(duration)||duration<1||duration>1440)throw new Error("Enter a duration between 1 and 1440 minutes.");}const files=[...($("meetupPhotos").files||[])];if(files.length>6)throw new Error("Choose up to 6 photos per meetup.");if(files.some(f=>f.size>8*1024*1024))throw new Error("Each photo must be smaller than 8 MB.");const photo_paths=[];for(const file of files){const path=user.id+"/people/meetup_"+Date.now()+"_"+Math.random().toString(36).slice(2,8)+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error}=await client.storage.from("private-memories").upload(path,file,{upsert:false,contentType:file.type});if(error)throw error;photo_paths.push(path);}const activity=$("meetupActivity").value.trim();const payload={user_id:user.id,entry_type:"note",entry_date:$("meetupDate").value,title:activity,content:{kind:"friend_meetup",friend_id:friend.id,friend_name:friend.title,activity,place:$("meetupPlace").value.trim(),time_mode:mode,start_time:start,end_time:end,duration_minutes:duration,notes:$("meetupNotes").value.trim(),photo_paths}};const {error}=await client.from("journal_entries").insert(payload);if(error)throw error;$("meetupForm").reset();$("meetupDate").value=todayISO();$("meetupTimeMode").value="range";$("meetupTimeMode").dispatchEvent(new Event("change"));setStatus($("meetupStatus"),"Your meetup was saved privately ♡");loadPeopleData();}catch(err){setStatus($("meetupStatus"),"Could not save meetup: "+err.message);}});
+["friendSearch","friendSort"].forEach(id=>$(id).addEventListener(id==="friendSearch"?"input":"change",()=>renderFriendCards(getFriendStats())));
+["meetupFilterFriend","meetupMonth"].forEach(id=>$(id).addEventListener("change",renderMeetups));
+["peopleFrom","peopleTo"].forEach(id=>$(id).addEventListener("change",renderPeople));
+$("peopleResetRange").addEventListener("click",()=>{$("peopleFrom").value="";$("peopleTo").value="";renderPeople();});
+window.addEventListener("resize",()=>{if($("peoplePanel")?.classList.contains("active"))renderSocialCircle(getFriendStats());});
+
+function getConfig(){
+  return {
+    url: (localStorage.getItem("mlw_supabase_url") || DEFAULT_URL).trim().replace(/\/+$/,""),
+    key: (localStorage.getItem("mlw_supabase_key") || DEFAULT_KEY).trim()
+  };
+}
+function showConfig(){
+  const c=getConfig(); $("projectUrl").value=c.url; $("publishableKey").value=c.key;
+}
+function setStatus(el,msg){if(el)el.textContent=msg;}
+async function fetchAllPages(buildQuery,pageSize=500){
+ const rows=[];let offset=0;
+ while(true){const {data,error}=await buildQuery().range(offset,offset+pageSize-1);if(error)return {data:null,error};const batch=data||[];rows.push(...batch);if(batch.length<pageSize)break;offset+=pageSize;}
+ return {data:rows,error:null};
+}
+function initClient(){
+  const c=getConfig();
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(c.url) || !c.key.startsWith("sb_publishable_")){
+    client=null; setStatus($("configStatus"),"Please check your Project URL and Publishable Key."); return false;
+  }
+  client=window.supabase.createClient(c.url,c.key);
+  return true;
+}
+// ===== Private Period & Cycle Calendar =====
+let periodRows=[],periodMonth=new Date().toISOString().slice(0,7),periodSelected=new Date().toISOString().slice(0,10);
+function periodDateLocal(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function periodSetForm(date){periodSelected=date;$ ("periodDate").value=date;const row=periodRows.find(r=>r.entry_date===date);const c=row?.content||{};$("periodFlow").value=c.flow||"none";$("periodMood").value=c.mood||"";$("periodNotes").value=c.notes||"";document.querySelectorAll('input[name="periodSymptom"]').forEach(x=>x.checked=(c.symptoms||[]).includes(x.value));$("periodFormTitle").textContent="Log a day · "+new Date(date+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});$("periodDelete").disabled=!row;$("periodDelete").style.opacity=row?"1":".45";renderPeriodCalendar();}
+async function loadPeriodData(){if(!client)return;const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").order("entry_date",{ascending:true}));if(error){setStatus($("periodStatus"),"Could not load cycle records: "+error.message);return;}periodRows=(data||[]).filter(r=>r.content?.kind==="period_day");renderPeriodCalendar();periodSetForm(periodSelected);}
+function renderPeriodCalendar(){const host=$("periodCalendar");if(!host)return;const [y,m]=periodMonth.split("-").map(Number);$("periodMonthLabel").textContent=new Date(y,m-1,1).toLocaleDateString("en-GB",{month:"long",year:"numeric"});host.innerHTML="";["M","T","W","T","F","S","S"].forEach(d=>{const e=document.createElement("div");e.className="period-weekday";e.textContent=d;host.append(e);});const first=new Date(y,m-1,1),offset=(first.getDay()+6)%7,days=new Date(y,m,0).getDate();for(let i=0;i<offset;i++){const e=document.createElement("div");e.className="period-day empty";host.append(e);}for(let d=1;d<=days;d++){const date=y+"-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0"),r=periodRows.find(x=>x.entry_date===date),flow=r?.content?.flow||"none",b=document.createElement("button");b.type="button";b.className="period-day"+(flow!=="none"?" flow-"+(flow==="spotting"?"light":flow):"")+(date===periodSelected?" selected":"");b.innerHTML="<span>"+d+"</span>"+(flow!=="none"?'<span class="dot">🌸</span>':"");b.setAttribute("aria-label",date+(flow!=="none"?", "+flow+" flow":""));b.onclick=()=>periodSetForm(date);host.append(b);}const starts=periodRows.filter(r=>["spotting","light","medium","heavy"].includes(r.content?.flow)).map(r=>r.entry_date).sort();const startDates=starts.filter((d,i)=>i===0||Math.round((new Date(d+"T12:00:00")-new Date(starts[i-1]+"T12:00:00"))/86400000)>1);let avg="—";if(startDates.length>=2){const diffs=startDates.slice(1).map((d,i)=>Math.round((new Date(d+"T12:00:00")-new Date(startDates[i]+"T12:00:00"))/86400000));avg=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length)+" days";}const last=startDates.at(-1)||"—";$("periodStats").innerHTML='<div class="period-stat"><strong>'+avg+'</strong><span>Average cycle · estimated</span></div><div class="period-stat"><strong>'+(last==="—"?last:new Date(last+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}))+'</strong><span>Last logged period start</span></div><div class="period-stat"><strong>'+periodRows.length+'</strong><span>Days with notes</span></div>';}
+$("periodForm")?.addEventListener("submit",async e=>{e.preventDefault();if(!client){setStatus($("periodStatus"),"Please connect your private database first.");return;}try{const user=await currentUser(),date=$("periodDate").value;if(!date)throw new Error("Please choose a date.");const content={kind:"period_day",flow:$("periodFlow").value,mood:$("periodMood").value,symptoms:[...document.querySelectorAll('input[name="periodSymptom"]:checked')].map(x=>x.value),notes:$("periodNotes").value.trim()};const existing=periodRows.find(r=>r.entry_date===date);let result;if(existing){result=await client.from("journal_entries").update({title:"MLW_PERIOD_DAY",content}).eq("id",existing.id);}else{result=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:date,title:"MLW_PERIOD_DAY",content});}if(result.error)throw result.error;setStatus($("periodStatus"),"Your cycle note has been saved privately ♡");periodSelected=date;await loadPeriodData();}catch(err){setStatus($("periodStatus"),"Could not save this day: "+err.message);}});
+$("periodDelete")?.addEventListener("click",async()=>{const row=periodRows.find(r=>r.entry_date===$("periodDate").value);if(!row)return;if(!confirm("Delete the cycle note for this date?"))return;const {error}=await client.from("journal_entries").delete().eq("id",row.id);if(error){setStatus($("periodStatus"),"Could not delete: "+error.message);return;}setStatus($("periodStatus"),"Record deleted.");await loadPeriodData();});
+$("periodPrev")?.addEventListener("click",()=>{const [y,m]=periodMonth.split("-").map(Number),d=new Date(y,m-2,1);periodMonth=periodDateLocal(d).slice(0,7);renderPeriodCalendar();});
+$("periodNext")?.addEventListener("click",()=>{const [y,m]=periodMonth.split("-").map(Number),d=new Date(y,m,1);periodMonth=periodDateLocal(d).slice(0,7);renderPeriodCalendar();});
+$("periodDate")?.addEventListener("change",()=>{const d=$("periodDate").value;if(d){periodSelected=d;periodMonth=d.slice(0,7);const r=periodRows.find(x=>x.entry_date===d),c=r?.content||{};$("periodFlow").value=c.flow||"none";$("periodMood").value=c.mood||"";$("periodNotes").value=c.notes||"";document.querySelectorAll('input[name="periodSymptom"]').forEach(x=>x.checked=(c.symptoms||[]).includes(x.value));$("periodFormTitle").textContent="Log a day · "+d;$("periodDelete").disabled=!r;renderPeriodCalendar();}});
+
+function showPage(page,options={}){
+ const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner"];
+ if(!valid.includes(page))page="home";
+ const dashboard=$("dashboardPanel");
+ if(dashboard)dashboard.classList.toggle("hidden",page!=="home");
+ document.querySelectorAll(".section-page").forEach(el=>el.classList.toggle("active",!!page&&page!=="home"&&el.dataset.page===page));
+ if(options.history!==false){
+  const nextHash=page==="home"?"#home":"#"+page;
+  if(location.hash!==nextHash)history.pushState({mlwPage:page},"",nextHash);
+ }
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function showSession(session){
+  currentSession=session;
+  $("signedOut").classList.toggle("hidden",!!session);
+  $("signedIn").classList.toggle("hidden",!session);
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="Welcome back ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadSemesters().then(()=>loadAttendance());}
+}
+function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
+function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function weekLabel(key){const start=new Date(key+"T12:00:00"),end=new Date(start);end.setDate(end.getDate()+6);const fmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});return fmt(start)+"–"+fmt(end);}
+function renderWeeklySection(host,rows,{metric,record,empty="No records yet ♡",maxWeeks=6,formatValue}={}){
+ host.innerHTML="";if(!rows.length){host.textContent=empty;return;}
+ const groups=new Map();rows.forEach(item=>{if(!item.entry_date)return;const key=weekKey(item.entry_date);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item);});
+ const sorted=[...groups.entries()].sort((a,b)=>b[0].localeCompare(a[0]));
+ const chartRows=sorted.slice(0,maxWeeks).reverse();const vals=chartRows.map(([key,items])=>metric(items,key));const max=Math.max(1,...vals);
+ const chart=document.createElement("div");chart.className="week-chart";chart.setAttribute("aria-label","Weekly summary chart");
+ chartRows.forEach(([key,items],i)=>{const col=document.createElement("div");col.className="week-col";const value=document.createElement("div");value.className="week-value";value.textContent=formatValue?formatValue(vals[i]):(typeof vals[i]==="number"?(Number.isInteger(vals[i])?String(vals[i]):vals[i].toFixed(1)):String(vals[i]));const wrap=document.createElement("div");wrap.className="week-bar-wrap";const bar=document.createElement("div");bar.className="week-bar";bar.style.height=Math.max(3,Math.round((Number(vals[i])||0)/max*96))+"px";bar.title=weekLabel(key)+": "+value.textContent;wrap.append(bar);const label=document.createElement("div");label.className="week-label";label.textContent=new Date(key+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});col.append(value,wrap,label);chart.append(col);});host.append(chart);
+ sorted.forEach(([key,items])=>{const details=document.createElement("details");details.className="week-detail";const summary=document.createElement("summary");summary.textContent=weekLabel(key);const total=document.createElement("span");total.textContent=items.length+ (items.length===1?" record":" records");summary.append(total);details.append(summary);const body=document.createElement("div");items.forEach(item=>{const row=document.createElement("div");row.className="week-record";record(row,item);body.append(row);});details.append(body);host.append(details);});
+}
+async function loadActivities(){
+ if(!client)return;const list=$("activityList");list.textContent="Loading your private entries…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","daily_activity").order("entry_date",{ascending:false}).order("created_at",{ascending:false}));
+ if(error){list.textContent="Database error: "+error.message;return;}
+ const cats={study:"📚 Study",work:"💻 Work / project",exercise:"🏃 Exercise",selfcare:"🌷 Self-care",social:"♡ Social",other:"✦ Other"};
+ renderWeeklySection(list,data||[],{metric:items=>items.length,empty:"No entries yet. Add your first little win today ♡",record:(card,item)=>{
+  const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||"Untitled activity";
+  const meta=document.createElement("div");meta.className="muted";meta.textContent=(item.entry_date||"")+(item.content?.time?" · "+item.content.time:"")+" · "+(cats[item.content?.category]||"✦ Activity");card.append(title,meta);
+  if(item.content?.details){const details=document.createElement("p");details.className="muted";details.textContent=item.content.details;card.append(details);}
+  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;margin-top:8px";
+  const edit=document.createElement("button");edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";edit.onclick=async()=>{const title=prompt("Activity",item.title||"");if(title===null)return;const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const time=prompt("Time (optional, HH:MM)",item.content?.time||"");if(time===null)return;const category=prompt("Category: study, work, exercise, selfcare, social, other",item.content?.category||"other");if(category===null)return;if(!["study","work","exercise","selfcare","social","other"].includes(category))return alert("Please choose a listed category.");const details=prompt("Little details",item.content?.details||"");if(details===null)return;const {error:e}=await client.from("journal_entries").update({title:title.trim()||item.title,entry_date:date,content:{...item.content,time,category,details}}).eq("id",item.id);if(e)setStatus($("activityStatus"),"Could not update activity: "+e.message);else loadActivities();};
+  const del=document.createElement("button");del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this activity entry?"))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("activityStatus"),"Could not delete: "+e.message);else loadActivities();};actions.append(edit,del);card.append(actions);
+ }});
+}
+async function loadGoals(){
+ if(!client)return;
+ const host=$("goalList");host.textContent="Loading goals…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","academic").order("created_at",{ascending:false}));
+ if(error){host.textContent="Could not load goals: "+error.message;return;}
+ const goals=data||[];host.innerHTML="";
+ if(!goals.length){host.textContent="No study goals yet. Add one small goal to get started ♡";return;}
+ const completedGoals=goals.filter(item=>item.content?.completed===true);
+ const activeGoals=goals.filter(item=>item.content?.completed!==true);
+ const summary=document.createElement("div");summary.className="study-goal-summary";
+ const summaryText=document.createElement("strong");summaryText.textContent=activeGoals.length+" goals to do";
+ const summaryHint=document.createElement("span");summaryHint.textContent=completedGoals.length+" completed";
+ summary.append(summaryText,summaryHint);host.append(summary);
+ function makeGoalRow(item,isCompleted){
+  const row=document.createElement("div");row.className="study-goal-item"+(isCompleted?" is-complete":"");
+  const check=document.createElement("input");check.type="checkbox";check.className="study-goal-check";check.checked=isCompleted;check.setAttribute("aria-label",(isCompleted?"Move ":"Complete ")+(item.title||"study goal"));
+  const copy=document.createElement("div");copy.className="study-goal-copy";
+  const title=document.createElement("strong");title.className="study-goal-title";title.textContent=item.title||"Study goal";
+  const meta=document.createElement("div");meta.className="study-goal-meta";meta.textContent=item.content?.target_date?"Target date: "+item.content.target_date:"No target date";
+  const state=document.createElement("span");state.className="study-goal-state";state.textContent=isCompleted?"✓ Completed":"In progress";
+  copy.append(title,meta,state);
+  const del=document.createElement("button");del.type="button";del.className="secondary study-goal-delete";del.textContent="Delete";
+  check.onchange=async()=>{
+   check.disabled=true;del.disabled=true;
+   const nextContent={...(item.content||{}),completed:check.checked,completed_at:check.checked?new Date().toISOString():null};
+   const {error:updateError}=await client.from("journal_entries").update({content:nextContent}).eq("id",item.id);
+   if(updateError){check.checked=!check.checked;$("goalStatus").textContent="Could not update goal: "+updateError.message;check.disabled=false;del.disabled=false;return;}
+   $("goalStatus").textContent=check.checked?"Goal completed — moved to Completed Goals ♡":"Goal moved back to your active goals.";
+   await loadGoals();
+  };
+  del.onclick=async()=>{if(!confirm("Delete this study goal?"))return;del.disabled=true;const {error:deleteError}=await client.from("journal_entries").delete().eq("id",item.id);if(deleteError){$("goalStatus").textContent="Could not delete: "+deleteError.message;del.disabled=false;}else{$("goalStatus").textContent="Study goal deleted.";loadGoals();}};
+  row.append(check,copy,del);return row;
+ }
+ const activeHeading=document.createElement("div");activeHeading.className="muted";activeHeading.style.cssText="font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:14px 0 6px";activeHeading.textContent="To do";host.append(activeHeading);
+ if(activeGoals.length){activeGoals.forEach(item=>host.append(makeGoalRow(item,false)));}
+ else{const empty=document.createElement("p");empty.className="muted";empty.textContent="All caught up — lovely work ♡";host.append(empty);}
+ if(completedGoals.length){
+  const archive=document.createElement("details");archive.className="week-detail completed-goals-archive";
+  const archiveSummary=document.createElement("summary");archiveSummary.textContent="Completed Goals";
+  const count=document.createElement("span");count.textContent=completedGoals.length+" completed";archiveSummary.append(count);archive.append(archiveSummary);
+  const archiveBody=document.createElement("div");archiveBody.style.paddingTop="8px";
+  completedGoals.forEach(item=>archiveBody.append(makeGoalRow(item,true)));
+  archive.append(archiveBody);host.append(archive);
+ }
+}
+$("goalForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){$("goalStatus").textContent="Please connect your database first.";return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){$("goalStatus").textContent="Please sign in again.";return;}const title=$("goalTitle").value.trim();if(!title)return;const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title,content:{target_date:$("goalDate").value||null,completed:false,completed_at:null}});if(error){$("goalStatus").textContent="Could not save goal: "+error.message;return;}$("goalForm").reset();$("goalStatus").textContent="Study goal saved privately ♡";loadGoals();});
+$("goAcademic").addEventListener("click",()=>showPage("academic"));
+
+function dateKey(){return attendanceDate.value||todayISO();}
+function classesForDate(value){const d=new Date(value+"T12:00:00");return classSchedule.filter(c=>c.day===d.getDay());}
+function renderAttendance(){
+ const date=dateKey(), classes=classesForDate(date), host=$("attendanceClasses");host.innerHTML="";
+ if(!classes.length){host.textContent="No scheduled classes on this date ♡";return;}
+ classes.forEach(c=>{const row=document.createElement("div");row.style.cssText="display:grid;grid-template-columns:minmax(0,1fr) minmax(125px, .7fr);gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #ead5d0";
+ const info=document.createElement("div");const name=document.createElement("strong");name.style.color="var(--wine)";name.textContent=c.name;const meta=document.createElement("div");meta.className="muted";meta.textContent=c.time+" · "+c.venue;info.append(name,meta);
+ const select=document.createElement("select");select.dataset.classId=c.id;select.setAttribute("aria-label","Attendance for "+c.name);[ ["","Not marked"],["Present","Present"],["Absent","Absent"],["MC","MC"] ].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;select.append(o)});select.value=attendanceDraft[c.id]||"";select.onchange=()=>attendanceDraft[c.id]=select.value;row.append(info,select);host.append(row);
+ });
+}
+async function loadAttendance(){
+ if(!client)return;const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","attendance").order("entry_date",{ascending:false}));
+ if(error){setStatus($("attendanceStatus"),"Could not load attendance: "+error.message+" (If this is the first setup, run the attendance SQL migration.)");return;}
+ attendanceRows=data||[];attendanceDraft={};const d=dateKey();attendanceRows.filter(r=>r.entry_date===d).forEach(r=>{if(r.content?.class_id)attendanceDraft[r.content.class_id]=r.content.status});renderAttendance();renderAttendanceSummary();
+}
+function renderAttendanceSummary(){
+ const scopedRows=attendanceRows.filter(r=>(!activeSemester?.start_date||r.entry_date>=activeSemester.start_date)&&(!activeSemester?.end_date||r.entry_date<=activeSemester.end_date));
+ const counts={Present:0,Absent:0,MC:0};scopedRows.forEach(r=>{const st=r.content?.status;if(counts[st]!==undefined)counts[st]++});
+ const eligible=counts.Present+counts.Absent,rate=eligible?Math.round(counts.Present/eligible*100):0;
+ const host=$("attendanceSummary");host.innerHTML=`<div class="grid"><div class="tile"><strong>${rate}%</strong><span class="muted">Overall attendance rate</span></div><div class="tile"><strong>${counts.Present}</strong><span class="muted">Present</span></div><div class="tile"><strong>${counts.Absent}</strong><span class="muted">Absent</span></div><div class="tile"><strong>${counts.MC}</strong><span class="muted">MC (excluded from rate)</span></div></div><p class="muted">Weekly graph shows the number of classes marked Present. Open a week below to see each class and its status. MC is excluded from the attendance-rate calculation.</p>`;
+ const weekly=document.createElement("div");weekly.style.marginTop="12px";host.append(weekly);
+ renderWeeklySection(weekly,scopedRows,{metric:items=>{const p=items.filter(r=>r.content?.status==="Present").length;return p;},empty:"No attendance records yet.",record:(row,item)=>{const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||"Class";const meta=document.createElement("div");meta.className="muted";meta.textContent=[item.entry_date,item.content?.time,item.content?.status].filter(Boolean).join(" · ");row.append(title,meta);}});
+}
+attendanceDate.addEventListener("change",async()=>{attendanceDraft={};await loadAttendance();});
+$("saveAttendance").addEventListener("click",async()=>{
+ if(!client){setStatus($("attendanceStatus"),"Please connect your database first.");return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("attendanceStatus"),"Please sign in again.");return;}
+ const date=dateKey(),classes=classesForDate(date);if(!classes.length){setStatus($("attendanceStatus"),"There are no scheduled classes on this date.");return;}
+ const {data:existing,error:readError}=await client.from("journal_entries").select("id,content").eq("entry_type","attendance").eq("entry_date",date);if(readError){setStatus($("attendanceStatus"),"Could not check existing records: "+readError.message);return;}
+ for(const c of classes){const status=attendanceDraft[c.id]||"";if(!status)continue;const old=(existing||[]).find(r=>r.content?.class_id===c.id);const payload={user_id:user.id,entry_type:"attendance",entry_date:date,title:c.name,content:{class_id:c.id,status,time:c.time,venue:c.venue,lecturer:c.lecturer}};
+  const result=old?await client.from("journal_entries").update({title:payload.title,content:payload.content}).eq("id",old.id):await client.from("journal_entries").insert(payload);if(result.error){setStatus($("attendanceStatus"),"Could not save "+c.name+": "+result.error.message);return;}
+ }
+ setStatus($("attendanceStatus"),"Attendance saved to your private cloud database ♡");await loadAttendance();
+});
+
+
+async function loadCoffee(){
+ if(!client)return;const host=$("coffeeList");host.textContent="Loading your private coffee diary…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","coffee").order("entry_date",{ascending:false}).order("created_at",{ascending:false}));
+ if(error){host.textContent="Could not load coffee diary: "+error.message;return;}
+ const rows=data||[],month=$("coffeeMonth")?.value||currentMonthISO(),monthly=rows.filter(r=>(r.entry_date||"").startsWith(month));
+ const total=monthly.reduce((sum,r)=>sum+Number(r.content?.price||0),0),count=monthly.length,avg=count?total/count:0;
+ $("coffeeStats").innerHTML="";[["RM "+total.toFixed(2),"Spent this month"],[String(count),"Cups logged"],["RM "+avg.toFixed(2),"Average per cup"]].forEach(([v,l])=>{const tile=document.createElement("div");tile.className="tile";const strong=document.createElement("strong");strong.textContent=v;const span=document.createElement("span");span.className="muted";span.textContent=l;tile.append(strong,span);$("coffeeStats").append(tile);});
+ renderWeeklySection(host,monthly,{metric:items=>items.reduce((sum,r)=>sum+Number(r.content?.price||0),0),formatValue:v=>"RM "+Number(v).toFixed(0),empty:"No coffee moments for this month. Choose another month or save a new cup ♡",record:(card,item)=>{
+  const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||"Coffee";
+  const meta=document.createElement("div");meta.className="muted";meta.textContent=[item.entry_date,item.content?.shop,item.content?.location,item.content?.price!=null?"RM "+Number(item.content.price).toFixed(2):""].filter(Boolean).join(" · ");card.append(title,meta);
+  if(item.content?.photo_path){const photoNote=document.createElement("div");photoNote.className="muted";photoNote.textContent="☕ Photo attached";card.append(photoNote);const show=document.createElement("button");show.className="secondary";show.style.cssText="padding:7px 10px;margin-top:7px";show.textContent="View photo";show.onclick=async()=>{const {data:photo}=await client.storage.from("private-memories").createSignedUrl(item.content.photo_path,3600);if(photo?.signedUrl){const img=document.createElement("img");img.src=photo.signedUrl;img.alt="Coffee memory";img.style.cssText="display:block;max-width:220px;max-height:220px;object-fit:cover;margin-top:10px";show.replaceWith(img);}else show.textContent="Could not load photo";};card.append(show);}
+  if(item.content?.notes){const note=document.createElement("p");note.className="muted";note.textContent=item.content.notes;card.append(note);}
+  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;margin-top:8px";
+  const edit=document.createElement("button");edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";edit.onclick=async()=>{const name=prompt("Coffee name",item.title||"");if(name===null)return;const shop=prompt("Shop / brand",item.content?.shop||"");if(shop===null)return;const location=prompt("Location",item.content?.location||"");if(location===null)return;const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const priceText=prompt("Price in RM (leave blank if unknown)",item.content?.price??"");if(priceText===null)return;const price=priceText.trim()===""?null:Number(priceText);if(price!==null&&(!Number.isFinite(price)||price<0)){alert("Please enter a valid price.");return;}const notes=prompt("Notes",item.content?.notes||"");if(notes===null)return;const {error:e}=await client.from("journal_entries").update({title:name.trim()||item.title,entry_date:date,content:{...item.content,shop,location,price,notes}}).eq("id",item.id);if(e)setStatus($("coffeeStatus"),"Could not update coffee entry: "+e.message);else loadCoffee();};
+  const del=document.createElement("button");del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this coffee memory?"))return;if(item.content?.photo_path){const {error:storageError}=await client.storage.from("private-memories").remove([item.content.photo_path]);if(storageError){setStatus($("coffeeStatus"),"Could not delete photo: "+storageError.message);return;}}const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("coffeeStatus"),"Could not delete: "+e.message);else loadCoffee();};actions.append(edit,del);card.append(actions);
+ }});
+}
+$("coffeeMonth")?.addEventListener("change",loadCoffee);
+$("coffeeForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){$("coffeeStatus").textContent="Please connect your database first.";return;}
+ const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){$("coffeeStatus").textContent="Please sign in again.";return;}
+ const name=$("coffeeName").value.trim();if(!name)return;
+ const file=$("coffeePhoto").files?.[0];let photoPath=null;
+ if(file){if(file.size>8*1024*1024){$("coffeeStatus").textContent="Please choose a photo smaller than 8 MB.";return;}
+  const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");photoPath=user.id+"/coffee/"+Date.now()+"-"+safe;
+  const {error:upErr}=await client.storage.from("private-memories").upload(photoPath,file,{upsert:false,contentType:file.type||"image/jpeg"});
+  if(upErr){$("coffeeStatus").textContent="Photo upload failed: "+upErr.message;return;}
+ }
+ const raw=$("coffeePrice").value,content={shop:$("coffeeShop").value.trim(),location:$("coffeeLocation").value.trim(),price:raw===""?null:Number(raw),notes:$("coffeeNotes").value.trim(),photo_path:photoPath};
+ const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"coffee",entry_date:$("coffeeDate").value,title:name,content});
+ if(error){if(photoPath)await client.storage.from("private-memories").remove([photoPath]);$("coffeeStatus").textContent="Could not save coffee entry: "+error.message;return;}
+ $("coffeeForm").reset();$("coffeeDate").value=todayISO();$("coffeeStatus").textContent="Coffee moment saved privately ♡";loadCoffee();
+});
+
+const financeCategories={food:"Food & drinks",shopping:"Shopping",transport:"Transport",study:"Study",entertainment:"Leisure",personal:"Personal care",bills:"Bills & essentials",health:"Health",other:"Other"};
+const financeColors=["#84343c","#b66c70","#d5a29a","#c6a47b","#8d786f","#b9a4a0","#d9c5b8","#a34b53","#e2d5c8"];
+let financeRows=[];
+function money(n){return "RM "+Number(n||0).toFixed(2)}
+function financeKindLabel(k){return ({expense:"Expense",income:"Income",saving_deposit:"Savings deposit",saving_withdrawal:"Savings withdrawal",opening_savings:"Starting savings"})[k]||k}
+async function loadFinance(){
+ if(!client)return;const host=$("financeList");host.textContent="Loading your private finance records…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","finance").order("entry_date",{ascending:false}).order("created_at",{ascending:false}));
+ if(error){host.textContent="Could not load finance records: "+error.message;return;}
+ financeRows=data||[];renderFinance();
+}
+function renderFinance(){
+ const monthInput=$("financeMonth");
+ if(monthInput&&!monthInput.value)monthInput.value=currentMonthISO();
+ const month=monthInput?.value||currentMonthISO(),monthly=financeRows.filter(r=>(r.entry_date||"").startsWith(month));
+ const expenses=monthly.filter(r=>r.content?.kind==="expense"),income=monthly.filter(r=>r.content?.kind==="income");
+ const spent=expenses.reduce((a,r)=>a+Number(r.content?.amount||0),0),earned=income.reduce((a,r)=>a+Number(r.content?.amount||0),0);
+ const savings=financeRows.reduce((a,r)=>a+(r.content?.kind==="opening_savings"||r.content?.kind==="saving_deposit"?1:r.content?.kind==="saving_withdrawal"?-1:0)*Number(r.content?.amount||0),0);
+ $("financeSummary").innerHTML="";[[money(spent),"Spent · "+month],[money(earned),"Income · "+month],[money(savings),"Current savings balance"]].forEach(([v,l])=>{const t=document.createElement("div");t.className="tile";const st=document.createElement("strong");st.textContent=v;const sp=document.createElement("span");sp.className="muted";sp.textContent=l;t.append(st,sp);$("financeSummary").append(t);});
+ renderSavingsGoal(savings);
+ renderFinanceBudgets(month,monthly,expenses);
+ renderFinanceVisuals(monthly,expenses,spent,earned,savings);
+ const monthRows=financeRows.filter(r=>!['savings_goal','monthly_budget'].includes(r.content?.kind)&&(r.entry_date||"").startsWith(month));
+ renderWeeklySection($("financeList"),monthRows,{metric:items=>items.filter(r=>r.content?.kind==="expense").reduce((a,r)=>a+Number(r.content?.amount||0),0),formatValue:v=>"RM "+Number(v).toFixed(0),empty:"No transactions for this month. Choose another month or add a new record ♡",record:(row,item)=>{
+  const top=document.createElement("div");top.style.cssText="display:flex;justify-content:space-between;gap:10px;align-items:start";const left=document.createElement("div");const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||financeKindLabel(item.content?.kind);const meta=document.createElement("div");meta.className="muted";meta.textContent=[item.entry_date,financeKindLabel(item.content?.kind),financeCategories[item.content?.category]||"Other",item.content?.method].filter(Boolean).join(" · ");left.append(title,meta);const amount=document.createElement("strong");amount.style.color="var(--wine)";amount.textContent=money(item.content?.amount);top.append(left,amount);row.append(top);
+  if(item.content?.notes){const note=document.createElement("p");note.className="muted";note.textContent=item.content.notes;row.append(note);}
+  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
+  const edit=document.createElement("button");edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";edit.onclick=async()=>{
+   const title=prompt("Transaction description",item.title||"");if(title===null)return;
+   const amountText=prompt("Amount in RM",String(item.content?.amount??""));if(amountText===null)return;
+   const amount=Number(amountText);if(!Number.isFinite(amount)||amount<=0){alert("Please enter an amount greater than zero.");return;}
+   const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){alert("Please use YYYY-MM-DD for the date.");return;}
+   const category=prompt("Category (food, shopping, transport, study, entertainment, personal, bills, health, other)",item.content?.category||"other");if(category===null)return;if(!["food","shopping","transport","study","entertainment","personal","bills","health","other"].includes(category))return alert("Please choose a listed category.");
+   const method=prompt("Payment method",item.content?.method||"");if(method===null)return;
+   const notes=prompt("Notes (optional)",item.content?.notes||"");if(notes===null)return;
+   const nextContent={...item.content,amount,category,method,notes};
+   const {error:e}=await client.from("journal_entries").update({title:title.trim()||item.title,entry_date:date,content:nextContent}).eq("id",item.id);
+   if(e)setStatus($("financeStatus"),"Could not update transaction: "+e.message);else await loadFinance();
+  };
+  const del=document.createElement("button");del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this finance record? This cannot be undone."))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("financeStatus"),"Could not delete: "+e.message);else loadFinance();};
+  actions.append(edit,del);row.append(actions);
+ }});
+}
+function renderFinanceBudgets(month,monthly,expenses){
+ const host=$("financeBudgetList");if(!host)return;host.innerHTML="";
+ const budgets=monthly.filter(r=>r.content?.kind==="monthly_budget");
+ if(!budgets.length){host.innerHTML='<p class="muted">No budget set for this month yet.</p>';return;}
+ budgets.forEach(b=>{
+  const category=b.content.category||"all";const actual=expenses.filter(r=>category==="all"||r.content?.category===category).reduce((sum,r)=>sum+Number(r.content?.amount||0),0);
+  const limit=Number(b.content.amount||0),pct=limit>0?Math.min(100,actual/limit*100):0;
+  const wrap=document.createElement("div");wrap.style.cssText="padding:10px 0;border-top:1px solid #e4d8cf";
+  const line=document.createElement("div");line.style.cssText="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap";
+  const label=document.createElement("strong");label.style.color="var(--wine)";label.textContent=(category==="all"?"All spending":financeCategories[category]||category)+" budget";
+  const amount=document.createElement("span");amount.className="muted";amount.textContent=money(actual)+" / "+money(limit);line.append(label,amount);
+  const track=document.createElement("div");track.className="finance-goal-track";const fill=document.createElement("span");fill.style.width=pct+"%";track.append(fill);
+  const note=document.createElement("div");note.className="finance-goal-meta";note.textContent=(actual>limit?money(actual-limit)+" over budget":money(limit-actual)+" remaining")+" · "+Math.round(actual/Math.max(limit,1)*100)+"% used";
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:6px 10px;margin-top:7px;font-size:12px";del.textContent="Remove budget";del.onclick=async()=>{if(!confirm("Remove this monthly budget? Your transactions will stay."))return;const {error}=await client.from("journal_entries").delete().eq("id",b.id);if(error)setStatus($("financeBudgetStatus"),"Could not remove budget: "+error.message);else loadFinance();};
+  wrap.append(line,track,note,del);host.append(wrap);
+ });
+}
+function renderSavingsGoal(currentSavings){
+ const host=$("savingsGoalDisplay");if(!host)return;
+ const goals=financeRows.filter(r=>r.content?.kind==="savings_goal").sort((a,b)=>String(b.created_at||"").localeCompare(String(a.created_at||"")));
+ const goal=goals[0];
+ if(!goal){host.innerHTML='<p class="muted">No savings goal yet. Set a target below to start tracking your progress.</p>';$("savingsGoalAmount").value="";$("savingsGoalTitle").value="";return;}
+ const target=Number(goal.content?.amount||0),pct=target>0?Math.min(100,Math.max(0,currentSavings/target*100)):0;
+ host.innerHTML="";
+ const title=document.createElement("strong");title.style.cssText="font: bold 17px Georgia;color:var(--wine)";title.textContent=goal.title||"My savings goal";
+ const amount=document.createElement("div");amount.style.cssText="font: bold 25px Georgia;color:var(--wine);margin-top:7px";amount.textContent=money(currentSavings)+" / "+money(target);
+ const track=document.createElement("div");track.className="finance-goal-track";const fill=document.createElement("span");fill.style.width=pct+"%";track.append(fill);
+ const meta=document.createElement("div");meta.className="finance-goal-meta";const percent=document.createElement("span");percent.textContent=pct.toFixed(1)+"% completed";const remaining=document.createElement("strong");remaining.textContent=money(Math.max(0,target-currentSavings))+" to go";meta.append(percent,remaining);
+ host.append(title,amount,track,meta);
+ $("savingsGoalAmount").value=target.toFixed(2);$("savingsGoalTitle").value=goal.title||"";
+}
+
+function renderFinanceVisuals(monthly,expenses,spent,earned,savings){
+ const host=$("financeVisuals");host.innerHTML="";const wrap=document.createElement("div");wrap.className="finance-viz-grid";host.append(wrap);
+ const byCat={};expenses.forEach(r=>{const c=r.content?.category||"other";byCat[c]=(byCat[c]||0)+Number(r.content?.amount||0)});const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+ const donut=document.createElement("div");donut.className="finance-viz-card";donut.innerHTML="<h3>Where your money went</h3>";
+ if(spent>0){let acc=0;const stops=cats.map(([c,v],i)=>{const start=acc;acc+=v/spent*100;return `${financeColors[i%financeColors.length]} ${start}% ${acc}%`;}).join(",");const dw=document.createElement("div");dw.className="finance-donut-wrap";const ring=document.createElement("div");ring.className="finance-donut";ring.style.background=`conic-gradient(${stops})`;const legend=document.createElement("div");legend.className="finance-legend";cats.slice(0,6).forEach(([c,v],i)=>{const line=document.createElement("div");const dot=document.createElement("span");dot.style.background=financeColors[i%financeColors.length];line.append(dot,document.createTextNode((financeCategories[c]||"Other")+" "+Math.round(v/spent*100)+"%"));legend.append(line)});dw.append(ring,legend);donut.append(dw);}else donut.insertAdjacentHTML("beforeend",'<p class="muted">Add daily expenses to see your category breakdown.</p>');wrap.append(donut);
+ const bars=document.createElement("div");bars.className="finance-viz-card";bars.innerHTML="<h3>Top spending categories</h3>";if(cats.length){cats.slice(0,6).forEach(([c,v])=>{const line=document.createElement("div");line.className="finance-rank";const head=document.createElement("div");head.className="finance-rank-head";const name=document.createElement("span");name.textContent=financeCategories[c]||"Other";const val=document.createElement("strong");val.textContent=money(v);head.append(name,val);const meter=document.createElement("div");meter.className="finance-meter";const fill=document.createElement("span");fill.style.width=(v/cats[0][1]*100)+"%";meter.append(fill);line.append(head,meter);bars.append(line)});}else bars.insertAdjacentHTML("beforeend",'<p class="muted">No categories to compare yet.</p>');wrap.append(bars);
+ const trend=document.createElement("div");trend.className="finance-viz-card";trend.innerHTML="<h3>Weekly spending trend</h3>";const graph=document.createElement("div");graph.className="week-chart";const grouped=new Map();expenses.forEach(r=>{const k=weekKey(r.entry_date);grouped.set(k,(grouped.get(k)||0)+Number(r.content?.amount||0));});const vals=[...grouped.entries()].sort((a,b)=>a[0].localeCompare(b[0])).slice(-6);if(vals.length){const max=Math.max(1,...vals.map(x=>x[1]));vals.forEach(([k,v])=>{const col=document.createElement("div");col.className="week-col";const value=document.createElement("div");value.className="week-value";value.textContent="RM"+v.toFixed(0);const bw=document.createElement("div");bw.className="week-bar-wrap";const bar=document.createElement("div");bar.className="week-bar";bar.style.height=Math.max(3,v/max*96)+"px";bw.append(bar);const lab=document.createElement("div");lab.className="week-label";lab.textContent=new Date(k+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});col.append(value,bw,lab);graph.append(col)});trend.append(graph);}else trend.insertAdjacentHTML("beforeend",'<p class="muted">Your weekly spending trend will appear here.</p>');wrap.append(trend);
+ const saving=document.createElement("div");saving.className="finance-viz-card";saving.innerHTML="<h3>Your savings</h3>";const bal=document.createElement("div");bal.style.cssText="font: bold 26px Georgia;color:var(--wine);margin:8px 0";bal.textContent=money(savings);const note=document.createElement("p");note.className="muted";note.textContent="Current balance = starting savings + deposits − withdrawals.";saving.append(bal,note);wrap.append(saving);
+}
+$("financeBudgetForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("financeBudgetStatus"),"Please connect your database first.");return;}
+ const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("financeBudgetStatus"),"Please sign in again.");return;}
+ const amount=Number($("financeBudgetAmount").value),category=$("financeBudgetCategory").value,month=$("financeMonth").value||currentMonthISO();
+ if(!Number.isFinite(amount)||amount<=0){setStatus($("financeBudgetStatus"),"Enter a budget greater than zero.");return;}
+ const existing=financeRows.find(r=>r.content?.kind==="monthly_budget"&&r.entry_date===month+"-01"&&(r.content.category||"all")===category);
+ const payload={entry_date:month+"-01",title:"Monthly budget · "+category,content:{kind:"monthly_budget",amount,category}};
+ const result=existing?await client.from("journal_entries").update(payload).eq("id",existing.id):await client.from("journal_entries").insert({user_id:user.id,entry_type:"finance",...payload});
+ if(result.error){setStatus($("financeBudgetStatus"),"Could not save budget: "+result.error.message);return;}
+ $("financeBudgetForm").reset();setStatus($("financeBudgetStatus"),"Monthly budget saved ♡");await loadFinance();
+});
+$("savingsGoalForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("savingsGoalStatus"),"Please connect your database first.");return;}
+ const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("savingsGoalStatus"),"Please sign in again.");return;}
+ const target=Number($("savingsGoalAmount").value);if(!Number.isFinite(target)||target<=0){setStatus($("savingsGoalStatus"),"Enter a target greater than zero.");return;}
+ const title=$("savingsGoalTitle").value.trim()||"My savings goal";
+ const existing=financeRows.filter(r=>r.content?.kind==="savings_goal").sort((a,b)=>String(b.created_at||"").localeCompare(String(a.created_at||"")))[0];
+ let result;
+ if(existing){result=await client.from("journal_entries").update({entry_date:todayISO(),title,content:{kind:"savings_goal",amount:target}}).eq("id",existing.id);}
+ else{result=await client.from("journal_entries").insert({user_id:user.id,entry_type:"finance",entry_date:todayISO(),title,content:{kind:"savings_goal",amount:target}});}
+ if(result.error){setStatus($("savingsGoalStatus"),"Could not save goal: "+result.error.message);return;}
+ setStatus($("savingsGoalStatus"),"Savings goal saved privately ♡");await loadFinance();
+});
+
+$("financeForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("financeStatus"),"Please connect your database first.");return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("financeStatus"),"Please sign in again.");return;}
+ const amount=Number($("financeAmount").value);if(!Number.isFinite(amount)||amount<=0){setStatus($("financeStatus"),"Enter an amount greater than zero.");return;}
+ const kind=$("financeKind").value,title=$("financeTitle").value.trim();if(!title){setStatus($("financeStatus"),"Please describe this transaction.");return;}
+ if(kind==="opening_savings"&&financeRows.some(r=>r.content?.kind==="opening_savings")){setStatus($("financeStatus"),"A starting savings balance is already recorded. Use Savings deposit or Savings withdrawal to update it.");return;}
+ const content={kind,amount,category:$("financeCategory").value,method:$("financeMethod").value,notes:$("financeNotes").value.trim()};const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"finance",entry_date:$("financeDate").value,title,content});if(error){setStatus($("financeStatus"),"Could not save transaction: "+error.message);return;}
+ $("financeForm").reset();$("financeDate").value=todayISO();setStatus($("financeStatus"),"Transaction saved privately ♡");await loadFinance();
+});
+$("financeMonth").addEventListener("change",()=>renderFinance());
+$("goFinance").addEventListener("click",()=>showPage("finance"));
+
+$("goLifestyle").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$("habitSection").scrollIntoView({behavior:"smooth",block:"start"}),120);});
+$("goMemories").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$("journalSection").scrollIntoView({behavior:"smooth",block:"start"}),120);});
+$("goCoffee").addEventListener("click",()=>showPage("coffee"));
+$("goDaily").addEventListener("click",()=>showPage("daily"));
+$("goPeople").addEventListener("click",()=>showPage("people"));
+document.querySelectorAll("[data-back]").forEach(btn=>btn.addEventListener("click",()=>showPage("home")));
+window.addEventListener("popstate",()=>{const page=(location.hash||"#home").slice(1);showPage(page,{history:false});});
+
+
+// ===== Study Corner: persistent tree outline + draggable freeform mind map =====
+let studyNodes=[];let studyMode="outline";
+function setStudyMode(mode){studyMode=mode;$("outlineMode").classList.toggle("hidden",mode!=="outline");$("mindMapMode").classList.toggle("hidden",mode!=="mindmap");$("showOutline").classList.toggle("secondary",mode!=="outline");$("showMindMap").classList.toggle("secondary",mode!=="mindmap");if(mode==="mindmap")renderMindMap();}
+function studyNodeChildren(parentId){return studyNodes.filter(n=>(n.content.parent_id||"")===parentId).sort((a,b)=>(a.content.order||0)-(b.content.order||0));}
+function renderStudySelectors(){const a=$("outlineParent"),b=$("mindNodeParent");if(!a||!b)return;const oldA=a.value,oldB=b.value;a.innerHTML='<option value="">Main topic (no parent)</option>';b.innerHTML='<option value="">Central idea</option>';studyNodes.forEach(n=>{const label=n.title;[a,b].forEach(sel=>{const o=document.createElement("option");o.value=n.id;o.textContent=label;sel.append(o);});});a.value=oldA;b.value=oldB;}
+function renderOutline(){const host=$("outlineTree");if(!host)return;host.innerHTML="";const render=(parent,depth)=>studyNodeChildren(parent).forEach(n=>{const card=document.createElement("div");card.className="outline-node";card.style.marginLeft=Math.min(depth*18,72)+"px";const head=document.createElement("div");head.className="outline-node-head";const title=document.createElement("strong");title.textContent=n.title;const actions=document.createElement("div");actions.className="outline-node-actions";const add=document.createElement("button");add.type="button";add.className="secondary";add.textContent="＋ Subtopic";add.onclick=()=>{$("outlineParent").value=n.id;$ ("outlineTitle").focus();};const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteStudyNode(n.id);actions.append(add,del);head.append(title,actions);card.append(head);if(n.content.note){const note=document.createElement("p");note.className="muted";note.textContent=n.content.note;card.append(note);}host.append(card);render(n.id,depth+1);});render("",0);if(!studyNodes.length)host.innerHTML='<p class="muted">Your chapter outline will appear here. Add a main topic to begin ♡</p>';renderStudySelectors();}
+function renderMindMap(){const host=$("mindMapBoard");if(!host)return;host.innerHTML='<svg class="mindmap-lines" id="mindMapLines"></svg><div class="mindmap-center">CENTRAL IDEA</div>';const w=host.clientWidth||600;studyNodes.forEach((n,i)=>{const pos=n.content.position||{x:Math.max(12,(i%3)*Math.max(130,w/3)+12),y:30+Math.floor(i/3)*125};const card=document.createElement("div");card.className="mindmap-node";card.dataset.id=n.id;card.style.left=Math.min(pos.x,w-155)+"px";card.style.top=pos.y+"px";const title=document.createElement("strong");title.textContent=n.title;const note=document.createElement("small");note.textContent=n.content.note||"Drag to arrange";const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const nextTitle=prompt("Idea title",n.title);if(nextTitle===null||!nextTitle.trim())return;const nextNote=prompt("Short detail",n.content.note||"");if(nextNote===null)return;n.title=nextTitle.trim();n.content.note=nextNote.trim();try{await saveStudyNode(n);renderMindMap();$("mindMapStatus").textContent="Idea updated ♡";}catch(err){$("mindMapStatus").textContent="Could not update idea: "+err.message;}};const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Remove";del.onclick=()=>deleteStudyNode(n.id);card.append(title,note,edit,del);host.append(card);makeMindNodeDraggable(card,n);});drawMindLines();}
+function drawMindLines(){const host=$("mindMapBoard"),svg=$("mindMapLines");if(!host||!svg)return;svg.setAttribute("viewBox",`0 0 ${host.clientWidth} ${host.clientHeight}`);svg.innerHTML="";const center={x:host.clientWidth/2,y:host.clientHeight*.45};studyNodes.forEach(n=>{const el=host.querySelector(`[data-id="${n.id}"]`);if(!el)return;const p=n.content.position||{x:20,y:25};const x=p.x+el.offsetWidth/2,y=p.y+el.offsetHeight/2;const parent=n.content.parent_id?studyNodes.find(v=>v.id===n.content.parent_id):null;const parentEl=parent?host.querySelector(`[data-id="${parent.id}"]`):null;const pp=parent?.content.position||{x:20,y:25};const x1=parentEl?pp.x+parentEl.offsetWidth/2:center.x,y1=parentEl?pp.y+parentEl.offsetHeight/2:center.y;const line=document.createElementNS("http://www.w3.org/2000/svg","line");line.setAttribute("x1",x1);line.setAttribute("y1",y1);line.setAttribute("x2",x);line.setAttribute("y2",y);svg.append(line);});}
+function makeMindNodeDraggable(el,node){let start=null;el.addEventListener("pointerdown",e=>{if(e.target.tagName==="BUTTON")return;start={x:e.clientX,y:e.clientY,left:parseFloat(el.style.left)||0,top:parseFloat(el.style.top)||0};el.setPointerCapture(e.pointerId);});el.addEventListener("pointermove",e=>{if(!start)return;const host=$("mindMapBoard");const x=Math.max(0,Math.min(host.clientWidth-el.offsetWidth,start.left+e.clientX-start.x));const y=Math.max(0,Math.min(host.clientHeight-el.offsetHeight,start.top+e.clientY-start.y));el.style.left=x+"px";el.style.top=y+"px";drawMindLines();});el.addEventListener("pointerup",async()=>{if(!start)return;const x=parseFloat(el.style.left)||0,y=parseFloat(el.style.top)||0;start=null;node.content.position={x,y};await saveStudyNode(node);});}
+async function saveStudyNode(node){if(!client)return;const user=await currentUser();if(node.id&&node.id.startsWith("local-")){const {data,error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:todayISO(),title:node.title,content:node.content}).select("id,entry_date,title,content").single();if(error)throw error;node.id=data.id;studyNodes=studyNodes.map(n=>n===node?data:n);}else{const {error}=await client.from("journal_entries").update({title:node.title,content:node.content}).eq("id",node.id);if(error)throw error;}renderStudySelectors();renderOutline();}
+async function deleteStudyNode(id){const descendants=[];const collect=pid=>studyNodes.filter(n=>(n.content.parent_id||"")===pid).forEach(n=>{descendants.push(n.id);collect(n.id);});collect(id);if(!confirm("Delete this topic and its subtopics?"))return;const ids=[id,...descendants];const {error}=await client.from("journal_entries").delete().in("id",ids);if(error){$("mindMapStatus").textContent="Could not delete topic: "+error.message;return;}studyNodes=studyNodes.filter(n=>!ids.includes(n.id));renderOutline();renderMindMap();}
+async function loadStudyCorner(){if(!client)return;const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","note").order("created_at",{ascending:true}));if(error){$("mindMapStatus").textContent="Could not load Study Corner: "+error.message;return;}studyNodes=(data||[]).filter(r=>r.content?.kind==="study_node");renderOutline();renderMindMap();}
+$("showOutline").addEventListener("click",()=>setStudyMode("outline"));$("showMindMap").addEventListener("click",()=>setStudyMode("mindmap"));
+$("outlineForm").addEventListener("submit",async e=>{e.preventDefault();try{const user=await currentUser();const title=$("outlineTitle").value.trim();if(!title)return;const node={id:"local-"+Date.now(),title,content:{kind:"study_node",parent_id:$("outlineParent").value||null,note:$("outlineNote").value.trim(),position:{x:30+(studyNodes.length%3)*150,y:30+Math.floor(studyNodes.length/3)*120},order:studyNodes.length}};const {data,error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:todayISO(),title,content:node.content}).select("id,entry_date,title,content").single();if(error)throw error;studyNodes.push(data);$("outlineForm").reset();renderOutline();renderMindMap();$("mindMapStatus").textContent="Topic saved privately ♡";}catch(err){$("mindMapStatus").textContent="Could not save topic: "+err.message;}});
+$("mindNodeForm").addEventListener("submit",async e=>{e.preventDefault();try{const user=await currentUser();const title=$("mindNodeTitle").value.trim();if(!title)return;const index=studyNodes.length;const node={user_id:user.id,entry_type:"note",entry_date:todayISO(),title,content:{kind:"study_node",parent_id:$("mindNodeParent").value||null,note:$("mindNodeNote").value.trim(),position:{x:20+(index%3)*150,y:20+Math.floor(index/3)*125},order:index}};const {data,error}=await client.from("journal_entries").insert(node).select("id,entry_date,title,content").single();if(error)throw error;studyNodes.push(data);$("mindNodeForm").reset();renderOutline();renderMindMap();$("mindMapStatus").textContent="Idea saved. Drag it to arrange your map ♡";}catch(err){$("mindMapStatus").textContent="Could not save idea: "+err.message;}});
+$("goStudyCorner").addEventListener("click",()=>{showPage("studycorner");loadStudyCorner();});
+
+$("configForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const url=$("projectUrl").value.trim().replace(/\/+$/,""),key=$("publishableKey").value.trim();
+ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)){setStatus($("configStatus"),"Project URL should look like https://your-project.supabase.co (without /rest/v1).");return;}
+ if(!key.startsWith("sb_publishable_")){setStatus($("configStatus"),"Please use the Publishable key, not a Secret key.");return;}
+ localStorage.setItem("mlw_supabase_url",url);localStorage.setItem("mlw_supabase_key",key);
+ initClient();setStatus($("configStatus"),"Settings saved in this browser. Checking your Supabase connection…");
+ const {error}=await client.from("journal_entries").select("id").limit(1);
+ if(error)setStatus($("configStatus"),"Settings saved, but database check failed: "+error.message+" — check that the SQL schema was run.");
+ else setStatus($("configStatus"),"Connected successfully to your Supabase database ♡");
+});
+$("testConnection").addEventListener("click",async()=>{
+ if(!initClient())return;
+ setStatus($("configStatus"),"Testing connection…");
+ const {error}=await client.from("journal_entries").select("id").limit(1);
+ setStatus($("configStatus"),error?"Connection check failed: "+error.message:"Connection successful ♡");
+});
+$("activityForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!client){setStatus($("activityStatus"),"Please save your Supabase connection settings first.");return;}
+ const {data:{user},error:userError}=await client.auth.getUser();
+ if(userError||!user){setStatus($("activityStatus"),"Please sign in again.");return;}
+ const payload={user_id:user.id,entry_type:"daily_activity",entry_date:activityDate.value,
+  title:$("activityTitle").value.trim(),content:{category:$("activityCategory").value,time:$("activityTime").value,details:$("activityDetails").value.trim()}};
+ if(!payload.title){setStatus($("activityStatus"),"Please write what you did.");return;}
+ const {error}=await client.from("journal_entries").insert(payload);
+ if(error){setStatus($("activityStatus"),"Could not save to cloud: "+error.message);return;}
+ $("activityForm").reset();activityDate.value=todayISO();
+ setStatus($("activityStatus"),"Saved to your private cloud daily log ♡");loadActivities();
+});
+$("googleLogin").addEventListener("click",async()=>{
+ if(!client){setStatus($("status"),"Save your Supabase settings first.");return;}
+ setStatus($("status"),"Opening Google sign-in…");
+ const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:window.location.origin}});
+ if(error)setStatus($("status"),"Sign-in error: "+error.message);
+});
+$("logout").addEventListener("click",async()=>{if(client)await client.auth.signOut();});
+showConfig();
+renderTimetable();
+if($("financeMonth"))$("financeMonth").value=currentMonthISO();
+if($("coffeeMonth"))$("coffeeMonth").value=currentMonthISO();
+if($("habitMonth"))$("habitMonth").value=currentMonthISO();
+if($("memoryDate"))$("memoryDate").value=todayISO();
+if($("periodDate"))$("periodDate").value=todayISO();
+if($("meetupDate"))$("meetupDate").value=todayISO();
+if($("meetupTimeMode"))$("meetupTimeMode").dispatchEvent(new Event("change"));
+if($("habitFrequency"))$("habitDaysLabel").style.opacity=$("habitFrequency").value==="weekly"?"1":".45";
+if(initClient()){
+ client.auth.getSession().then(({data})=>showSession(data.session));
+ client.auth.onAuthStateChange((_event,session)=>showSession(session));
+ setStatus($("status"),"Supabase connection configured. Continue with Google.");
+}else{
+ $("googleLogin").disabled=true;$("googleLogin").style.opacity=".55";
+ setStatus($("status"),"Set up your Supabase connection below.");
+}
+</script></body></html>
