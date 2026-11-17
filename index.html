@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World V11 ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V16 ♡</title>
+<!-- V16: fixes duplicate welcome greeting and adds user-editable chapter card colours. -->
 <style>
 :root{--paper:#f6efe3;--wine:#84343c;--wine2:#a34b53;--rose:#ead5d0;--ink:#593239;--muted:#98766f;--card:#fffaf2}
 *{box-sizing:border-box}body{margin:0;background:#eee5d9;color:var(--ink);font-family:Georgia,'Times New Roman',serif}
@@ -68,6 +69,17 @@ footer{color:#8e7c78}
 .module-card strong{font-size:19px;color:#655358;display:block;margin-bottom:5px}
 .module-card .muted{font-size:12px;color:#827671;max-width:88%}
 .module-open{display:inline-block;margin-top:13px;font:10px Arial;letter-spacing:1px;text-transform:uppercase;color:#80666a}
+
+.page-colour-settings{margin:18px 0 4px;padding:14px 16px;background:#fbf7f0;border:1px dashed #cdbdb2;border-radius:14px}
+.page-colour-settings summary{cursor:pointer;color:#80666a;font: bold 14px Arial;list-style:none}
+.page-colour-settings summary::-webkit-details-marker{display:none}
+.page-colour-settings summary:after{content:"＋";float:right;color:#9b7c80}
+.page-colour-settings[open] summary:after{content:"−"}
+.page-colour-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:14px}
+.page-colour-grid label{font:12px Arial;color:#776b69}
+.page-colour-grid select{margin-top:5px;padding:9px;font-size:13px}
+.page-colour-hint{font:11px/1.5 Arial;color:#8b7d79;margin:9px 0 0}
+
 .module-card.sage{--module-bg:#e8ece3;--module-border:#cbd4c5}
 .module-card.rose{--module-bg:#f0e2e1;--module-border:#ddc5c4}
 .module-card.blue{--module-bg:#e5ebf0;--module-border:#cbd5df}
@@ -146,7 +158,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .home-note{box-shadow:2px 3px 0 #dce3d7;position:relative}.note-sparkle{margin-left:auto;color:#91a18a;font-size:18px}
 .module-caption{display:flex;align-items:center;justify-content:center;gap:12px;color:#a18d82;font:9px Arial;letter-spacing:2px;margin:-1px 0 13px}.module-caption span{color:#c3a99e;font-size:14px}
 .module-card{min-height:164px;border-radius:5px 17px 17px 17px;box-shadow:0 5px 0 #d7c9bf66,0 9px 16px #8d7c6c0d}
-.module-card:nth-child(3n+1){border-top:4px solid #d4c39c}.module-card:nth-child(3n+2){border-top:4px solid #c9a9a9}.module-card:nth-child(3n){border-top:4px solid #aebba8}
+.module-card{border-top:4px solid var(--module-border,#d9c9bf)}
 .module-card:before{content:"";position:absolute;top:-1px;left:50%;width:54px;height:12px;transform:translateX(-50%) rotate(-2deg);background:#fffaf0a8;border:1px solid #e4d8ca88}
 .module-card:after{font-size:31px;right:15px;top:15px;filter:drop-shadow(1px 2px 0 #fff9)}
 .module-icon{font-size:31px;margin-bottom:10px}.module-card strong{font-size:20px;letter-spacing:-.3px}
@@ -233,6 +245,20 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div class="module-card blue" aria-disabled="true" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">A new chapter · Coming later</span></div>
    <div class="module-card butter" aria-disabled="true" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">Crochet, reading, creative projects and new interests.</span><span class="module-open">A new chapter · Coming later</span></div>
   </div>
+  <details class="page-colour-settings" id="pageColourSettings">
+   <summary>🎨 Make this little world yours · Edit page colours</summary>
+   <p class="page-colour-hint">Choose a colour for each chapter card. Your choices are saved on this device and stay after refreshing.</p>
+   <div class="page-colour-grid">
+    <label>Study Corner<select data-page-colour="goStudyCorner"><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+    <label>Academic & Career<select data-page-colour="goAcademic"><option value="butter">Buttercream</option><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="caramel">Caramel</option></select></label>
+    <label>My Finances<select data-page-colour="goFinance"><option value="caramel">Caramel</option><option value="butter">Buttercream</option><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option></select></label>
+    <label>Coffee Diary<select data-page-colour="goCoffee"><option value="rose">Dusty rose</option><option value="caramel">Caramel</option><option value="butter">Buttercream</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option></select></label>
+    <label>Today I Did<select data-page-colour="goDaily"><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+    <label>People I Met<select data-page-colour="goPeople"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+    <label>Memories<select data-page-colour="goMemories"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+   </div>
+   <p class="page-colour-hint">You can change these whenever you like. This changes the home chapter cards, not the records inside them.</p>
+  </details>
   <div class="scrapbook-bottom-strip"><span>♡</span><span>the beauty is in the details</span><span>✿</span><span>one day at a time</span><span>♡</span></div>
   <div class="home-lower">
    <div class="home-mini"><h3>Little things make a life ♡</h3><p>This space grows with you. New semesters, new places, new routines — your memories stay part of one lifetime story.</p><div class="sticker-row"><span class="sticker">✿ keep growing</span><span class="sticker">♡ little by little</span><span class="sticker">☕ slow moments</span></div></div>
@@ -1020,6 +1046,35 @@ $("periodPrev")?.addEventListener("click",()=>{const [y,m]=periodMonth.split("-"
 $("periodNext")?.addEventListener("click",()=>{const [y,m]=periodMonth.split("-").map(Number),d=new Date(y,m,1);periodMonth=periodDateLocal(d).slice(0,7);renderPeriodCalendar();});
 $("periodDate")?.addEventListener("change",()=>{const d=$("periodDate").value;if(d){periodSelected=d;periodMonth=d.slice(0,7);const r=periodRows.find(x=>x.entry_date===d),c=r?.content||{};$("periodFlow").value=c.flow||"none";$("periodMood").value=c.mood||"";$("periodNotes").value=c.notes||"";document.querySelectorAll('input[name="periodSymptom"]').forEach(x=>x.checked=(c.symptoms||[]).includes(x.value));$("periodFormTitle").textContent="Log a day · "+d;$("periodDelete").disabled=!r;renderPeriodCalendar();}});
 
+
+const MLW_PAGE_PALETTES={
+ sage:{bg:"#e8ece3",border:"#cbd4c5"},
+ rose:{bg:"#f0e2e1",border:"#ddc5c4"},
+ blue:{bg:"#e5ebf0",border:"#cbd5df"},
+ butter:{bg:"#f1ead8",border:"#ddd1b4"},
+ caramel:{bg:"#eee4d9",border:"#d8c4b2"}
+};
+function applyPageColours(){
+ let saved={};try{saved=JSON.parse(localStorage.getItem("mlw_page_colours_v16")||"{}")||{};}catch(e){}
+ document.querySelectorAll("[data-page-colour]").forEach(select=>{
+  const id=select.dataset.pageColour,card=$(id);if(!card)return;
+  const chosen= saved[id] || select.value;
+  if(MLW_PAGE_PALETTES[chosen])select.value=chosen;
+  const palette=MLW_PAGE_PALETTES[select.value]||MLW_PAGE_PALETTES.rose;
+  card.style.setProperty("--module-bg",palette.bg);
+  card.style.setProperty("--module-border",palette.border);
+ });
+}
+document.querySelectorAll("[data-page-colour]").forEach(select=>{
+ select.addEventListener("change",()=>{
+  let saved={};try{saved=JSON.parse(localStorage.getItem("mlw_page_colours_v16")||"{}")||{};}catch(e){}
+  saved[select.dataset.pageColour]=select.value;
+  try{localStorage.setItem("mlw_page_colours_v16",JSON.stringify(saved));}catch(e){}
+  applyPageColours();
+ });
+});
+applyPageColours();
+
 function showPage(page,options={}){
  const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner"];
  if(!valid.includes(page))page="home";
@@ -1036,7 +1091,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="Welcome back ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadSemesters().then(()=>loadAttendance());}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadSemesters().then(()=>loadAttendance());}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
