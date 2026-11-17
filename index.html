@@ -227,9 +227,8 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <button type="button" class="module-card butter" id="goAcademic" aria-label="Open Academic Life" data-sticker="✎"><span class="module-icon">📚</span><strong>Academic & Career</strong><span class="muted">Classes, attendance, study goals and the journey beyond graduation.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card caramel" id="goFinance" data-sticker="♡"><span class="module-icon">💰</span><strong>My Finances</strong><span class="muted">Daily expenses, income, savings and little money goals.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goCoffee" data-sticker="☕"><span class="module-icon">☕</span><strong>Coffee Diary</strong><span class="muted">Coffee moments, favourite cafés, photos and tiny reviews.</span><span class="module-open">Open this chapter →</span></button>
-   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Small wins, daily activities and things worth remembering.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Daily activities, habits, cycle calendar, routines and little memories — all in one place.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goPeople" data-sticker="♡"><span class="module-icon">🫶</span><strong>People I Met</strong><span class="muted">Friends, shared moments, little meetups and your social circle.</span><span class="module-open">Open this chapter →</span></button>
-   <button type="button" class="module-card blue" id="goLifestyle" data-sticker="☁"><span class="module-icon">🌿</span><strong>My Lifestyle</strong><span class="muted">Habits, routines, movement and gentle self-care.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photos, journal pages and moments I want to keep.</span><span class="module-open">Open this chapter →</span></button>
    <div class="module-card blue" aria-disabled="true" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">A new chapter · Coming later</span></div>
    <div class="module-card butter" aria-disabled="true" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">Crochet, reading, creative projects and new interests.</span><span class="module-open">A new chapter · Coming later</span></div>
@@ -350,8 +349,8 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 
  <div class="panel section-page" id="dailyPanel" data-page="daily">
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
-  <div class="eyebrow">A little record of today</div><h2>Today I Did ✍️</h2>
-  <p class="muted">Write down what you did today — big or small. Entries are saved to your private cloud database.</p>
+  <div class="eyebrow">Your everyday life, gathered in one chapter</div><h2>Today I Did ✍️</h2>
+  <p class="muted">One home for your daily activity log, habits and routines, cycle calendar, and little journal memories. You do not need a separate My Lifestyle page anymore — everything is kept together here.</p>
   <section id="periodSection" class="period-shell">
    <div class="eyebrow">A private note to yourself</div><h2 style="margin-top:5px">My Cycle Calendar 🌸</h2>
    <p class="muted">Track period days, flow, symptoms and how you feel. Choose any past date to add or update a record.</p>
@@ -1307,7 +1306,7 @@ $("financeForm").addEventListener("submit",async e=>{
 $("financeMonth").addEventListener("change",()=>renderFinance());
 $("goFinance").addEventListener("click",()=>showPage("finance"));
 
-$("goLifestyle").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$("habitSection").scrollIntoView({behavior:"smooth",block:"start"}),120);});
+
 $("goMemories").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$("journalSection").scrollIntoView({behavior:"smooth",block:"start"}),120);});
 $("goCoffee").addEventListener("click",()=>showPage("coffee"));
 $("goDaily").addEventListener("click",()=>showPage("daily"));
