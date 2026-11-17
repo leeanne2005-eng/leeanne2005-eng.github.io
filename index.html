@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f6efe3"><title>My Little World V16 ♡</title>
+<!-- V17: adds Song of the Day records inside Today I Did. -->
 <!-- V16: fixes duplicate welcome greeting and adds user-editable chapter card colours. -->
 <style>
 :root{--paper:#f6efe3;--wine:#84343c;--wine2:#a34b53;--rose:#ead5d0;--ink:#593239;--muted:#98766f;--card:#fffaf2}
@@ -239,7 +240,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <button type="button" class="module-card butter" id="goAcademic" aria-label="Open Academic Life" data-sticker="✎"><span class="module-icon">📚</span><strong>Academic & Career</strong><span class="muted">Classes, attendance, study goals and the journey beyond graduation.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card caramel" id="goFinance" data-sticker="♡"><span class="module-icon">💰</span><strong>My Finances</strong><span class="muted">Daily expenses, income, savings and little money goals.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goCoffee" data-sticker="☕"><span class="module-icon">☕</span><strong>Coffee Diary</strong><span class="muted">Coffee moments, favourite cafés, photos and tiny reviews.</span><span class="module-open">Open this chapter →</span></button>
-   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Daily activities, habits, cycle calendar, routines and little memories — all in one place.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Daily activities, song of the day, habits, cycle calendar and little memories — all in one place.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goPeople" data-sticker="♡"><span class="module-icon">🫶</span><strong>People I Met</strong><span class="muted">Friends, shared moments, little meetups and your social circle.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photos, journal pages and moments I want to keep.</span><span class="module-open">Open this chapter →</span></button>
    <div class="module-card blue" aria-disabled="true" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">A new chapter · Coming later</span></div>
@@ -376,7 +377,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
  <div class="panel section-page" id="dailyPanel" data-page="daily">
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
   <div class="eyebrow">Your everyday life, gathered in one chapter</div><h2>Today I Did ✍️</h2>
-  <p class="muted">One home for your daily activity log, habits and routines, cycle calendar, and little journal memories. You do not need a separate My Lifestyle page anymore — everything is kept together here.</p>
+  <p class="muted">One home for your daily activity log, song of the day, habits and routines, cycle calendar, and little journal memories. You do not need a separate My Lifestyle page anymore — everything is kept together here.</p>
   <section id="periodSection" class="period-shell">
    <div class="eyebrow">A private note to yourself</div><h2 style="margin-top:5px">My Cycle Calendar 🌸</h2>
    <p class="muted">Track period days, flow, symptoms and how you feel. Choose any past date to add or update a record.</p>
@@ -414,6 +415,24 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <h2 style="font-size:20px">My Daily Activity Log ♡</h2>
    <p class="muted">Your saved activities appear here, newest first. Tap a week to open its entries.</p>
    <div id="activityList" class="muted">Loading your private activity log…</div>
+  </section>
+  <section id="songOfDaySection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
+   <div class="eyebrow">A little soundtrack for your day</div>
+   <h2 style="font-size:22px">Song of the Day ♫</h2>
+   <p class="muted">Save the song that feels like today. Add a link so you can come back and listen whenever you want.</p>
+   <form id="songForm" style="display:grid;gap:10px;margin-top:12px">
+    <label class="muted">Date<input id="songDate" type="date" required></label>
+    <div class="formgrid">
+     <label class="muted">Song title<input id="songTitle" maxlength="160" required placeholder="e.g. The Night We Met"></label>
+     <label class="muted">Artist<input id="songArtist" maxlength="120" placeholder="e.g. Lord Huron"></label>
+    </div>
+    <label class="muted">Song link (optional)<input id="songLink" type="url" maxlength="500" placeholder="Paste a Spotify, Apple Music or YouTube link"></label>
+    <label class="muted">Why this song today? (optional)<textarea id="songNote" rows="2" maxlength="800" placeholder="A lyric, a memory, a feeling…"></textarea></label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit" id="songSubmit">♫ Save song of the day</button><button type="button" class="secondary" id="songCancelEdit" hidden>Cancel edit</button></div>
+    <div id="songStatus" class="muted" role="status"></div>
+   </form>
+   <h3 style="font-size:18px;margin:20px 0 8px">Your daily soundtrack ♡</h3>
+   <div id="songList" class="muted">Loading your saved songs…</div>
   </section>
   <section id="habitSection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
    <h2 style="font-size:22px">Daily Habit Tracker 🌷</h2>
@@ -1091,7 +1110,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadSemesters().then(()=>loadAttendance());}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadSemesters().then(()=>loadAttendance());}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -1404,6 +1423,58 @@ $("testConnection").addEventListener("click",async()=>{
  const {error}=await client.from("journal_entries").select("id").limit(1);
  setStatus($("configStatus"),error?"Connection check failed: "+error.message:"Connection successful ♡");
 });
+
+let songRows=[],editingSongId=null;
+function resetSongForm(){
+ $("songForm").reset();$("songDate").value=todayISO();editingSongId=null;
+ $("songSubmit").textContent="♫ Save song of the day";$("songCancelEdit").hidden=true;
+}
+async function loadSongs(){
+ if(!client)return;
+ const host=$("songList");host.textContent="Loading your saved songs…";
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").order("entry_date",{ascending:false}).order("created_at",{ascending:false}));
+ if(error){host.textContent="Could not load songs: "+error.message;return;}
+ songRows=(data||[]).filter(r=>r.content?.kind==="song_of_the_day");
+ host.innerHTML="";
+ if(!songRows.length){host.textContent="No songs saved yet. Add the song that soundtracks today ♡";return;}
+ songRows.forEach(item=>{
+  const card=document.createElement("article");card.className="week-record";card.style.cssText="padding:14px;margin:10px 0;border:1px solid var(--line);border-radius:14px;background:var(--paper)";
+  const date=document.createElement("div");date.className="eyebrow";date.textContent=item.entry_date||"";
+  const title=document.createElement("strong");title.style.cssText="display:block;color:var(--wine);font: bold 19px Georgia,serif;margin:5px 0";title.textContent="♫ "+(item.title||"Untitled song");
+  const artist=document.createElement("div");artist.className="muted";artist.textContent=item.content?.artist||"Artist not specified";
+  card.append(date,title,artist);
+  if(item.content?.note){const note=document.createElement("p");note.className="muted";note.textContent=item.content.note;card.append(note);}
+  if(item.content?.url){const link=document.createElement("a");link.href=item.content.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Listen to this song ↗";link.style.cssText="display:inline-block;margin-top:5px;color:var(--wine)";card.append(link);}
+  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";
+  edit.onclick=()=>{
+   editingSongId=item.id;$("songDate").value=item.entry_date||todayISO();$("songTitle").value=item.title||"";
+   $("songArtist").value=item.content?.artist||"";$("songLink").value=item.content?.url||"";$("songNote").value=item.content?.note||"";
+   $("songSubmit").textContent="Save changes";$("songCancelEdit").hidden=false;
+   $("songForm").scrollIntoView({behavior:"smooth",block:"center"});
+  };
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";
+  del.onclick=async()=>{if(!confirm("Delete this Song of the Day record?"))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("songStatus"),"Could not delete song: "+e.message);else{if(editingSongId===item.id)resetSongForm();setStatus($("songStatus"),"Song record deleted.");loadSongs();}};
+  actions.append(edit,del);card.append(actions);host.append(card);
+ });
+}
+$("songForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!client){setStatus($("songStatus"),"Please connect your private database first.");return;}
+ try{
+  const user=await currentUser(),date=$("songDate").value,title=$("songTitle").value.trim(),url=$("songLink").value.trim();
+  if(!date||!title)throw new Error("Please enter a date and song title.");
+  if(url&&!/^https?:\/\//i.test(url))throw new Error("Please enter a complete link beginning with https://");
+  const content={kind:"song_of_the_day",artist:$("songArtist").value.trim(),url,note:$("songNote").value.trim()};
+  let result;
+  if(editingSongId){result=await client.from("journal_entries").update({entry_date:date,title,content}).eq("id",editingSongId);}
+  else{result=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:date,title,content});}
+  if(result.error)throw result.error;
+  resetSongForm();setStatus($("songStatus"),"Your song has been saved privately ♡");await loadSongs();
+ }catch(err){setStatus($("songStatus"),"Could not save song: "+err.message);}
+});
+$("songCancelEdit").addEventListener("click",resetSongForm);
+
 $("activityForm").addEventListener("submit",async e=>{
  e.preventDefault();
  if(!client){setStatus($("activityStatus"),"Please save your Supabase connection settings first.");return;}
@@ -1430,6 +1501,7 @@ if($("financeMonth"))$("financeMonth").value=currentMonthISO();
 if($("coffeeMonth"))$("coffeeMonth").value=currentMonthISO();
 if($("habitMonth"))$("habitMonth").value=currentMonthISO();
 if($("memoryDate"))$("memoryDate").value=todayISO();
+if($("songDate"))$("songDate").value=todayISO();
 if($("periodDate"))$("periodDate").value=todayISO();
 if($("meetupDate"))$("meetupDate").value=todayISO();
 if($("meetupTimeMode"))$("meetupTimeMode").dispatchEvent(new Event("change"));
