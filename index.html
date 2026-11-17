@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f6efe3"><title>My Little World V16 ♡</title>
+<!-- V18: deduplicate repeated friend profiles in People I Met without deleting records. -->
 <!-- V17: adds Song of the Day records inside Today I Did. -->
 <!-- V16: fixes duplicate welcome greeting and adds user-editable chapter card colours. -->
 <style>
@@ -511,7 +512,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
   <div class="people-hero"><div style="font-size:26px">♡ ✿ ♡</div><h3 style="margin:5px 0;color:var(--wine)">Little moments become lifelong memories.</h3><p class="muted" style="margin:0">Keep track of the people you spend time with — from spontaneous coffee dates to long-awaited catch-ups. You can add past meetups whenever you remember them.</p></div>
   <div class="people-stat-grid" id="peopleStats"><div class="people-stat"><strong>—</strong><span>Friends saved</span></div><div class="people-stat"><strong>—</strong><span>Meetups recorded</span></div><div class="people-stat"><strong>—</strong><span>Total time together</span></div><div class="people-stat"><strong>—</strong><span>Most met friend</span></div></div>
   <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:18px">
-   <h2 style="font-size:21px">♡ Friends Directory</h2><p class="muted">Create a little profile for each friend. Add a real photo or use an emoji avatar. Profiles and meetup records are saved privately to your signed-in account.</p>
+   <h2 style="font-size:21px">♡ Friends Directory</h2><p class="muted">Create a little profile for each friend. Add a real photo or use an emoji avatar. Profiles and meetup records are saved privately to your signed-in account. Repeated copies of the same profile are grouped together automatically.</p>
    <form id="friendForm" style="display:grid;gap:10px;margin-top:12px">
     <div class="formgrid"><label class="muted">Friend's name<input id="friendName" maxlength="100" required placeholder="e.g. Aisyah"></label><label class="muted">Nickname (optional)<input id="friendNickname" maxlength="80" placeholder="What you call them"></label><label class="muted">Avatar emoji<input id="friendEmoji" maxlength="6" value="🌷" placeholder="🧸"></label><label class="muted">Birthday (optional)<input id="friendBirthday" type="date"></label></div>
     <label class="muted">A little note (optional)<textarea id="friendNotes" rows="2" maxlength="800" placeholder="How you know each other, little details to remember…"></textarea></label>
@@ -862,9 +863,31 @@ async function signedPeoplePhoto(path){if(!path||!client)return "";if(peoplePhot
 async function loadPeopleData(){
  if(!client)return;
  const friends=$("friendsList"),meetups=$("meetupsList");if(friends)friends.innerHTML='<div class="people-empty">Gathering your little circle…</div>';
- const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").order("created_at",{ascending:false}));
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at,updated_at").eq("entry_type","note").order("created_at",{ascending:false}));
  if(error){setStatus($("friendStatus"),"Could not load People I Met: "+error.message);return;}
- const rows=data||[];peopleRows=rows.filter(r=>r.content?.kind==="friend_profile");meetupRows=rows.filter(r=>r.content?.kind==="friend_meetup");
+ const rows=data||[];
+ const allProfiles=rows.filter(r=>r.content?.kind==="friend_profile");
+ const profileKey=r=>[
+  String(r.title||"").trim().toLocaleLowerCase(),
+  String(r.content?.nickname||"").trim().toLocaleLowerCase(),
+  String(r.content?.birthday||"").trim()
+ ].join("|");
+ // Group repeated profile rows left by older builds; never delete user data.
+ const grouped=new Map();
+ allProfiles.forEach(r=>{
+  const key=profileKey(r),existing=grouped.get(key);
+  if(!existing){grouped.set(key,r);return;}
+  const currentTime=Date.parse(r.updated_at||r.created_at||0)||0;
+  const existingTime=Date.parse(existing.updated_at||existing.created_at||0)||0;
+  if(currentTime>=existingTime)grouped.set(key,r);
+ });
+ peopleRows=[...grouped.values()];
+ const canonicalByKey=new Map(peopleRows.map(r=>[profileKey(r),r.id]));
+ const canonicalId=new Map(allProfiles.map(r=>[r.id,canonicalByKey.get(profileKey(r))||r.id]));
+ meetupRows=rows.filter(r=>r.content?.kind==="friend_meetup").map(m=>{
+  const original=m.content?.friend_id,canonical=canonicalId.get(original);
+  return canonical&&canonical!==original?{...m,content:{...m.content,friend_id:canonical}}:m;
+ });
  renderPeople();
 }
 function selectedMeetups(){const from=$("peopleFrom")?.value||"",to=$("peopleTo")?.value||"";return meetupRows.filter(m=>(!from||m.entry_date>=from)&&(!to||m.entry_date<=to));}
