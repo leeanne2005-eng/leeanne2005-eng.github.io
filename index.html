@@ -306,7 +306,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .habit-matrix-heading small{font:12px/1.5 Arial,sans-serif;color:#9a817b}
 .habit-matrix-row{display:grid;grid-template-columns:158px repeat(var(--habit-days,31),25px);gap:3px;align-items:center;margin:0;width:max-content;min-width:max-content}
 .habit-matrix-head{padding:7px 0;background:#e9eee8;border:1px solid #d5dfd5;border-radius:9px 9px 0 0}
-.habit-matrix-name{display:flex;align-items:center;gap:7px;padding:5px 7px;min-width:0;color:#68535a;font:12px Arial,sans-serif}
+.habit-matrix-name{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;padding:7px;min-width:0;color:#68535a;font:12px Arial,sans-serif}.habit-matrix-habit-title{display:flex;align-items:center;gap:7px;min-width:0}.habit-matrix-habit-count{font:11px/1.35 Arial,sans-serif;color:#927b78}.habit-matrix-habit-actions{display:flex;gap:5px;flex-wrap:wrap}.habit-matrix-habit-actions button{padding:4px 7px!important;font-size:10px!important;line-height:1.2}
 .habit-matrix-head .habit-matrix-name{font-size:9px;letter-spacing:1px;font-weight:bold;color:#73816f}
 .habit-matrix-date{font:10px Arial,sans-serif;text-align:center;color:#6f7e70;min-width:0}
 .habit-matrix-grid{border:1px solid #e5d8ce;border-top:0;border-radius:0 0 10px 10px;padding:4px 0 6px;background-image:radial-gradient(#d7c7b933 .7px,transparent .7px);background-size:8px 8px}
@@ -972,9 +972,10 @@ async function loadHabitBoard(){
   defs.forEach(h=>{
    const row=document.createElement("div");row.className="habit-matrix-row";row.style.setProperty("--habit-days",daysInMonth);
    const name=document.createElement("div");name.className="habit-matrix-name";
+   const titleLine=document.createElement("div");titleLine.className="habit-matrix-habit-title";
    const emoji=document.createElement("span");emoji.className="habit-matrix-emoji";emoji.textContent=h.content.emoji||"♡";
    const title=document.createElement("span");title.className="habit-matrix-title";title.textContent=h.title;
-   name.append(emoji,title);row.append(name);
+   titleLine.append(emoji,title);name.append(titleLine);row.append(name);
    let scheduledCount=0,doneCount=0,missedCount=0;
    for(let d=1;d<=daysInMonth;d++){
     const date=new Date(year,monthNumber-1,d),wd=date.getDay();
@@ -995,12 +996,11 @@ async function loadHabitBoard(){
    }
    grid.append(row);
 
-   const progress=document.createElement("div");progress.className="habit-matrix-progress muted";
-   progress.style.cssText="font-size:12px;margin:4px 0 8px 158px";
-   progress.textContent=`${doneCount} ${doneCount===1?"completion":"completions"} this month`;
-   host.append(progress);
+   const progress=document.createElement("div");progress.className="habit-matrix-habit-count";
+   progress.textContent=`Completed ${doneCount} ${doneCount===1?"time":"times"} this month`;
+   name.append(progress);
 
-   const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 158px;flex-wrap:wrap";
+   const management=document.createElement("div");management.className="habit-matrix-habit-actions";
    const edit=document.createElement("button");edit.type="button";edit.className="secondary";
    edit.style.cssText="padding:6px 10px;font-size:12px";edit.textContent="Edit habit";
    edit.onclick=()=>{
@@ -1010,7 +1010,7 @@ async function loadHabitBoard(){
     const esc=s=>String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
     const editor=document.createElement("div");
     editor.dataset.habitEditor=h.id;
-    editor.style.cssText="margin:8px 0 18px 158px;padding:14px;border:1px dashed var(--line);border-radius:14px;background:var(--paper);max-width:520px;box-sizing:border-box";
+    editor.style.cssText="margin:10px 0 18px;padding:14px;border:1px dashed var(--line);border-radius:14px;background:var(--paper);max-width:520px;box-sizing:border-box";
     editor.innerHTML=`<form class="habit-edit-form" style="display:grid;gap:10px">
       <strong>Edit habit ♡</strong>
       <label class="muted">Habit name<input name="title" required maxlength="80" value="${esc(h.title)}"></label>
@@ -1023,7 +1023,7 @@ async function loadHabitBoard(){
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit">Save changes</button><button type="button" class="secondary" data-cancel-edit>Cancel</button></div>
       <div class="muted" role="status" data-edit-status></div>
      </form>`;
-    management.after(editor);
+    host.append(editor);
     const form=editor.querySelector("form");
     form.elements.frequency.value=h.content.frequency||"daily";
     form.elements.color.value=h.content.color||"#d3a4a5";
@@ -1057,7 +1057,7 @@ async function loadHabitBoard(){
     const {error:deleteError}=await client.from("journal_entries").delete().eq("id",h.id);
     if(deleteError)setStatus($("habitStatus"),"Could not delete habit: "+deleteError.message);else await loadHabitBoard();
    };
-   management.append(edit,del);host.append(management);
+   management.append(edit,del);name.append(management);
   });
 
   // Daily recap cards removed: each habit now shows its monthly completion count above.
