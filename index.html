@@ -1660,17 +1660,33 @@ function renderCourseDetail(folder){
  const namesInput=document.createElement("textarea");namesInput.placeholder="e.g.\nAnne\nMichelle\nCalista";namesInput.value=Array.isArray(c.wheel_names)?c.wheel_names.join("\n"):"";namesLabel.append(namesInput);
  const wheelActions=document.createElement("div");wheelActions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
  const saveNames=document.createElement("button");saveNames.type="button";saveNames.className="secondary";saveNames.textContent="Save names ♡";
+ const shuffle=document.createElement("button");shuffle.type="button";shuffle.className="secondary";shuffle.textContent="⇄ Shuffle entries";
  const spin=document.createElement("button");spin.type="button";spin.textContent="✦ Spin the wheel!";
- wheelActions.append(saveNames,spin);
+ const colourLabel=document.createElement("label");colourLabel.className="muted";colourLabel.style.display="block";colourLabel.style.marginTop="12px";colourLabel.textContent="Wheel colours";
+ const colourSelect=document.createElement("select");colourSelect.style.display="block";colourSelect.style.width="100%";colourSelect.style.marginTop="5px";
+ const wheelPalettes={
+  morandi:{label:"Vintage Morandi",colours:["#d9aeb0","#aebca8","#aebfce","#e7d59e","#d8b99d","#c7b5d6"]},
+  pastel:{label:"Pastel rainbow",colours:["#f4b8c5","#f6d6a8","#f5edaa","#b9d9c5","#b8d7eb","#d7c4ed"]},
+  pink:{label:"Pink & lavender",colours:["#e9aebc","#f3c8d2","#d7b8df","#bda9d5","#f0d8e8","#c9b8e8"]},
+  sage:{label:"Sage & buttercream",colours:["#9eaf91","#c1cdb4","#e7d99d","#f2e8bd","#d8c99d","#b6c4a8"]},
+  pop:{label:"Pop-art bright",colours:["#ef6b83","#f6c945","#58b8a8","#6c8ed6","#b47bd1","#f28b4b"]}
+ };
+ Object.entries(wheelPalettes).forEach(([key,palette])=>{const option=document.createElement("option");option.value=key;option.textContent=palette.label;colourSelect.append(option);});
+ colourSelect.value=wheelPalettes[c.wheel_palette]?c.wheel_palette:"morandi";
+ colourLabel.append(colourSelect);
+ wheelActions.append(shuffle,saveNames,spin);
  const result=document.createElement("div");result.className="course-wheel-result";result.textContent="Your result will appear here ♡";result.setAttribute("aria-live","polite");
- controls.append(namesLabel,wheelActions,result);wheelWrap.append(stage,controls);wheelSection.append(wheelHeading,wheelIntro,wheelWrap);host.append(wheelSection);
- const wheelColours=["#d9aeb0","#aebca8","#aebfce","#e7d59e","#d8b99d","#c7b5d6","#e8bda9","#a9cdbb","#cbb5d9","#b6c2e2"];
+ controls.append(namesLabel,wheelActions,colourLabel,result);wheelWrap.append(stage,controls);wheelSection.append(wheelHeading,wheelIntro,wheelWrap);host.append(wheelSection);
+ let wheelColours=wheelPalettes[colourSelect.value].colours;
  let wheelRotation=0;
  function getWheelNames(){return namesInput.value.split(/\r?\n/).map(v=>v.trim()).filter(Boolean).slice(0,100);}
  function drawNameWheel(){const ctx=canvas.getContext("2d"),names=getWheelNames(),cx=320,cy=320,r=306;ctx.clearRect(0,0,640,640);if(!names.length){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle="#f1e8df";ctx.fill();ctx.fillStyle="#80636a";ctx.font="bold 28px Georgia";ctx.textAlign="center";ctx.fillText("Add names",cx,cy);return;}const slice=Math.PI*2/names.length;names.forEach((name,i)=>{const start=-Math.PI/2+i*slice;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+slice);ctx.closePath();ctx.fillStyle=wheelColours[i%wheelColours.length];ctx.fill();ctx.strokeStyle="#fffaf4";ctx.lineWidth=5;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(start+slice/2);ctx.textAlign="right";ctx.textBaseline="middle";ctx.fillStyle="#57474b";let fontSize=Math.max(13,Math.min(22,260/Math.max(8,name.length)));ctx.font=`bold ${fontSize}px Arial`;let label=name.length>22?name.slice(0,20)+"…":name;ctx.fillText(label,r-24,0);ctx.restore();});ctx.beginPath();ctx.arc(cx,cy,34,0,Math.PI*2);ctx.fillStyle="#fffaf4";ctx.fill();ctx.strokeStyle="#c7aeb0";ctx.lineWidth=5;ctx.stroke();ctx.fillStyle="#80636a";ctx.font="bold 19px Georgia";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("♡",cx,cy);}
  drawNameWheel();
  namesInput.addEventListener("input",drawNameWheel);
- saveNames.onclick=async()=>{const names=getWheelNames();const {error}=await client.from("journal_entries").update({content:{...c,wheel_names:names}}).eq("id",folder.id);if(error){result.textContent="Could not save names: "+error.message;return;}c.wheel_names=names;folder.content={...c};drawNameWheel();result.textContent=`${names.length} ${names.length===1?"name":"names"} saved for ${folder.title} ♡`;};
+ async function saveWheelSettings(message){const names=getWheelNames(),palette=colourSelect.value;const {error}=await client.from("journal_entries").update({content:{...c,wheel_names:names,wheel_palette:palette}}).eq("id",folder.id);if(error){result.textContent="Could not save wheel settings: "+error.message;return false;}c.wheel_names=names;c.wheel_palette=palette;folder.content={...c};result.textContent=message;return true;}
+ saveNames.onclick=async()=>{await saveWheelSettings(`${getWheelNames().length} ${getWheelNames().length===1?"name":"names"} and wheel colours saved for ${folder.title} ♡`);};
+ shuffle.onclick=async()=>{const names=getWheelNames();if(names.length<2){result.textContent="Add at least two entries to shuffle ♡";return;}for(let i=names.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[names[i],names[j]]=[names[j],names[i]];}namesInput.value=names.join("\n");drawNameWheel();await saveWheelSettings("✦ Entries shuffled randomly and saved! Every entry is still included ♡");};
+ colourSelect.addEventListener("change",()=>{wheelColours=wheelPalettes[colourSelect.value].colours;drawNameWheel();result.textContent=`${wheelPalettes[colourSelect.value].label} preview — press Save names to keep it ♡`;});
  spin.onclick=()=>{const names=getWheelNames();if(names.length<2){result.textContent="Add at least two names before spinning ♡";return;}const chosen=Math.floor(Math.random()*names.length),slice=360/names.length,center=(chosen+.5)*slice;const current=((wheelRotation%360)+360)%360;const desired=(360-center+360)%360;const delta=((desired-current+360)%360)+360*6;wheelRotation+=delta;canvas.style.transform=`rotate(${wheelRotation}deg)`;spin.disabled=true;result.textContent="The wheel is spinning…";window.setTimeout(()=>{result.textContent="✦ "+names[chosen]+" ✦";spin.disabled=false;},4300);};
  const notesSection=document.createElement("section");notesSection.className="course-detail-section";
  const nh=document.createElement("h3");nh.textContent="Course notes & important details";
