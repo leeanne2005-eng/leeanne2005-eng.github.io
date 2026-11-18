@@ -1120,12 +1120,35 @@ function renderPeople(){
  if(peopleRows.some(f=>f.id===prev))friendSelect.value=prev;if(peopleRows.some(f=>f.id===prevFilter))filterSelect.value=prevFilter;
  renderFriendCards(stats);renderSocialCircle(stats);renderMeetups();
 }
-function renderFriendCards(stats){
+let friendCardRenderVersion=0;
+async function renderFriendCards(stats){
+ const version=++friendCardRenderVersion;
  const host=$("friendsList"),q=($("friendSearch").value||"").toLowerCase(),sort=$("friendSort").value;
  let rows=peopleRows.filter(f=>[f.title,f.content.nickname,f.content.notes].join(" ").toLowerCase().includes(q));
  rows.sort((a,b)=>sort==="name"?a.title.localeCompare(b.title):sort==="met"?(stats.get(b.id)?.count||0)-(stats.get(a.id)?.count||0):sort==="time"?(stats.get(b.id)?.minutes||0)-(stats.get(a.id)?.minutes||0):String(b.created_at).localeCompare(String(a.created_at)));
- host.innerHTML="";if(!rows.length){host.innerHTML='<div class="people-empty">No friends found yet. Add someone special above ♡</div>';return;}
- rows.forEach(async f=>{const st=stats.get(f.id)||{count:0,minutes:0},card=document.createElement("article");card.className="person-card";const avatar=document.createElement("div");avatar.className="person-avatar";applyAvatarAppearance(avatar,f.content,f.title);if(f.content.photo_path&&(f.content.avatar_mode||"photo")==="photo"){const url=await signedPeoplePhoto(f.content.photo_path);if(url){const img=document.createElement("img");img.src=url;img.alt=f.title+" profile";applyPhotoCrop(img,f.content);avatar.innerHTML="";avatar.append(img);}}const name=document.createElement("h3");name.textContent=f.title;const nickname=document.createElement("div");nickname.className="person-meta";nickname.textContent=f.content.nickname?`“${f.content.nickname}”`:"Your friend";const meta=document.createElement("div");meta.className="person-meta";meta.textContent=`${st.count} meetups · ${fmtDuration(st.minutes)} together`+(f.content.birthday?` · Birthday ${f.content.birthday}`:"");const note=document.createElement("p");note.className="person-meta";note.textContent=f.content.notes||"A little place in your story.";const actions=document.createElement("div");actions.className="people-actions";const meet=document.createElement("button");meet.textContent="＋ Meetup";meet.onclick=()=>{friendSelect.value=f.id;$("meetupActivity").focus();$("meetupForm").scrollIntoView({behavior:"smooth",block:"center"});};const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=()=>editFriend(f);const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteFriend(f);actions.append(meet,edit,del);card.append(avatar,name,nickname,meta,note,actions);host.append(card);});
+ if(!rows.length){if(version===friendCardRenderVersion)host.innerHTML='<div class="people-empty">No friends found yet. Add someone special above ♡</div>';return;}
+ // Build cards off-screen. A later search/sort/load invalidates this render,
+ // preventing slow photo URL requests from appending stale duplicate cards.
+ const fragment=document.createDocumentFragment();
+ for(const f of rows){
+  const st=stats.get(f.id)||{count:0,minutes:0},card=document.createElement("article");card.className="person-card";card.dataset.friendId=f.id;
+  const avatar=document.createElement("div");avatar.className="person-avatar";applyAvatarAppearance(avatar,f.content,f.title);
+  if(f.content.photo_path&&(f.content.avatar_mode||"photo")==="photo"){
+   const url=await signedPeoplePhoto(f.content.photo_path);
+   if(version!==friendCardRenderVersion)return;
+   if(url){const img=document.createElement("img");img.src=url;img.alt=f.title+" profile";applyPhotoCrop(img,f.content);avatar.innerHTML="";avatar.append(img);}
+  }
+  const name=document.createElement("h3");name.textContent=f.title;
+  const nickname=document.createElement("div");nickname.className="person-meta";nickname.textContent=f.content.nickname?`“${f.content.nickname}”`:"Your friend";
+  const meta=document.createElement("div");meta.className="person-meta";meta.textContent=`${st.count} meetups · ${fmtDuration(st.minutes)} together`+(f.content.birthday?` · Birthday ${f.content.birthday}`:"");
+  const note=document.createElement("p");note.className="person-meta";note.textContent=f.content.notes||"A little place in your story.";
+  const actions=document.createElement("div");actions.className="people-actions";
+  const meet=document.createElement("button");meet.textContent="＋ Meetup";meet.onclick=()=>{const select=$("meetupFriend");if(select)select.value=f.id;$("meetupActivity").focus();$("meetupForm").scrollIntoView({behavior:"smooth",block:"center"});};
+  const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=()=>editFriend(f);
+  const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=()=>deleteFriend(f);
+  actions.append(meet,edit,del);card.append(avatar,name,nickname,meta,note,actions);fragment.append(card);
+ }
+ if(version===friendCardRenderVersion)host.replaceChildren(fragment);
 }
 function closePeopleEditor(){document.getElementById("peopleEditorBackdrop")?.remove();}
 function openPeopleEditor(title,inner,submitHandler){
