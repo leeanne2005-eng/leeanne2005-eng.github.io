@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World V20 ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V30 ♡</title>
 <!-- V22: expands academic course folder palette to 18 colour choices. -->
 <!-- V21: Academic course folders by semester with colour-coded goals and task lists. -->
 <!-- V20: My Hobbies blog with editable posts and preset social/A4 exports. -->
+<!-- V30: Study Corner course folders open into dedicated course pages with private notes and task lists. -->
 <!-- V29: Printable-inspired monthly habit matrix in vintage Morandi scrapbook styling. -->
 <!-- V27: Strongly differentiated Memories scrapbook identity; separate from daily tracking. -->
 <!-- V24: Song of the Day is a standalone chapter; remove overlap from Today I Did. -->
@@ -117,6 +118,15 @@ footer{color:#8e7c78}
 .course-folder button{padding:7px 10px;font-size:12px}
 .course-task-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.6fr);gap:8px;margin-top:12px}
 @media(max-width:520px){.course-task-form{grid-template-columns:1fr}.course-task{grid-template-columns:25px minmax(0,1fr) auto}}
+
+
+.course-folder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.course-folder-card{border:1px solid var(--folder-border);border-top:6px solid var(--folder-border);background:var(--folder-bg);border-radius:16px;padding:15px;box-shadow:0 4px 0 rgba(80,55,45,.06);min-width:0}
+.course-folder-card .course-folder-title{font-size:20px;margin:3px 0 7px}
+.course-open{width:100%;margin-top:12px;background:#80666a}
+.course-detail-hero{padding:18px;border-radius:16px;background:var(--folder-bg);border:1px solid var(--folder-border);border-top:6px solid var(--folder-border);margin:12px 0}
+.course-detail-notes{min-height:150px;resize:vertical}
+.course-detail-section{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}
 
 .study-goal-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0;padding:10px 13px;background:#edf0e8;border:1px dashed #b6c0ae;border-radius:12px;color:#657263;font:13px Arial}
 .study-goal-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 12px;margin:8px 0;background:#fbf7f0;border:1px solid #ded2c8;border-radius:13px;box-shadow:0 3px 0 #d8c9bf55}
@@ -413,27 +423,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
   <form id="goalForm" class="formgrid" style="margin-top:10px"><label class="muted">Goal<input id="goalTitle" maxlength="120" placeholder="e.g. Revise TCM319 twice this week" required></label><label class="muted">Target date<input id="goalDate" type="date"></label><button type="submit">＋ Add study goal</button></form>
   <div id="goalStatus" role="status" class="muted" style="margin-top:8px"></div><p class="muted">Tick the little box when you complete a goal. Your progress is saved privately ♡</p><div id="goalList" class="muted" style="margin-top:8px">Loading goals…</div>
 
-  <section id="courseFoldersSection" style="border-top:1px solid var(--line);margin-top:26px;padding-top:20px">
-   <div class="eyebrow">A little home for every subject</div>
-   <h2 style="font-size:22px">My Course Folders 📂</h2>
-   <p class="muted">Organise your courses semester by semester. Give each folder its own colour, then keep that course's goals and to-do list together.</p>
-   <div class="notice">Your existing general Study Goals stay where they are. Course-specific tasks are organised separately inside each folder.</div>
-   <form id="courseFolderForm" class="formgrid" style="margin-top:14px">
-    <label class="muted">Course name / code<input id="courseFolderName" maxlength="140" required placeholder="e.g. TCM319 · Chinese Medicine Diagnostics"></label>
-    <label class="muted">Semester<select id="courseFolderSemester" required></select></label>
-    <label class="muted">Folder colour<select id="courseFolderColour">
-     <option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option><option value="lavender">Soft lavender</option>
-     <option value="peach">Peach</option><option value="mint">Mint</option><option value="lilac">Lilac</option><option value="periwinkle">Periwinkle</option><option value="powder">Powder blue</option><option value="buttercup">Butter yellow</option><option value="terracotta">Terracotta</option><option value="mauve">Mauve</option><option value="olive">Olive</option><option value="sky">Sky blue</option><option value="berry">Berry pink</option><option value="slate">Soft slate</option>
-    </select></label>
-    <button type="submit">＋ Create course folder</button>
-   </form>
-   <div id="courseFolderStatus" class="muted" role="status" style="margin-top:8px"></div>
-   <div class="formgrid" style="margin:14px 0">
-    <label class="muted">View semester<select id="courseFolderFilter"></select></label>
-    <label class="muted">Find a course<input id="courseFolderSearch" type="search" placeholder="Search course name or code…"></label>
-   </div>
-   <div id="courseFolderList" style="margin-top:12px">Your course folders will appear here ♡</div>
-  </section>
+
 
  </div>
 
@@ -649,6 +639,28 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
   <div class="eyebrow">A gentle space to think, connect and remember</div><h2>Study Corner 🧠</h2>
   <p class="muted">Build a chapter tree or arrange ideas on a freeform board. Your notes are private and saved to your signed-in account.</p>
+
+  <section id="courseFoldersSection" style="border-top:1px solid var(--line);margin-top:26px;padding-top:20px">
+   <div class="eyebrow">A little home for every subject</div>
+   <h2 style="font-size:22px">My Course Folders 📂</h2>
+   <p class="muted">Organise your courses semester by semester. Give each folder its own colour, then keep that course's goals and to-do list together.</p>
+   <div class="notice">Your existing general Study Goals stay where they are. Course-specific tasks are organised separately inside each folder.</div>
+   <form id="courseFolderForm" class="formgrid" style="margin-top:14px">
+    <label class="muted">Course name / code<input id="courseFolderName" maxlength="140" required placeholder="e.g. TCM319 · Chinese Medicine Diagnostics"></label>
+    <label class="muted">Semester<select id="courseFolderSemester" required></select></label>
+    <label class="muted">Folder colour<select id="courseFolderColour">
+     <option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option><option value="lavender">Soft lavender</option>
+     <option value="peach">Peach</option><option value="mint">Mint</option><option value="lilac">Lilac</option><option value="periwinkle">Periwinkle</option><option value="powder">Powder blue</option><option value="buttercup">Butter yellow</option><option value="terracotta">Terracotta</option><option value="mauve">Mauve</option><option value="olive">Olive</option><option value="sky">Sky blue</option><option value="berry">Berry pink</option><option value="slate">Soft slate</option>
+    </select></label>
+    <button type="submit">＋ Create course folder</button>
+   </form>
+   <div id="courseFolderStatus" class="muted" role="status" style="margin-top:8px"></div>
+   <div class="formgrid" style="margin:14px 0">
+    <label class="muted">View semester<select id="courseFolderFilter"></select></label>
+    <label class="muted">Find a course<input id="courseFolderSearch" type="search" placeholder="Search course name or code…"></label>
+   </div>
+   <div id="courseFolderList" style="margin-top:12px">Your course folders will appear here ♡</div>
+  </section>
   <div class="studycorner-tabs"><button type="button" class="secondary" id="showOutline">Tree Outline</button><button type="button" class="secondary" id="showMindMap">Freeform Mind Map</button></div>
   <section id="outlineMode" class="studycorner-mode">
    <div class="people-hero"><strong>Chapter / topic outline</strong><p class="muted" style="margin:5px 0 0">Add a main topic, then add subtopics under it. Use this as a structured chapter notebook.</p></div>
@@ -660,6 +672,12 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <form id="mindNodeForm" class="formgrid"><label class="muted">Idea<input id="mindNodeTitle" maxlength="120" required placeholder="e.g. α-synuclein"></label><label class="muted">Connect to<select id="mindNodeParent"><option value="">Central idea</option></select></label><label class="muted">Detail<textarea id="mindNodeNote" rows="1" maxlength="500" placeholder="Add a short explanation…"></textarea></label><button type="submit">＋ Add idea</button></form>
    <div id="mindMapBoard" class="mindmap-board"><div class="mindmap-center">CENTRAL IDEA</div></div><p class="muted" id="mindMapStatus" role="status"></p>
   </section>
+ </div>
+
+ <div class="panel section-page" id="courseDetailPanel" data-page="coursedetail">
+  <button class="secondary page-back" type="button" id="backToStudyCourses">← Back to Study Corner</button>
+  <div class="eyebrow">Your own little study room</div>
+  <div id="courseDetailContent"><p class="muted">Choose a course folder to open its page.</p></div>
  </div>
 
  <div class="panel section-page" id="peoplePanel" data-page="people">
@@ -1438,7 +1456,7 @@ document.querySelectorAll("[data-page-colour]").forEach(select=>{
 applyPageColours();
 
 function showPage(page,options={}){
- const valid=["home","academic","attendance","coffee","finance","daily","memories","song","people","studycorner","travel","hobbies"];
+ const valid=["home","academic","attendance","coffee","finance","daily","memories","song","people","studycorner","coursedetail","travel","hobbies"];
  if(!valid.includes(page))page="home";
  const dashboard=$("dashboardPanel");
  if(dashboard)dashboard.classList.toggle("hidden",page!=="home");
@@ -1453,7 +1471,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadSemesters().then(()=>loadAttendance());}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -1584,48 +1602,75 @@ async function loadCourseFolders(){
  courseTaskRows=rows.filter(r=>r.content?.kind==="course_task");
  renderCourseFolders();
 }
+let activeCourseFolderId=null;
 function renderCourseFolders(){
- const host=$("courseFolderList"),semester=$("courseFolderFilter").value,query=$("courseFolderSearch").value.trim().toLocaleLowerCase();
+ const host=$("courseFolderList");if(!host)return;
+ const semester=$("courseFolderFilter").value,query=$("courseFolderSearch").value.trim().toLocaleLowerCase();
  const folders=courseFolderRows.filter(f=>(semester==="all"||f.content?.semester_id===semester)&&(!query||[f.title,f.content?.course_code].join(" ").toLocaleLowerCase().includes(query)));
  host.innerHTML="";
  if(!folders.length){host.innerHTML='<div class="people-empty">No course folders here yet. Create one for your first subject ♡</div>';return;}
+ const grid=document.createElement("div");grid.className="course-folder-grid";
  folders.forEach(folder=>{
   const c=folder.content||{},palette=courseFolderPalettes[c.colour]||courseFolderPalettes.rose;
-  const card=document.createElement("article");card.className="course-folder";card.style.setProperty("--folder-bg",palette.bg);card.style.setProperty("--folder-border",palette.border);
-  const head=document.createElement("div");head.className="course-folder-head";
-  const left=document.createElement("div");left.style.minWidth="0";
+  const tasks=courseTaskRows.filter(t=>t.content?.course_id===folder.id),open=tasks.filter(t=>!t.content?.completed),done=tasks.length-open.length;
+  const card=document.createElement("article");card.className="course-folder-card";card.style.setProperty("--folder-bg",palette.bg);card.style.setProperty("--folder-border",palette.border);
   const title=document.createElement("div");title.className="course-folder-title";title.textContent="📁 "+folder.title;
-  const meta=document.createElement("div");meta.className="course-folder-meta";meta.textContent=courseSemesterName(c.semester_id)+" · "+(c.course_code||"Course folder");
-  left.append(title,meta);
+  const meta=document.createElement("div");meta.className="course-folder-meta";meta.textContent=courseSemesterName(c.semester_id);
+  const progress=document.createElement("p");progress.className="course-folder-meta";progress.textContent=`${open.length} tasks to do · ${done} completed`;
+  const openBtn=document.createElement("button");openBtn.type="button";openBtn.className="course-open";openBtn.textContent="Open course page →";openBtn.onclick=()=>openCourseFolder(folder.id);
+  const quick=document.createElement("div");quick.className="course-folder-actions";
+  const rename=document.createElement("button");rename.type="button";rename.className="secondary";rename.textContent="Rename";rename.onclick=async()=>{const name=prompt("Course folder name",folder.title||"");if(name===null||!name.trim())return;const {error}=await client.from("journal_entries").update({title:name.trim()}).eq("id",folder.id);if(error){$("courseFolderStatus").textContent="Could not rename folder: "+error.message;return;}await loadCourseFolders();};
   const colour=document.createElement("select");colour.setAttribute("aria-label","Change folder colour");Object.entries({rose:"Dusty rose",sage:"Sage green",blue:"Dusty blue",butter:"Buttercream",caramel:"Caramel",lavender:"Soft lavender",peach:"Peach",mint:"Mint",lilac:"Lilac",periwinkle:"Periwinkle",powder:"Powder blue",buttercup:"Butter yellow",terracotta:"Terracotta",mauve:"Mauve",olive:"Olive",sky:"Sky blue",berry:"Berry pink",slate:"Soft slate"}).forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;colour.append(o);});colour.value=c.colour||"rose";
   colour.onchange=async()=>{const {error}=await client.from("journal_entries").update({content:{...c,colour:colour.value}}).eq("id",folder.id);if(error){$("courseFolderStatus").textContent="Could not change colour: "+error.message;return;}await loadCourseFolders();};
-  head.append(left,colour);card.append(head);
-  const tasks=courseTaskRows.filter(t=>t.content?.course_id===folder.id);
-  const open=tasks.filter(t=>!t.content?.completed),done=tasks.filter(t=>t.content?.completed);
-  const progress=document.createElement("div");progress.className="course-folder-meta";progress.style.margin="12px 0 6px";progress.textContent=`${open.length} to do · ${done.length} completed`;card.append(progress);
-  tasks.sort((a,b)=>(a.content?.due_date||"9999").localeCompare(b.content?.due_date||"9999")).forEach(task=>{
-   const row=document.createElement("div");row.className="course-task"+(task.content?.completed?" done":"");
-   const check=document.createElement("input");check.type="checkbox";check.checked=!!task.content?.completed;check.setAttribute("aria-label","Mark task complete");
-   check.onchange=async()=>{const {error}=await client.from("journal_entries").update({content:{...task.content,completed:check.checked,completed_at:check.checked?new Date().toISOString():null}}).eq("id",task.id);if(error){$("courseFolderStatus").textContent="Could not update task: "+error.message;return;}await loadCourseFolders();};
-   const copy=document.createElement("div");copy.style.minWidth="0";
-   const t=document.createElement("div");t.className="course-task-title";t.textContent=task.title||"Course task";
-   const due=document.createElement("div");due.className="course-folder-meta";due.textContent=task.content?.due_date?"Due "+task.content.due_date:"No due date";copy.append(t,due);
-   const actions=document.createElement("div");actions.style.display="flex";actions.style.gap="4px";
-   const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const title=prompt("Task or goal",task.title||"");if(title===null)return;const dueDate=prompt("Due date (YYYY-MM-DD, optional)",task.content?.due_date||"");if(dueDate===null)return;if(dueDate&&!/^\d{4}-\d{2}-\d{2}$/.test(dueDate)){alert("Please use YYYY-MM-DD.");return;}const {error}=await client.from("journal_entries").update({title:title.trim(),content:{...task.content,due_date:dueDate||null}}).eq("id",task.id);if(error)$("courseFolderStatus").textContent="Could not edit task: "+error.message;else loadCourseFolders();};
-   const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="×";del.setAttribute("aria-label","Delete task");del.onclick=async()=>{if(!confirm("Delete this course task?"))return;const {error}=await client.from("journal_entries").delete().eq("id",task.id);if(error)$("courseFolderStatus").textContent="Could not delete task: "+error.message;else loadCourseFolders();};
-   actions.append(edit,del);row.append(check,copy,actions);card.append(row);
-  });
-  const form=document.createElement("form");form.className="course-task-form";
-  const input=document.createElement("input");input.required=true;input.maxLength=180;input.placeholder="Add a goal or to-do…";
-  const date=document.createElement("input");date.type="date";date.setAttribute("aria-label","Task due date");
-  const add=document.createElement("button");add.type="submit";add.textContent="＋ Add task";
-  form.append(input,date,add);form.addEventListener("submit",async e=>{e.preventDefault();const user=await currentUser();const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title:input.value.trim(),content:{kind:"course_task",course_id:folder.id,due_date:date.value||null,completed:false,completed_at:null}});if(error){$("courseFolderStatus").textContent="Could not save task: "+error.message;return;}await loadCourseFolders();});
-  const actions=document.createElement("div");actions.className="course-folder-actions";
-  const rename=document.createElement("button");rename.type="button";rename.className="secondary";rename.textContent="Rename folder";rename.onclick=async()=>{const name=prompt("Course folder name",folder.title||"");if(name===null||!name.trim())return;const {error}=await client.from("journal_entries").update({title:name.trim()}).eq("id",folder.id);if(error)$("courseFolderStatus").textContent="Could not rename folder: "+error.message;else loadCourseFolders();};
-  const remove=document.createElement("button");remove.type="button";remove.className="secondary";remove.textContent="Delete folder";remove.onclick=async()=>{if(!confirm("Delete this course folder and all its course tasks?"))return;const ids=[folder.id,...tasks.map(t=>t.id)];const {error}=await client.from("journal_entries").delete().in("id",ids);if(error)$("courseFolderStatus").textContent="Could not delete folder: "+error.message;else loadCourseFolders();};
-  actions.append(rename,remove);card.append(form,actions);host.append(card);
+  const remove=document.createElement("button");remove.type="button";remove.className="secondary";remove.textContent="Delete";remove.onclick=async()=>{const related=courseTaskRows.filter(t=>t.content?.course_id===folder.id);if(!confirm("Delete this course folder and all its course tasks?"))return;const ids=[folder.id,...related.map(t=>t.id)];const {error}=await client.from("journal_entries").delete().in("id",ids);if(error){$("courseFolderStatus").textContent="Could not delete folder: "+error.message;return;}await loadCourseFolders();};
+  quick.append(rename,colour,remove);card.append(title,meta,progress,openBtn,quick);grid.append(card);
  });
+ host.append(grid);
 }
+async function openCourseFolder(id){
+ const folder=courseFolderRows.find(f=>f.id===id);if(!folder)return;
+ activeCourseFolderId=id;renderCourseDetail(folder);showPage("coursedetail");
+}
+function renderCourseDetail(folder){
+ const host=$("courseDetailContent"),c=folder.content||{},palette=courseFolderPalettes[c.colour]||courseFolderPalettes.rose;
+ host.innerHTML="";
+ const hero=document.createElement("section");hero.className="course-detail-hero";hero.style.setProperty("--folder-bg",palette.bg);hero.style.setProperty("--folder-border",palette.border);
+ const eyebrow=document.createElement("div");eyebrow.className="eyebrow";eyebrow.textContent=courseSemesterName(c.semester_id);
+ const h=document.createElement("h2");h.textContent="📚 "+folder.title;
+ const intro=document.createElement("p");intro.className="muted";intro.textContent="Your dedicated course space — keep your notes, tasks and study materials together.";
+ hero.append(eyebrow,h,intro);host.append(hero);
+ const notesSection=document.createElement("section");notesSection.className="course-detail-section";
+ const nh=document.createElement("h3");nh.textContent="Course notes & important details";
+ const notes=document.createElement("textarea");notes.className="course-detail-notes";notes.placeholder="Add lecture reminders, lecturer information, exam scope, important links or anything you want to remember…";notes.value=c.course_notes||"";
+ const saveNotes=document.createElement("button");saveNotes.type="button";saveNotes.textContent="Save course notes ♡";saveNotes.style.marginTop="8px";
+ const noteStatus=document.createElement("p");noteStatus.className="muted";
+ saveNotes.onclick=async()=>{const {error}=await client.from("journal_entries").update({content:{...c,course_notes:notes.value}}).eq("id",folder.id);if(error){noteStatus.textContent="Could not save notes: "+error.message;return;}folder.content={...c,course_notes:notes.value};noteStatus.textContent="Course notes saved privately ♡";};
+ notesSection.append(nh,notes,saveNotes,noteStatus);host.append(notesSection);
+ const taskSection=document.createElement("section");taskSection.className="course-detail-section";
+ const th=document.createElement("h3");th.textContent="Goals & to-do list";taskSection.append(th);
+ const tasks=courseTaskRows.filter(t=>t.content?.course_id===folder.id).sort((a,b)=>(a.content?.due_date||"9999").localeCompare(b.content?.due_date||"9999"));
+ const summary=document.createElement("p");summary.className="muted";summary.textContent=`${tasks.filter(t=>!t.content?.completed).length} to do · ${tasks.filter(t=>t.content?.completed).length} completed`;taskSection.append(summary);
+ tasks.forEach(task=>{
+  const row=document.createElement("div");row.className="course-task"+(task.content?.completed?" done":"");
+  const check=document.createElement("input");check.type="checkbox";check.checked=!!task.content?.completed;check.setAttribute("aria-label","Mark task complete");
+  check.onchange=async()=>{const {error}=await client.from("journal_entries").update({content:{...task.content,completed:check.checked,completed_at:check.checked?new Date().toISOString():null}}).eq("id",task.id);if(error){noteStatus.textContent="Could not update task: "+error.message;return;}await loadCourseFolders();const fresh=courseFolderRows.find(f=>f.id===idForFolder(folder));if(fresh)renderCourseDetail(fresh);};
+  const copy=document.createElement("div");copy.style.minWidth="0";const title=document.createElement("div");title.className="course-task-title";title.textContent=task.title||"Course task";const due=document.createElement("div");due.className="course-folder-meta";due.textContent=task.content?.due_date?"Due "+task.content.due_date:"No due date";copy.append(title,due);
+  const actions=document.createElement("div");actions.style.display="flex";actions.style.gap="4px";
+  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const next=prompt("Task or goal",task.title||"");if(next===null||!next.trim())return;const dueDate=prompt("Due date (YYYY-MM-DD, optional)",task.content?.due_date||"");if(dueDate===null)return;if(dueDate&&!/^\d{4}-\d{2}-\d{2}$/.test(dueDate)){alert("Please use YYYY-MM-DD.");return;}const {error}=await client.from("journal_entries").update({title:next.trim(),content:{...task.content,due_date:dueDate||null}}).eq("id",task.id);if(error){noteStatus.textContent="Could not edit task: "+error.message;return;}await loadCourseFolders();const fresh=courseFolderRows.find(f=>f.id===folder.id);if(fresh)renderCourseDetail(fresh);};
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="×";del.onclick=async()=>{if(!confirm("Delete this course task?"))return;const {error}=await client.from("journal_entries").delete().eq("id",task.id);if(error){noteStatus.textContent="Could not delete task: "+error.message;return;}await loadCourseFolders();const fresh=courseFolderRows.find(f=>f.id===folder.id);if(fresh)renderCourseDetail(fresh);};
+  actions.append(edit,del);row.append(check,copy,actions);taskSection.append(row);
+ });
+ const form=document.createElement("form");form.className="course-task-form";
+ const input=document.createElement("input");input.required=true;input.maxLength=180;input.placeholder="Add a lecture task, assignment or revision goal…";
+ const date=document.createElement("input");date.type="date";date.setAttribute("aria-label","Task due date");
+ const add=document.createElement("button");add.type="submit";add.textContent="＋ Add task";
+ form.append(input,date,add);form.addEventListener("submit",async e=>{e.preventDefault();const user=await currentUser();const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title:input.value.trim(),content:{kind:"course_task",course_id:folder.id,due_date:date.value||null,completed:false,completed_at:null}});if(error){noteStatus.textContent="Could not save task: "+error.message;return;}await loadCourseFolders();const fresh=courseFolderRows.find(f=>f.id===folder.id);if(fresh)renderCourseDetail(fresh);});
+ taskSection.append(form);host.append(taskSection);
+ const manage=document.createElement("section");manage.className="course-detail-section";
+ const rename=document.createElement("button");rename.type="button";rename.className="secondary";rename.textContent="Rename course folder";rename.onclick=async()=>{const name=prompt("Course folder name",folder.title||"");if(name===null||!name.trim())return;const {error}=await client.from("journal_entries").update({title:name.trim()}).eq("id",folder.id);if(error){noteStatus.textContent="Could not rename: "+error.message;return;}await loadCourseFolders();const fresh=courseFolderRows.find(f=>f.id===folder.id);if(fresh)renderCourseDetail(fresh);};
+ manage.append(rename);host.append(manage);
+}
+function idForFolder(folder){return folder.id;}
 $("courseFolderForm")?.addEventListener("submit",async e=>{
  e.preventDefault();if(!client){$("courseFolderStatus").textContent="Please sign in first.";return;}
  const user=await currentUser(),name=$("courseFolderName").value.trim();if(!name)return;
@@ -1854,6 +1899,7 @@ $("showOutline").addEventListener("click",()=>setStudyMode("outline"));$("showMi
 $("outlineForm").addEventListener("submit",async e=>{e.preventDefault();try{const user=await currentUser();const title=$("outlineTitle").value.trim();if(!title)return;const node={id:"local-"+Date.now(),title,content:{kind:"study_node",parent_id:$("outlineParent").value||null,note:$("outlineNote").value.trim(),position:{x:30+(studyNodes.length%3)*150,y:30+Math.floor(studyNodes.length/3)*120},order:studyNodes.length}};const {data,error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:todayISO(),title,content:node.content}).select("id,entry_date,title,content").single();if(error)throw error;studyNodes.push(data);$("outlineForm").reset();renderOutline();renderMindMap();$("mindMapStatus").textContent="Topic saved privately ♡";}catch(err){$("mindMapStatus").textContent="Could not save topic: "+err.message;}});
 $("mindNodeForm").addEventListener("submit",async e=>{e.preventDefault();try{const user=await currentUser();const title=$("mindNodeTitle").value.trim();if(!title)return;const index=studyNodes.length;const node={user_id:user.id,entry_type:"note",entry_date:todayISO(),title,content:{kind:"study_node",parent_id:$("mindNodeParent").value||null,note:$("mindNodeNote").value.trim(),position:{x:20+(index%3)*150,y:20+Math.floor(index/3)*125},order:index}};const {data,error}=await client.from("journal_entries").insert(node).select("id,entry_date,title,content").single();if(error)throw error;studyNodes.push(data);$("mindNodeForm").reset();renderOutline();renderMindMap();$("mindMapStatus").textContent="Idea saved. Drag it to arrange your map ♡";}catch(err){$("mindMapStatus").textContent="Could not save idea: "+err.message;}});
 $("goStudyCorner").addEventListener("click",()=>{showPage("studycorner");loadStudyCorner();});
+$("backToStudyCourses").addEventListener("click",()=>{showPage("studycorner");loadCourseFolders();});
 
 $("configForm").addEventListener("submit",async e=>{
  e.preventDefault();
