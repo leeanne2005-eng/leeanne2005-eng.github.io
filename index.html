@@ -6,6 +6,7 @@
 <!-- V22: expands academic course folder palette to 18 colour choices. -->
 <!-- V21: Academic course folders by semester with colour-coded goals and task lists. -->
 <!-- V20: My Hobbies blog with editable posts and preset social/A4 exports. -->
+<!-- V24: Song of the Day is a standalone chapter; remove overlap from Today I Did. -->
 <!-- V19: Travel Journal trips, itinerary stops and private photo memories. -->
 <!-- V18: deduplicate repeated friend profiles in People I Met without deleting records. -->
 <!-- V17: adds Song of the Day records inside Today I Did. -->
@@ -258,6 +259,15 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .song-memory-actions{position:relative;z-index:1;display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.song-memory-actions button{padding:7px 10px;font-size:11px;border:1px solid #593239;border-radius:7px;box-shadow:2px 2px 0 #593239}.song-memory-actions a{display:inline-block;padding:8px 10px;border-radius:7px;background:#593239;color:#fffaf2;text-decoration:none;font:11px Arial;font-weight:bold}
 @media(max-width:520px){.song-pop-hero{min-height:195px}.song-hero-sticker{width:64px;height:64px;font-size:39px;right:7%;top:24px}.song-pop-hero h2{font-size:42px}.song-intro-row{align-items:flex-start}.song-vinyl{width:58px;height:58px;flex-basis:58px}.song-card-grid{grid-template-columns:1fr}}
 
+
+/* V24 · standalone soundtrack chapter */
+.song-home-card{position:relative;overflow:hidden;border:2px solid #593239!important;box-shadow:4px 4px 0 #593239!important;background:linear-gradient(135deg,#f1c9bf 0%,#f4df9f 100%)!important}
+.song-home-card strong{font-family:Georgia,serif;font-size:20px;letter-spacing:.2px;color:#593239}
+.song-home-card .muted{color:#65474a}
+.song-home-burst{position:absolute;right:14px;top:8px;font:900 58px Georgia;color:#84343c;opacity:.18;transform:rotate(14deg);pointer-events:none}
+.song-page-panel{background-image:radial-gradient(#d9b7a9 0.65px,transparent .8px);background-size:12px 12px}
+.song-page-panel .song-world{border-top:0;margin-top:10px;padding-top:8px}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -297,9 +307,10 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <button type="button" class="module-card butter" id="goAcademic" aria-label="Open Academic Life" data-sticker="✎"><span class="module-icon">📚</span><strong>Academic & Career</strong><span class="muted">Classes, attendance, study goals and the journey beyond graduation.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card caramel" id="goFinance" data-sticker="♡"><span class="module-icon">💰</span><strong>My Finances</strong><span class="muted">Daily expenses, income, savings and little money goals.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goCoffee" data-sticker="☕"><span class="module-icon">☕</span><strong>Coffee Diary</strong><span class="muted">Coffee moments, favourite cafés, photos and tiny reviews.</span><span class="module-open">Open this chapter →</span></button>
-   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Daily activities, song of the day, habits, cycle calendar and little memories — all in one place.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card sage" id="goDaily" data-sticker="✿"><span class="module-icon">✍️</span><strong>Today I Did</strong><span class="muted">Daily activity log, habits, routines and cycle calendar.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card rose song-home-card" id="goSong" data-sticker="♫"><span class="module-icon">🎧</span><strong>Song of the Day</strong><span class="muted">Your personal soundtrack — one song for every feeling and moment.</span><span class="module-open">Press play on this chapter →</span><span class="song-home-burst" aria-hidden="true">♫</span></button>
    <button type="button" class="module-card rose" id="goPeople" data-sticker="♡"><span class="module-icon">🫶</span><strong>People I Met</strong><span class="muted">Friends, shared moments, little meetups and your social circle.</span><span class="module-open">Open this chapter →</span></button>
-   <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photos, journal pages and moments I want to keep.</span><span class="module-open">Open this chapter →</span></button>
+   <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photo diaries, journal pages and stories worth keeping.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card blue" id="goTravel" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card butter" id="goHobbies" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">A little blog for crochet, reading, creative projects and new interests.</span><span class="module-open">Open this chapter →</span></button>
   </div>
@@ -312,6 +323,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
     <label>My Finances<select data-page-colour="goFinance"><option value="caramel">Caramel</option><option value="butter">Buttercream</option><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option></select></label>
     <label>Coffee Diary<select data-page-colour="goCoffee"><option value="rose">Dusty rose</option><option value="caramel">Caramel</option><option value="butter">Buttercream</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option></select></label>
     <label>Today I Did<select data-page-colour="goDaily"><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+    <label>Song of the Day<select data-page-colour="goSong"><option value="rose">Dusty rose</option><option value="butter">Buttercream</option><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="caramel">Caramel</option></select></label>
     <label>People I Met<select data-page-colour="goPeople"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
     <label>Memories<select data-page-colour="goMemories"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
     <label>Travel Journal<select data-page-colour="goTravel"><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
@@ -459,7 +471,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
  <div class="panel section-page" id="dailyPanel" data-page="daily">
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
   <div class="eyebrow">Your everyday life, gathered in one chapter</div><h2>Today I Did ✍️</h2>
-  <p class="muted">One home for your daily activity log, song of the day, habits and routines, cycle calendar, and little journal memories. You do not need a separate My Lifestyle page anymore — everything is kept together here.</p>
+  <p class="muted">A simple place to keep track of what you did, the habits you are building and the routines that help you feel grounded.</p>
   <section id="periodSection" class="period-shell">
    <div class="eyebrow">A private note to yourself</div><h2 style="margin-top:5px">My Cycle Calendar 🌸</h2>
    <p class="muted">Track period days, flow, symptoms and how you feel. Choose any past date to add or update a record.</p>
@@ -498,29 +510,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <p class="muted">Your saved activities appear here, newest first. Tap a week to open its entries.</p>
    <div id="activityList" class="muted">Loading your private activity log…</div>
   </section>
-  <section id="songOfDaySection" class="song-world">
-   <div class="song-pop-hero">
-    <div class="song-hero-sticker">♫</div><div class="song-halftone" aria-hidden="true"></div>
-    <div class="eyebrow">Your life, but make it a soundtrack</div>
-    <h2>SONG OF<br><span>THE DAY!</span></h2>
-    <p>Little moments deserve a theme song.</p>
-    <div class="song-sparkle" aria-hidden="true">✳ ✦ ♪</div>
-   </div>
-   <div class="song-intro-row"><div><div class="eyebrow">The daily mixtape</div><h3>Pin a song to this moment <span>♡</span></h3><p class="muted">Save what you’re listening to, what it reminds you of, or simply how today feels.</p></div><div class="song-vinyl" aria-hidden="true"><span></span></div></div>
-   <form id="songForm" class="song-editor">
-    <label class="muted">Date<input id="songDate" type="date" required></label>
-    <div class="formgrid">
-     <label class="muted">Song title<input id="songTitle" maxlength="160" required placeholder="e.g. The Night We Met"></label>
-     <label class="muted">Artist<input id="songArtist" maxlength="120" placeholder="e.g. Lord Huron"></label>
-    </div>
-    <label class="muted">Song link (optional)<input id="songLink" type="url" maxlength="500" placeholder="Paste a Spotify, Apple Music or YouTube link"></label>
-    <label class="muted">Why this song today? (optional)<textarea id="songNote" rows="2" maxlength="800" placeholder="A lyric, a memory, a feeling…"></textarea></label>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit" id="songSubmit">♫ Save song of the day</button><button type="button" class="secondary" id="songCancelEdit" hidden>Cancel edit</button></div>
-    <div id="songStatus" class="muted" role="status"></div>
-   </form>
-   <div class="song-archive-heading"><div><div class="eyebrow">Collected little feelings</div><h3>Your soundtrack archive ♡</h3></div><span class="song-archive-mark">PLAY<br>IT BACK</span></div>
-   <div id="songList" class="song-card-grid muted">Loading your saved songs…</div>
-  </section>
+
   <section id="habitSection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
    <h2 style="font-size:22px">Daily Habit Tracker 🌷</h2>
    <p class="muted">Create your own habits. Each habit can repeat every day or on selected weekdays.</p>
@@ -574,6 +564,36 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
  </div>
 </section>
 
+
+ <div class="panel section-page song-page-panel" id="songPanel" data-page="song">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A little soundtrack for every chapter</div>
+  <h2 style="font:900 clamp(25px,5vw,38px)/1 Arial,sans-serif;letter-spacing:-1px;color:var(--wine);margin:10px 0 4px">MY SOUNDTRACK <span style="color:#c47b79">♡</span></h2>
+  <p class="muted">A collection of songs that sound like your days, your memories and your little moods.</p>
+    <section id="songOfDaySection" class="song-world">
+   <div class="song-pop-hero">
+    <div class="song-hero-sticker">♫</div><div class="song-halftone" aria-hidden="true"></div>
+    <div class="eyebrow">Your life, but make it a soundtrack</div>
+    <h2>SONG OF<br><span>THE DAY!</span></h2>
+    <p>Little moments deserve a theme song.</p>
+    <div class="song-sparkle" aria-hidden="true">✳ ✦ ♪</div>
+   </div>
+   <div class="song-intro-row"><div><div class="eyebrow">The daily mixtape</div><h3>Pin a song to this moment <span>♡</span></h3><p class="muted">Save what you’re listening to, what it reminds you of, or simply how today feels.</p></div><div class="song-vinyl" aria-hidden="true"><span></span></div></div>
+   <form id="songForm" class="song-editor">
+    <label class="muted">Date<input id="songDate" type="date" required></label>
+    <div class="formgrid">
+     <label class="muted">Song title<input id="songTitle" maxlength="160" required placeholder="e.g. The Night We Met"></label>
+     <label class="muted">Artist<input id="songArtist" maxlength="120" placeholder="e.g. Lord Huron"></label>
+    </div>
+    <label class="muted">Song link (optional)<input id="songLink" type="url" maxlength="500" placeholder="Paste a Spotify, Apple Music or YouTube link"></label>
+    <label class="muted">Why this song today? (optional)<textarea id="songNote" rows="2" maxlength="800" placeholder="A lyric, a memory, a feeling…"></textarea></label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit" id="songSubmit">♫ Save song of the day</button><button type="button" class="secondary" id="songCancelEdit" hidden>Cancel edit</button></div>
+    <div id="songStatus" class="muted" role="status"></div>
+   </form>
+   <div class="song-archive-heading"><div><div class="eyebrow">Collected little feelings</div><h3>Your soundtrack archive ♡</h3></div><span class="song-archive-mark">PLAY<br>IT BACK</span></div>
+   <div id="songList" class="song-card-grid muted">Loading your saved songs…</div>
+  </section>
+ </div>
 
  <div class="panel section-page" id="studyCornerPanel" data-page="studycorner">
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
@@ -1315,7 +1335,7 @@ document.querySelectorAll("[data-page-colour]").forEach(select=>{
 applyPageColours();
 
 function showPage(page,options={}){
- const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner","travel","hobbies"];
+ const valid=["home","academic","attendance","coffee","finance","daily","song","people","studycorner","travel","hobbies"];
  if(!valid.includes(page))page="home";
  const dashboard=$("dashboardPanel");
  if(dashboard)dashboard.classList.toggle("hidden",page!=="home");
@@ -1707,6 +1727,7 @@ $("goFinance").addEventListener("click",()=>showPage("finance"));
 $("goMemories").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$("journalSection").scrollIntoView({behavior:"smooth",block:"start"}),120);});
 $("goCoffee").addEventListener("click",()=>showPage("coffee"));
 $("goDaily").addEventListener("click",()=>showPage("daily"));
+$("goSong").addEventListener("click",()=>showPage("song"));
 $("goPeople").addEventListener("click",()=>showPage("people"));
 $("goTravel").addEventListener("click",()=>{showPage("travel");loadTravelData();});
 $("goHobbies").addEventListener("click",()=>{showPage("hobbies");loadHobbyPosts();});
