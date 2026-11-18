@@ -6,6 +6,7 @@
 <!-- V22: expands academic course folder palette to 18 colour choices. -->
 <!-- V21: Academic course folders by semester with colour-coded goals and task lists. -->
 <!-- V20: My Hobbies blog with editable posts and preset social/A4 exports. -->
+<!-- V27: Strongly differentiated Memories scrapbook identity; separate from daily tracking. -->
 <!-- V24: Song of the Day is a standalone chapter; remove overlap from Today I Did. -->
 <!-- V19: Travel Journal trips, itinerary stops and private photo memories. -->
 <!-- V18: deduplicate repeated friend profiles in People I Met without deleting records. -->
@@ -537,6 +538,16 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div id="habitBoard" style="overflow-x:auto;margin-top:12px">Loading habits…</div>
   </section>
 
+
+ </div>
+</section>
+
+
+ <div class="panel section-page" id="memoriesPanel" data-page="memories">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">YOUR PERSONAL SCRAPBOOK · STORIES TO KEEP</div>
+  <h2 style="font:900 clamp(30px,5vw,42px)/1.05 Georgia,serif;color:var(--wine);margin:10px 0 8px">The Memory Album <span aria-hidden="true">📷</span></h2>
+  <p class="muted" style="max-width:680px">A home for photographs, keepsake pages and stories you want to look back on. This is your scrapbook — not your daily task or activity tracker.</p>
   <section id="journalSection" style="border-top:1px solid var(--line);margin-top:24px;padding-top:18px">
    <h2 style="font-size:22px">My Little Journal 📖</h2>
    <p class="muted">Write about your day, add your own generated images or photos, and revisit these moments in future years.</p>
@@ -562,8 +573,6 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div id="memoryArchive" class="muted">Loading your journal…</div>
   </section>
  </div>
-</section>
-
 
  <div class="panel section-page song-page-panel" id="songPanel" data-page="song">
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
@@ -1358,7 +1367,7 @@ document.querySelectorAll("[data-page-colour]").forEach(select=>{
 applyPageColours();
 
 function showPage(page,options={}){
- const valid=["home","academic","attendance","coffee","finance","daily","song","people","studycorner","travel","hobbies"];
+ const valid=["home","academic","attendance","coffee","finance","daily","memories","song","people","studycorner","travel","hobbies"];
  if(!valid.includes(page))page="home";
  const dashboard=$("dashboardPanel");
  if(dashboard)dashboard.classList.toggle("hidden",page!=="home");
@@ -1747,7 +1756,7 @@ $("financeMonth").addEventListener("change",()=>renderFinance());
 $("goFinance").addEventListener("click",()=>showPage("finance"));
 
 
-$("goMemories").addEventListener("click",()=>{showPage("daily");setTimeout(()=>$("journalSection").scrollIntoView({behavior:"smooth",block:"start"}),120);});
+$("goMemories").addEventListener("click",()=>showPage("memories"));
 $("goCoffee").addEventListener("click",()=>showPage("coffee"));
 $("goDaily").addEventListener("click",()=>showPage("daily"));
 $("goSong").addEventListener("click",()=>showPage("song"));
