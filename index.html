@@ -1005,7 +1005,7 @@ async function loadHabitBoard(){
 
    const progress=document.createElement("div");progress.className="habit-matrix-progress muted";
    progress.style.cssText="font-size:12px;margin:4px 0 8px 158px";
-   progress.textContent=`${doneCount}/${scheduledCount} scheduled days completed · ${scheduledCount?Math.round(doneCount/scheduledCount*100):0}% completion · ${missedCount} missed`;
+   progress.textContent=`Completed ${doneCount} ${doneCount===1?"time":"times"} this month`;
    host.append(progress);
 
    const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 158px;flex-wrap:wrap";
@@ -1068,34 +1068,7 @@ async function loadHabitBoard(){
    management.append(edit,del);host.append(management);
   });
 
-  // A day-by-day digest of scheduled habits, check-ins and completion.
-  const daily=document.createElement("section");daily.className="habit-daily-summary";
-  const dailyTitle=document.createElement("h3");dailyTitle.textContent="Your daily habit recap ✿";daily.append(dailyTitle);
-  const dailyIntro=document.createElement("p");dailyIntro.className="muted";dailyIntro.style.cssText="font-size:12px;margin:0";dailyIntro.textContent="A little snapshot of how each day went this month.";daily.append(dailyIntro);
-  const dailyList=document.createElement("div");dailyList.className="habit-day-summary-list";daily.append(dailyList);
-  const currentMonth=todayISO().slice(0,7);
-  const lastDay=month>currentMonth?0:month<currentMonth?daysInMonth:Math.min(daysInMonth,Number(todayISO().slice(8,10)));
-  if(lastDay===0){const empty=document.createElement("p");empty.className="muted";empty.textContent="Daily summaries will appear here when this month begins.";dailyList.append(empty);}
-  for(let d=1;d<=lastDay;d++){
-   const dateStr=month+"-"+String(d).padStart(2,"0"),date=new Date(year,monthNumber-1,d),wd=date.getDay();
-   const scheduled=defs.filter(h=>(h.content.frequency||"daily")==="daily"||(h.content.days||[1,2,3,4,5,6,0]).includes(wd));
-   const completed=scheduled.filter(h=>habitChecks.some(c=>c.content?.habit_id===h.id&&c.entry_date===dateStr));
-   const pending=scheduled.filter(h=>!completed.some(x=>x.id===h.id));
-   const pct=scheduled.length?Math.round(completed.length/scheduled.length*100):0;
-   const card=document.createElement("article");card.className="habit-day-summary-card";
-   const top=document.createElement("div");top.className="habit-day-summary-top";
-   const dateLabel=document.createElement("span");dateLabel.className="habit-day-summary-date";dateLabel.textContent=date.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
-   const count=document.createElement("span");count.className="habit-day-summary-count";count.textContent=scheduled.length?`${completed.length}/${scheduled.length} completed`:"Rest day";top.append(dateLabel,count);card.append(top);
-   const bar=document.createElement("div");bar.className="habit-day-summary-bar";const fill=document.createElement("span");fill.style.width=pct+"%";bar.append(fill);card.append(bar);
-   const detail=document.createElement("div");detail.className="habit-day-summary-detail";
-   if(!scheduled.length){detail.textContent="No habits scheduled for this day.";}
-   else{
-    const doneLine=document.createElement("div");doneLine.textContent=completed.length?"✓ "+completed.map(h=>(h.content.emoji||"♡")+" "+h.title).join(" · "):"No habits checked off yet.";detail.append(doneLine);
-    if(pending.length){const pendingLine=document.createElement("div");pendingLine.textContent=(dateStr===todayISO()?"Still to do: ":"Not completed: ")+pending.map(h=>h.title).join(" · ");detail.append(pendingLine);}
-   }
-   card.append(detail);dailyList.append(card);
-  }
-  host.append(daily);
+  // Daily recap cards removed: each habit now shows its monthly completion count above.
  }catch(err){
   host.textContent="Could not load habits: "+(err?.message||String(err));
   setStatus($("habitStatus"),"Could not load habits: "+(err?.message||String(err)));
