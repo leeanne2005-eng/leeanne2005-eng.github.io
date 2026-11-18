@@ -232,6 +232,32 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .hobby-preview{border:1px dashed #c99591;background:#f8eee5;border-radius:10px;padding:14px;margin-top:12px}
 @media(max-width:560px){.hobby-export-row{grid-template-columns:1fr 1fr}.hobby-export-row label{grid-column:1/-1}.hobby-post-cover{height:145px}}
 
+
+/* V23 · Song of the Day pop-art mixtape */
+.song-world{border-top:1px solid var(--line);margin-top:26px;padding-top:22px}
+.song-pop-hero{position:relative;isolation:isolate;overflow:hidden;min-height:220px;padding:25px clamp(18px,4vw,38px);border:2px solid #593239;border-radius:18px;background:#f1c9bf;box-shadow:6px 6px 0 #593239}
+.song-pop-hero:before{content:"";position:absolute;z-index:-1;inset:0;background-image:radial-gradient(#84343c 1.1px,transparent 1.5px);background-size:10px 10px;opacity:.23;mask-image:linear-gradient(90deg,black,transparent 78%)}
+.song-pop-hero h2{position:relative;margin:10px 0 5px;font:900 clamp(37px,8vw,68px)/.86 Arial,sans-serif;letter-spacing:-3px;color:#fffaf2;-webkit-text-stroke:1.5px #593239;text-shadow:4px 4px 0 #84343c;transform:rotate(-2deg);max-width:520px}
+.song-pop-hero h2 span{color:#f8e39b;text-shadow:4px 4px 0 #593239}
+.song-pop-hero p{font: bold 13px Arial;color:#593239;margin:15px 0 0;letter-spacing:.4px}
+.song-hero-sticker{position:absolute;right:13%;top:30px;width:88px;height:88px;border:2px solid #593239;border-radius:50%;background:#d5e0d0;display:grid;place-items:center;color:#84343c;font:52px Georgia;transform:rotate(13deg);box-shadow:4px 4px 0 #593239}
+.song-halftone{position:absolute;right:4%;bottom:-50px;width:185px;height:185px;border-radius:50%;background:repeating-conic-gradient(#84343c 0 8deg,transparent 8deg 16deg);opacity:.15}
+.song-sparkle{position:absolute;right:10%;bottom:20px;color:#84343c;font:26px Georgia;letter-spacing:10px;transform:rotate(-8deg)}
+.song-intro-row{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:25px 4px 14px}.song-intro-row h3,.song-archive-heading h3{font: bold 22px Georgia;color:var(--wine);margin:5px 0}.song-intro-row h3 span{color:#c47b79}.song-intro-row p{margin:4px 0;max-width:520px}
+.song-vinyl{width:76px;height:76px;flex:0 0 76px;border-radius:50%;display:grid;place-items:center;background:repeating-radial-gradient(circle,#473b40 0 3px,#62545a 4px 5px);border:5px solid #382f34;box-shadow:3px 3px 0 #d4b7a9;animation:vinyl-spin 16s linear infinite}.song-vinyl span{width:19px;height:19px;border-radius:50%;background:#e8b9aa;border:2px solid #473b40}
+@keyframes vinyl-spin{to{transform:rotate(360deg)}}
+.song-editor{display:grid;gap:10px;padding:17px;background:#f8eadf;border:2px solid #593239;border-radius:15px;box-shadow:4px 4px 0 #d9b7a9}
+.song-editor label{font:12px bold Arial;color:#76534f}.song-editor input,.song-editor textarea{border:1.5px solid #c99d91;border-radius:9px;background:#fffaf4}.song-editor button{border:2px solid #593239;border-radius:9px;box-shadow:3px 3px 0 #593239;font-weight:bold}.song-editor button.secondary{box-shadow:none;border:1px solid #c99d91}
+.song-archive-heading{display:flex;justify-content:space-between;align-items:center;margin:27px 2px 10px}.song-archive-mark{font:900 10px/1.2 Arial;letter-spacing:1px;text-align:center;color:#593239;border:2px solid #593239;padding:7px 9px;transform:rotate(7deg);background:#f4df9f}
+.song-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px;margin-top:12px}
+.song-memory-card{position:relative;overflow:hidden;min-width:0;padding:15px;border:2px solid #593239;border-radius:13px;background:#dce5d8;box-shadow:4px 4px 0 #593239;color:#593239}
+.song-memory-card:nth-child(4n+2){background:#f4df9f}.song-memory-card:nth-child(4n+3){background:#d9e2ec}.song-memory-card:nth-child(4n+4){background:#efd5d0}
+.song-memory-card:after{content:"♫";position:absolute;right:9px;top:3px;font:62px Georgia;color:#593239;opacity:.12;transform:rotate(12deg);pointer-events:none}
+.song-memory-date{display:inline-block;font: bold 10px Arial;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;border:1px solid #593239;border-radius:30px;background:#fffaf2}
+.song-memory-title{position:relative;z-index:1;display:block;color:#593239;font:900 21px/1.1 Arial,sans-serif;margin:12px 0 5px;overflow-wrap:anywhere}.song-memory-artist{font:12px Arial;color:#76534f}.song-memory-note{font:13px/1.5 Georgia;color:#593239;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0 4px}
+.song-memory-actions{position:relative;z-index:1;display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.song-memory-actions button{padding:7px 10px;font-size:11px;border:1px solid #593239;border-radius:7px;box-shadow:2px 2px 0 #593239}.song-memory-actions a{display:inline-block;padding:8px 10px;border-radius:7px;background:#593239;color:#fffaf2;text-decoration:none;font:11px Arial;font-weight:bold}
+@media(max-width:520px){.song-pop-hero{min-height:195px}.song-hero-sticker{width:64px;height:64px;font-size:39px;right:7%;top:24px}.song-pop-hero h2{font-size:42px}.song-intro-row{align-items:flex-start}.song-vinyl{width:58px;height:58px;flex-basis:58px}.song-card-grid{grid-template-columns:1fr}}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -472,11 +498,16 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <p class="muted">Your saved activities appear here, newest first. Tap a week to open its entries.</p>
    <div id="activityList" class="muted">Loading your private activity log…</div>
   </section>
-  <section id="songOfDaySection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
-   <div class="eyebrow">A little soundtrack for your day</div>
-   <h2 style="font-size:22px">Song of the Day ♫</h2>
-   <p class="muted">Save the song that feels like today. Add a link so you can come back and listen whenever you want.</p>
-   <form id="songForm" style="display:grid;gap:10px;margin-top:12px">
+  <section id="songOfDaySection" class="song-world">
+   <div class="song-pop-hero">
+    <div class="song-hero-sticker">♫</div><div class="song-halftone" aria-hidden="true"></div>
+    <div class="eyebrow">Your life, but make it a soundtrack</div>
+    <h2>SONG OF<br><span>THE DAY!</span></h2>
+    <p>Little moments deserve a theme song.</p>
+    <div class="song-sparkle" aria-hidden="true">✳ ✦ ♪</div>
+   </div>
+   <div class="song-intro-row"><div><div class="eyebrow">The daily mixtape</div><h3>Pin a song to this moment <span>♡</span></h3><p class="muted">Save what you’re listening to, what it reminds you of, or simply how today feels.</p></div><div class="song-vinyl" aria-hidden="true"><span></span></div></div>
+   <form id="songForm" class="song-editor">
     <label class="muted">Date<input id="songDate" type="date" required></label>
     <div class="formgrid">
      <label class="muted">Song title<input id="songTitle" maxlength="160" required placeholder="e.g. The Night We Met"></label>
@@ -487,8 +518,8 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit" id="songSubmit">♫ Save song of the day</button><button type="button" class="secondary" id="songCancelEdit" hidden>Cancel edit</button></div>
     <div id="songStatus" class="muted" role="status"></div>
    </form>
-   <h3 style="font-size:18px;margin:20px 0 8px">Your daily soundtrack ♡</h3>
-   <div id="songList" class="muted">Loading your saved songs…</div>
+   <div class="song-archive-heading"><div><div class="eyebrow">Collected little feelings</div><h3>Your soundtrack archive ♡</h3></div><span class="song-archive-mark">PLAY<br>IT BACK</span></div>
+   <div id="songList" class="song-card-grid muted">Loading your saved songs…</div>
   </section>
   <section id="habitSection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
    <h2 style="font-size:22px">Daily Habit Tracker 🌷</h2>
@@ -992,10 +1023,10 @@ function renderMemoryCard(host,m,isPast){
  if(m.content.story){const p=document.createElement("p");p.className="muted";p.textContent=m.content.story;card.append(p);}
  if(m.content.caption){const p=document.createElement("p");p.className="muted";p.textContent=m.content.caption;card.append(p);}
  (m.content.photos||[]).forEach(async photo=>{const img=document.createElement("img");img.className="memory-photo";img.alt="Journal memory";card.append(img);if(photo.path){const {data,error}=await client.storage.from("private-memories").createSignedUrl(photo.path,3600);if(!error)img.src=data.signedUrl;}});
- const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+ const actions=document.createElement("div");actions.className="song-memory-actions";
  const fav=document.createElement("button");fav.type="button";fav.className="secondary";fav.style.cssText="padding:7px 10px";fav.textContent=m.content.favorite?"♥ Favourited":"♡ Favourite";fav.onclick=async()=>{const {error}=await client.from("journal_entries").update({content:{...m.content,favorite:!m.content.favorite}}).eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not update favourite: "+error.message);else loadMemories();};actions.append(fav);
- const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit text";edit.onclick=async()=>{const title=prompt("Page title",m.title||"");if(title===null)return;const date=prompt("Date (YYYY-MM-DD)",m.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const story=prompt("Your story",m.content.story||"");if(story===null)return;const caption=prompt("Photo caption",m.content.caption||"");if(caption===null)return;const {error}=await client.from("journal_entries").update({title:title.trim()||"A little memory",entry_date:date,content:{...m.content,story,caption}}).eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not update memory: "+error.message);else loadMemories();};actions.append(edit);
- const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete memory";del.onclick=async()=>{if(!confirm("Delete this journal page? Its attached photos will also be removed."))return;const paths=(m.content.photos||[]).map(p=>p.path).filter(Boolean);if(paths.length){const {error:storageError}=await client.storage.from("private-memories").remove(paths);if(storageError){setStatus($("memoryStatus"),"Could not remove attached photos: "+storageError.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not delete memory: "+error.message);else loadMemories();};actions.append(del);card.append(actions);
+ const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit text";edit.onclick=async()=>{const title=prompt("Page title",m.title||"");if(title===null)return;const date=prompt("Date (YYYY-MM-DD)",m.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const story=prompt("Your story",m.content.story||"");if(story===null)return;const caption=prompt("Photo caption",m.content.caption||"");if(caption===null)return;const {error}=await client.from("journal_entries").update({title:title.trim()||"A little memory",entry_date:date,content:{...m.content,story,caption}}).eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not update memory: "+error.message);else loadMemories();};actions.append(edit);
+ const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Delete memory";del.onclick=async()=>{if(!confirm("Delete this journal page? Its attached photos will also be removed."))return;const paths=(m.content.photos||[]).map(p=>p.path).filter(Boolean);if(paths.length){const {error:storageError}=await client.storage.from("private-memories").remove(paths);if(storageError){setStatus($("memoryStatus"),"Could not remove attached photos: "+storageError.message);return;}}const {error}=await client.from("journal_entries").delete().eq("id",m.id);if(error)setStatus($("memoryStatus"),"Could not delete memory: "+error.message);else loadMemories();};actions.append(del);card.append(actions);
  host.append(card);
 }
 $("memoryForm")?.addEventListener("submit",async e=>{
@@ -1323,8 +1354,8 @@ async function loadActivities(){
   const meta=document.createElement("div");meta.className="muted";meta.textContent=(item.entry_date||"")+(item.content?.time?" · "+item.content.time:"")+" · "+(cats[item.content?.category]||"✦ Activity");card.append(title,meta);
   if(item.content?.details){const details=document.createElement("p");details.className="muted";details.textContent=item.content.details;card.append(details);}
   const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;margin-top:8px";
-  const edit=document.createElement("button");edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";edit.onclick=async()=>{const title=prompt("Activity",item.title||"");if(title===null)return;const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const time=prompt("Time (optional, HH:MM)",item.content?.time||"");if(time===null)return;const category=prompt("Category: study, work, exercise, selfcare, social, other",item.content?.category||"other");if(category===null)return;if(!["study","work","exercise","selfcare","social","other"].includes(category))return alert("Please choose a listed category.");const details=prompt("Little details",item.content?.details||"");if(details===null)return;const {error:e}=await client.from("journal_entries").update({title:title.trim()||item.title,entry_date:date,content:{...item.content,time,category,details}}).eq("id",item.id);if(e)setStatus($("activityStatus"),"Could not update activity: "+e.message);else loadActivities();};
-  const del=document.createElement("button");del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this activity entry?"))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("activityStatus"),"Could not delete: "+e.message);else loadActivities();};actions.append(edit,del);card.append(actions);
+  const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const title=prompt("Activity",item.title||"");if(title===null)return;const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const time=prompt("Time (optional, HH:MM)",item.content?.time||"");if(time===null)return;const category=prompt("Category: study, work, exercise, selfcare, social, other",item.content?.category||"other");if(category===null)return;if(!["study","work","exercise","selfcare","social","other"].includes(category))return alert("Please choose a listed category.");const details=prompt("Little details",item.content?.details||"");if(details===null)return;const {error:e}=await client.from("journal_entries").update({title:title.trim()||item.title,entry_date:date,content:{...item.content,time,category,details}}).eq("id",item.id);if(e)setStatus($("activityStatus"),"Could not update activity: "+e.message);else loadActivities();};
+  const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this activity entry?"))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("activityStatus"),"Could not delete: "+e.message);else loadActivities();};actions.append(edit,del);card.append(actions);
  }});
 }
 async function loadGoals(){
@@ -1531,8 +1562,8 @@ async function loadCoffee(){
   if(item.content?.photo_path){const photoNote=document.createElement("div");photoNote.className="muted";photoNote.textContent="☕ Photo attached";card.append(photoNote);const show=document.createElement("button");show.className="secondary";show.style.cssText="padding:7px 10px;margin-top:7px";show.textContent="View photo";show.onclick=async()=>{const {data:photo}=await client.storage.from("private-memories").createSignedUrl(item.content.photo_path,3600);if(photo?.signedUrl){const img=document.createElement("img");img.src=photo.signedUrl;img.alt="Coffee memory";img.style.cssText="display:block;max-width:220px;max-height:220px;object-fit:cover;margin-top:10px";show.replaceWith(img);}else show.textContent="Could not load photo";};card.append(show);}
   if(item.content?.notes){const note=document.createElement("p");note.className="muted";note.textContent=item.content.notes;card.append(note);}
   const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;margin-top:8px";
-  const edit=document.createElement("button");edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";edit.onclick=async()=>{const name=prompt("Coffee name",item.title||"");if(name===null)return;const shop=prompt("Shop / brand",item.content?.shop||"");if(shop===null)return;const location=prompt("Location",item.content?.location||"");if(location===null)return;const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const priceText=prompt("Price in RM (leave blank if unknown)",item.content?.price??"");if(priceText===null)return;const price=priceText.trim()===""?null:Number(priceText);if(price!==null&&(!Number.isFinite(price)||price<0)){alert("Please enter a valid price.");return;}const notes=prompt("Notes",item.content?.notes||"");if(notes===null)return;const {error:e}=await client.from("journal_entries").update({title:name.trim()||item.title,entry_date:date,content:{...item.content,shop,location,price,notes}}).eq("id",item.id);if(e)setStatus($("coffeeStatus"),"Could not update coffee entry: "+e.message);else loadCoffee();};
-  const del=document.createElement("button");del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this coffee memory?"))return;if(item.content?.photo_path){const {error:storageError}=await client.storage.from("private-memories").remove([item.content.photo_path]);if(storageError){setStatus($("coffeeStatus"),"Could not delete photo: "+storageError.message);return;}}const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("coffeeStatus"),"Could not delete: "+e.message);else loadCoffee();};actions.append(edit,del);card.append(actions);
+  const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const name=prompt("Coffee name",item.title||"");if(name===null)return;const shop=prompt("Shop / brand",item.content?.shop||"");if(shop===null)return;const location=prompt("Location",item.content?.location||"");if(location===null)return;const date=prompt("Date (YYYY-MM-DD)",item.entry_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert("Please use YYYY-MM-DD.");const priceText=prompt("Price in RM (leave blank if unknown)",item.content?.price??"");if(priceText===null)return;const price=priceText.trim()===""?null:Number(priceText);if(price!==null&&(!Number.isFinite(price)||price<0)){alert("Please enter a valid price.");return;}const notes=prompt("Notes",item.content?.notes||"");if(notes===null)return;const {error:e}=await client.from("journal_entries").update({title:name.trim()||item.title,entry_date:date,content:{...item.content,shop,location,price,notes}}).eq("id",item.id);if(e)setStatus($("coffeeStatus"),"Could not update coffee entry: "+e.message);else loadCoffee();};
+  const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this coffee memory?"))return;if(item.content?.photo_path){const {error:storageError}=await client.storage.from("private-memories").remove([item.content.photo_path]);if(storageError){setStatus($("coffeeStatus"),"Could not delete photo: "+storageError.message);return;}}const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("coffeeStatus"),"Could not delete: "+e.message);else loadCoffee();};actions.append(edit,del);card.append(actions);
  }});
 }
 $("coffeeMonth")?.addEventListener("change",loadCoffee);
@@ -1579,7 +1610,7 @@ function renderFinance(){
   const top=document.createElement("div");top.style.cssText="display:flex;justify-content:space-between;gap:10px;align-items:start";const left=document.createElement("div");const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||financeKindLabel(item.content?.kind);const meta=document.createElement("div");meta.className="muted";meta.textContent=[item.entry_date,financeKindLabel(item.content?.kind),financeCategories[item.content?.category]||"Other",item.content?.method].filter(Boolean).join(" · ");left.append(title,meta);const amount=document.createElement("strong");amount.style.color="var(--wine)";amount.textContent=money(item.content?.amount);top.append(left,amount);row.append(top);
   if(item.content?.notes){const note=document.createElement("p");note.className="muted";note.textContent=item.content.notes;row.append(note);}
   const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
-  const edit=document.createElement("button");edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";edit.onclick=async()=>{
+  const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{
    const title=prompt("Transaction description",item.title||"");if(title===null)return;
    const amountText=prompt("Amount in RM",String(item.content?.amount??""));if(amountText===null)return;
    const amount=Number(amountText);if(!Number.isFinite(amount)||amount<=0){alert("Please enter an amount greater than zero.");return;}
@@ -1592,7 +1623,7 @@ function renderFinance(){
    const {error:e}=await client.from("journal_entries").update({title:title.trim()||item.title,entry_date:date,content:nextContent}).eq("id",item.id);
    if(e)setStatus($("financeStatus"),"Could not update transaction: "+e.message);else await loadFinance();
   };
-  const del=document.createElement("button");del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this finance record? This cannot be undone."))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("financeStatus"),"Could not delete: "+e.message);else loadFinance();};
+  const del=document.createElement("button");del.className="secondary";del.textContent="Delete";del.onclick=async()=>{if(!confirm("Delete this finance record? This cannot be undone."))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("financeStatus"),"Could not delete: "+e.message);else loadFinance();};
   actions.append(edit,del);row.append(actions);
  }});
 }
@@ -1732,22 +1763,22 @@ async function loadSongs(){
  host.innerHTML="";
  if(!songRows.length){host.textContent="No songs saved yet. Add the song that soundtracks today ♡";return;}
  songRows.forEach(item=>{
-  const card=document.createElement("article");card.className="week-record";card.style.cssText="padding:14px;margin:10px 0;border:1px solid var(--line);border-radius:14px;background:var(--paper)";
-  const date=document.createElement("div");date.className="eyebrow";date.textContent=item.entry_date||"";
-  const title=document.createElement("strong");title.style.cssText="display:block;color:var(--wine);font: bold 19px Georgia,serif;margin:5px 0";title.textContent="♫ "+(item.title||"Untitled song");
-  const artist=document.createElement("div");artist.className="muted";artist.textContent=item.content?.artist||"Artist not specified";
+  const card=document.createElement("article");card.className="song-memory-card";
+  const date=document.createElement("div");date.className="song-memory-date";date.textContent=item.entry_date||"";
+  const title=document.createElement("strong");title.className="song-memory-title";title.textContent="♫ "+(item.title||"Untitled song");
+  const artist=document.createElement("div");artist.className="song-memory-artist";artist.textContent=item.content?.artist||"Artist not specified";
   card.append(date,title,artist);
-  if(item.content?.note){const note=document.createElement("p");note.className="muted";note.textContent=item.content.note;card.append(note);}
-  if(item.content?.url){const link=document.createElement("a");link.href=item.content.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Listen to this song ↗";link.style.cssText="display:inline-block;margin-top:5px;color:var(--wine)";card.append(link);}
-  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
-  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:7px 10px";edit.textContent="Edit";
+  if(item.content?.note){const note=document.createElement("p");note.className="song-memory-note";note.textContent="“"+item.content.note+"”";card.append(note);}
+  if(item.content?.url){const link=document.createElement("a");link.href=item.content.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="▶ LISTEN ↗";card.append(link);}
+  const actions=document.createElement("div");actions.className="song-memory-actions";
+  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit";
   edit.onclick=()=>{
    editingSongId=item.id;$("songDate").value=item.entry_date||todayISO();$("songTitle").value=item.title||"";
    $("songArtist").value=item.content?.artist||"";$("songLink").value=item.content?.url||"";$("songNote").value=item.content?.note||"";
    $("songSubmit").textContent="Save changes";$("songCancelEdit").hidden=false;
    $("songForm").scrollIntoView({behavior:"smooth",block:"center"});
   };
-  const del=document.createElement("button");del.type="button";del.className="secondary";del.style.cssText="padding:7px 10px";del.textContent="Delete";
+  const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Delete";
   del.onclick=async()=>{if(!confirm("Delete this Song of the Day record?"))return;const {error:e}=await client.from("journal_entries").delete().eq("id",item.id);if(e)setStatus($("songStatus"),"Could not delete song: "+e.message);else{if(editingSongId===item.id)resetSongForm();setStatus($("songStatus"),"Song record deleted.");loadSongs();}};
   actions.append(edit,del);card.append(actions);host.append(card);
  });
@@ -1861,7 +1892,7 @@ async function renderTravelTrips(){
   const meta=document.createElement("div");meta.className="muted";meta.textContent=`${c.destination||""}${c.country?", "+c.country:""} · ${travelDateLabel(t.entry_date)} – ${travelDateLabel(c.end_date)} · ${travelStatusLabel(c.status)}`;
   const companions=document.createElement("p");companions.className="muted";companions.textContent=c.companions?`♡ With: ${c.companions}`:"";
   const story=document.createElement("p");story.className="muted";story.style.whiteSpace="pre-wrap";story.textContent=c.story||"A new page in your travel story.";
-  const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+  const actions=document.createElement("div");actions.className="song-memory-actions";
   const view=document.createElement("button");view.type="button";view.textContent="View itinerary";view.onclick=()=>{travelSelectedTripId=t.id;$("travelStopTrip").value=t.id;renderTravelItinerary();$("travelItinerarySection").scrollIntoView({behavior:"smooth",block:"start"});};
   const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit trip";edit.onclick=()=>{editingTravelTripId=t.id;$("travelTitle").value=t.title||"";$("travelCountry").value=c.country||"";$("travelDestination").value=c.destination||"";$("travelStatus").value=c.status||"planned";$("travelStart").value=t.entry_date||"";$("travelEnd").value=c.end_date||"";$("travelCompanions").value=c.companions||"";$("travelStory").value=c.story||"";$("travelCover").value="";$("travelFormHeading").textContent="✎ Edit this journey";$("travelTripSubmit").textContent="Save trip changes";$("travelTripCancel").hidden=false;$("travelTripForm").scrollIntoView({behavior:"smooth",block:"center"});};
   const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Delete trip";del.onclick=()=>deleteTravelTrip(t);
