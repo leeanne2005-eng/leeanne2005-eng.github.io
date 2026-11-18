@@ -644,8 +644,8 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 
  <div class="panel section-page" id="studyCornerPanel" data-page="studycorner">
   <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
-  <div class="eyebrow">A gentle space to think, connect and remember</div><h2>Study Corner 🧠</h2>
-  <p class="muted">Build a chapter tree or arrange ideas on a freeform board. Your notes are private and saved to your signed-in account.</p>
+  <div class="eyebrow">A gentle space to organise your study ideas</div><h2>Study Corner 🧠</h2>
+  <p class="muted">Build a general chapter outline here. Each course has its own dedicated mind map inside its course page.</p>
 
   <section id="courseFoldersSection" style="border-top:1px solid var(--line);margin-top:26px;padding-top:20px">
    <div class="eyebrow">A little home for every subject</div>
@@ -668,13 +668,13 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    </div>
    <div id="courseFolderList" style="margin-top:12px">Your course folders will appear here ♡</div>
   </section>
-  <div class="studycorner-tabs"><button type="button" class="secondary" id="showOutline">Tree Outline</button><button type="button" class="secondary" id="showMindMap">Freeform Mind Map</button></div>
+  <div class="studycorner-tabs"><span class="muted">Your general chapter outline</span></div>
   <section id="outlineMode" class="studycorner-mode">
    <div class="people-hero"><strong>Chapter / topic outline</strong><p class="muted" style="margin:5px 0 0">Add a main topic, then add subtopics under it. Use this as a structured chapter notebook.</p></div>
    <form id="outlineForm" class="formgrid"><label class="muted">Topic title<input id="outlineTitle" maxlength="140" required placeholder="e.g. Parkinson's disease"></label><label class="muted">Parent topic<select id="outlineParent"><option value="">Main topic (no parent)</option></select></label><label class="muted">Short note<input id="outlineNote" maxlength="500" placeholder="Key idea or reminder"></label><button type="submit">＋ Add topic</button></form>
    <div id="outlineTree" class="outline-tree"><p class="muted">Your chapter outline will appear here.</p></div>
   </section>
-  <section id="mindMapMode" class="studycorner-mode hidden">
+  <section id="mindMapMode" class="studycorner-mode hidden" style="display:none!important">
    <div class="people-hero"><strong>Freeform idea board</strong><p class="muted" style="margin:5px 0 0">Add connected ideas, drag the cards around, and save your layout. On a tablet, use your finger or stylus to move nodes.</p></div>
    <form id="mindNodeForm" class="formgrid"><label class="muted">Idea<input id="mindNodeTitle" maxlength="120" required placeholder="e.g. α-synuclein"></label><label class="muted">Connect to<select id="mindNodeParent"><option value="">Central idea</option></select></label><label class="muted">Detail<textarea id="mindNodeNote" rows="1" maxlength="500" placeholder="Add a short explanation…"></textarea></label><button type="submit">＋ Add idea</button></form>
    <div id="mindMapBoard" class="mindmap-board"><div class="mindmap-center">CENTRAL IDEA</div></div><p class="muted" id="mindMapStatus" role="status"></p>
@@ -1638,6 +1638,38 @@ async function openCourseFolder(id){
  const folder=courseFolderRows.find(f=>f.id===id);if(!folder)return;
  activeCourseFolderId=id;renderCourseDetail(folder);showPage("coursedetail");
 }
+// ===== Course-specific mind maps V34 =====
+async function buildCourseMindMapSection(folder, host){
+ const section=document.createElement("section");section.className="course-detail-section";
+ const heading=document.createElement("h3");heading.textContent="🧠 Course Mind Map";
+ const intro=document.createElement("p");intro.className="muted";intro.textContent="Create a separate visual map for this subject. Add ideas, connect them to a parent topic, and drag them around. Each course keeps its own mind map.";
+ const form=document.createElement("form");form.className="formgrid";
+ const titleLabel=document.createElement("label");titleLabel.className="muted";titleLabel.textContent="Idea / topic";
+ const titleInput=document.createElement("input");titleInput.maxLength=120;titleInput.required=true;titleInput.placeholder="e.g. Main concept, mechanism, symptoms";titleLabel.append(titleInput);
+ const parentLabel=document.createElement("label");parentLabel.className="muted";parentLabel.textContent="Connect to";
+ const parentSelect=document.createElement("select");parentSelect.innerHTML='<option value="">Central idea</option>';parentLabel.append(parentSelect);
+ const noteLabel=document.createElement("label");noteLabel.className="muted";noteLabel.textContent="Short explanation";
+ const noteInput=document.createElement("input");noteInput.maxLength=500;noteInput.placeholder="Add a key detail…";noteLabel.append(noteInput);
+ const add=document.createElement("button");add.type="submit";add.textContent="＋ Add idea";form.append(titleLabel,parentLabel,noteLabel,add);
+ const board=document.createElement("div");board.className="mindmap-board";board.style.minHeight="480px";
+ const status=document.createElement("p");status.className="muted";status.setAttribute("role","status");
+ section.append(heading,intro,form,board,status);host.append(section);
+ let nodes=[];
+ const centerLabel=document.createElement("div");centerLabel.className="mindmap-center";centerLabel.textContent=folder.title;centerLabel.style.maxWidth="190px";centerLabel.style.textAlign="center";
+ async function reload(){
+  const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").order("created_at",{ascending:true}));
+  if(error){status.textContent="Could not load this course mind map: "+error.message;return;}
+  nodes=(data||[]).filter(r=>r.content?.kind==="study_node"&&r.content?.course_id===folder.id);
+  render();
+ }
+ function refreshParents(){const old=parentSelect.value;parentSelect.innerHTML='<option value="">Central idea</option>';nodes.forEach(n=>{const opt=document.createElement("option");opt.value=n.id;opt.textContent=n.title;parentSelect.append(opt);});if(nodes.some(n=>n.id===old))parentSelect.value=old;}
+ function drawLines(){const svg=board.querySelector("svg");if(!svg)return;svg.setAttribute("viewBox",`0 0 ${board.clientWidth} ${board.clientHeight}`);svg.innerHTML="";const center={x:board.clientWidth/2,y:board.clientHeight*.45};nodes.forEach(n=>{const el=board.querySelector(`[data-mind-id="${n.id}"]`);if(!el)return;const p=n.content.position||{x:20,y:20};const parent=n.content.parent_id?nodes.find(x=>x.id===n.content.parent_id):null;const parentEl=parent?board.querySelector(`[data-mind-id="${parent.id}"]`):null;const pp=parent?.content.position||{x:20,y:20};const line=document.createElementNS("http://www.w3.org/2000/svg","line");line.setAttribute("x1",parentEl?pp.x+parentEl.offsetWidth/2:center.x);line.setAttribute("y1",parentEl?pp.y+parentEl.offsetHeight/2:center.y);line.setAttribute("x2",p.x+el.offsetWidth/2);line.setAttribute("y2",p.y+el.offsetHeight/2);svg.append(line);});}
+ function render(){board.innerHTML='<svg class="mindmap-lines"></svg>';board.append(centerLabel);const w=board.clientWidth||600;nodes.forEach((n,i)=>{const p=n.content.position||{x:Math.max(8,(i%3)*Math.max(130,w/3)+8),y:24+Math.floor(i/3)*125};const card=document.createElement("div");card.className="mindmap-node";card.dataset.mindId=n.id;card.style.left=Math.max(0,Math.min(p.x,w-155))+"px";card.style.top=Math.max(0,p.y)+"px";const t=document.createElement("strong");t.textContent=n.title;const d=document.createElement("small");d.textContent=n.content.note||"Drag to arrange";const actions=document.createElement("div");const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const nt=prompt("Idea / topic",n.title);if(nt===null||!nt.trim())return;const nn=prompt("Short explanation",n.content.note||"");if(nn===null)return;const next={...n,title:nt.trim(),content:{...n.content,note:nn.trim()}};const {error}=await client.from("journal_entries").update({title:next.title,content:next.content}).eq("id",n.id);if(error){status.textContent="Could not update idea: "+error.message;return;}Object.assign(n,next);render();status.textContent="Idea updated ♡";};const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="Remove";del.onclick=async()=>{if(!confirm("Remove this idea from this course mind map?"))return;const descendants=[];const collect=id=>nodes.filter(x=>(x.content.parent_id||"")===id).forEach(x=>{descendants.push(x.id);collect(x.id);});collect(n.id);const ids=[n.id,...descendants];const {error}=await client.from("journal_entries").delete().in("id",ids);if(error){status.textContent="Could not remove idea: "+error.message;return;}nodes=nodes.filter(x=>!ids.includes(x.id));render();status.textContent="Idea removed ♡";};actions.append(edit,del);card.append(t,d,actions);board.append(card);makeDraggable(card,n);});refreshParents();drawLines();}
+ function makeDraggable(el,node){let start=null;el.addEventListener("pointerdown",e=>{if(e.target.closest("button"))return;start={x:e.clientX,y:e.clientY,left:parseFloat(el.style.left)||0,top:parseFloat(el.style.top)||0};el.setPointerCapture(e.pointerId);});el.addEventListener("pointermove",e=>{if(!start)return;el.style.left=Math.max(0,Math.min(board.clientWidth-el.offsetWidth,start.left+e.clientX-start.x))+"px";el.style.top=Math.max(0,Math.min(board.clientHeight-el.offsetHeight,start.top+e.clientY-start.y))+"px";drawLines();});const finish=async()=>{if(!start)return;node.content.position={x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0};start=null;const {error}=await client.from("journal_entries").update({content:node.content}).eq("id",node.id);if(error)status.textContent="Could not save position: "+error.message;};el.addEventListener("pointerup",finish);el.addEventListener("pointercancel",finish);}
+ form.addEventListener("submit",async e=>{e.preventDefault();const name=titleInput.value.trim();if(!name)return;try{const user=await currentUser();const index=nodes.length;const content={kind:"study_node",course_id:folder.id,parent_id:parentSelect.value||null,note:noteInput.value.trim(),position:{x:Math.max(12,(index%3)*150+12),y:24+Math.floor(index/3)*125},order:index};const {data,error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:todayISO(),title:name,content}).select("id,entry_date,title,content,created_at").single();if(error)throw error;nodes.push(data);form.reset();render();status.textContent="Idea saved to this course mind map ♡";}catch(err){status.textContent="Could not save idea: "+err.message;}});
+ await reload();
+}
+
 function renderCourseDetail(folder){
  const host=$("courseDetailContent"),c=folder.content||{},palette=courseFolderPalettes[c.colour]||courseFolderPalettes.rose;
  host.innerHTML="";
@@ -1646,6 +1678,7 @@ function renderCourseDetail(folder){
  const h=document.createElement("h2");h.textContent="📚 "+folder.title;
  const intro=document.createElement("p");intro.className="muted";intro.textContent="Your dedicated course space — keep your notes, tasks and study materials together.";
  hero.append(eyebrow,h,intro);host.append(hero);
+ buildCourseMindMapSection(folder,host);
  // Private course notes library: files are stored in the existing private-memories bucket.
  const courseUploadSection=document.createElement("section");courseUploadSection.className="course-detail-section";
  const courseUploadHeading=document.createElement("h3");courseUploadHeading.textContent="📎 Important Notes & Materials";
@@ -1957,7 +1990,7 @@ function makeMindNodeDraggable(el,node){let start=null;el.addEventListener("poin
 async function saveStudyNode(node){if(!client)return;const user=await currentUser();if(node.id&&node.id.startsWith("local-")){const {data,error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:todayISO(),title:node.title,content:node.content}).select("id,entry_date,title,content").single();if(error)throw error;node.id=data.id;studyNodes=studyNodes.map(n=>n===node?data:n);}else{const {error}=await client.from("journal_entries").update({title:node.title,content:node.content}).eq("id",node.id);if(error)throw error;}renderStudySelectors();renderOutline();}
 async function deleteStudyNode(id){const descendants=[];const collect=pid=>studyNodes.filter(n=>(n.content.parent_id||"")===pid).forEach(n=>{descendants.push(n.id);collect(n.id);});collect(id);if(!confirm("Delete this topic and its subtopics?"))return;const ids=[id,...descendants];const {error}=await client.from("journal_entries").delete().in("id",ids);if(error){$("mindMapStatus").textContent="Could not delete topic: "+error.message;return;}studyNodes=studyNodes.filter(n=>!ids.includes(n.id));renderOutline();renderMindMap();}
 async function loadStudyCorner(){if(!client)return;const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content").eq("entry_type","note").order("created_at",{ascending:true}));if(error){$("mindMapStatus").textContent="Could not load Study Corner: "+error.message;return;}studyNodes=(data||[]).filter(r=>r.content?.kind==="study_node");renderOutline();renderMindMap();}
-$("showOutline").addEventListener("click",()=>setStudyMode("outline"));$("showMindMap").addEventListener("click",()=>setStudyMode("mindmap"));
+$("showOutline")?.addEventListener("click",()=>setStudyMode("outline"));
 $("outlineForm").addEventListener("submit",async e=>{e.preventDefault();try{const user=await currentUser();const title=$("outlineTitle").value.trim();if(!title)return;const node={id:"local-"+Date.now(),title,content:{kind:"study_node",parent_id:$("outlineParent").value||null,note:$("outlineNote").value.trim(),position:{x:30+(studyNodes.length%3)*150,y:30+Math.floor(studyNodes.length/3)*120},order:studyNodes.length}};const {data,error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:todayISO(),title,content:node.content}).select("id,entry_date,title,content").single();if(error)throw error;studyNodes.push(data);$("outlineForm").reset();renderOutline();renderMindMap();$("mindMapStatus").textContent="Topic saved privately ♡";}catch(err){$("mindMapStatus").textContent="Could not save topic: "+err.message;}});
 $("mindNodeForm").addEventListener("submit",async e=>{e.preventDefault();try{const user=await currentUser();const title=$("mindNodeTitle").value.trim();if(!title)return;const index=studyNodes.length;const node={user_id:user.id,entry_type:"note",entry_date:todayISO(),title,content:{kind:"study_node",parent_id:$("mindNodeParent").value||null,note:$("mindNodeNote").value.trim(),position:{x:20+(index%3)*150,y:20+Math.floor(index/3)*125},order:index}};const {data,error}=await client.from("journal_entries").insert(node).select("id,entry_date,title,content").single();if(error)throw error;studyNodes.push(data);$("mindNodeForm").reset();renderOutline();renderMindMap();$("mindMapStatus").textContent="Idea saved. Drag it to arrange your map ♡";}catch(err){$("mindMapStatus").textContent="Could not save idea: "+err.message;}});
 $("goStudyCorner").addEventListener("click",()=>{showPage("studycorner");loadStudyCorner();});
