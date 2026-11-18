@@ -289,14 +289,21 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 
 
 /* V29 · printable-inspired monthly habit matrix in the scrapbook palette */
-.habit-matrix-board{padding:16px 14px 14px;background:#fffaf2;border:1px solid #ddc9bd;border-radius:18px;box-shadow:0 4px 0 rgba(111,83,75,.08);position:relative;overflow:hidden}
+.habit-matrix-board{padding:16px 14px 14px;background:#fffaf2;border:1px solid #ddc9bd;border-radius:18px;box-shadow:0 4px 0 rgba(111,83,75,.08);position:relative;overflow:visible}
+.habit-matrix-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#b99a91 #f2e9e1;padding-bottom:7px;box-sizing:border-box}
+.habit-matrix-scroll::-webkit-scrollbar{height:9px}
+.habit-matrix-scroll::-webkit-scrollbar-track{background:#f2e9e1;border-radius:99px}
+.habit-matrix-scroll::-webkit-scrollbar-thumb{background:#b99a91;border-radius:99px}
+.habit-matrix-table{width:max-content;min-width:100%}
+.habit-matrix-scroll-hint{display:flex;align-items:center;gap:6px;margin:6px 2px 0;color:#927a74;font:11px Arial,sans-serif}
+.habit-matrix-scroll-hint:before{content:"↔";font-size:15px;color:#a78380}
 .habit-matrix-board:before{content:"✦";position:absolute;right:15px;top:8px;color:#d3a4a5;font-size:27px;transform:rotate(12deg)}
 .habit-matrix-heading{display:flex;flex-direction:column;gap:3px;margin:0 0 14px;padding:0 4px 10px;border-bottom:1px dashed #d8c4b8}
 .habit-matrix-kicker{font:10px Arial,sans-serif;letter-spacing:2.2px;color:#9a817b}
 .habit-matrix-heading strong{font:italic 27px Georgia,serif;color:#80636a}
 .habit-matrix-heading strong span{color:#b18c87;font-size:22px}
 .habit-matrix-heading small{font:12px/1.5 Arial,sans-serif;color:#9a817b}
-.habit-matrix-row{display:grid;grid-template-columns:158px repeat(var(--habit-days,31),minmax(25px,1fr));gap:3px;align-items:center;margin:0;min-width:max-content}
+.habit-matrix-row{display:grid;grid-template-columns:158px repeat(var(--habit-days,31),25px);gap:3px;align-items:center;margin:0;width:max-content;min-width:max-content}
 .habit-matrix-head{padding:7px 0;background:#e9eee8;border:1px solid #d5dfd5;border-radius:9px 9px 0 0}
 .habit-matrix-name{display:flex;align-items:center;gap:7px;padding:5px 7px;min-width:0;color:#68535a;font:12px Arial,sans-serif}
 .habit-matrix-head .habit-matrix-name{font-size:9px;letter-spacing:1px;font-weight:bold;color:#73816f}
@@ -313,7 +320,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .habit-matrix-row .habit-dot.future{background:#f8f4ef;opacity:.65}
 .habit-matrix-row .habit-dot:not(:disabled):hover{transform:scale(1.12);outline:2px solid #d7b5ae;outline-offset:1px}
 .habit-matrix-progress{font:11px/1.5 Arial,sans-serif!important;color:#927a74!important}
-@media(max-width:600px){.habit-matrix-board{padding:12px 9px}.habit-matrix-heading strong{font-size:23px}.habit-matrix-name{font-size:11px}.habit-matrix-row .habit-dot{width:21px;height:21px;min-width:21px}}
+@media(max-width:600px){.habit-matrix-board{padding:12px 9px}.habit-matrix-heading strong{font-size:23px}.habit-matrix-name{font-size:11px}.habit-matrix-row .habit-dot{width:21px;height:21px;min-width:21px}.habit-matrix-row{grid-template-columns:126px repeat(var(--habit-days,31),25px)}}
 
 /* V28 daily habit summaries */
 .habit-daily-summary{margin:20px 0 8px;padding:16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#fbf2e9,#f7eee8)}
@@ -959,16 +966,19 @@ async function loadHabitBoard(){
   const boardHeading=document.createElement("div");boardHeading.className="habit-matrix-heading";
   boardHeading.innerHTML='<span class="habit-matrix-kicker">A LITTLE EVERY DAY</span><strong>My habit garden <span aria-hidden="true">✿</span></strong><small>Shade a little square each time you show up for yourself.</small>';
   board.append(boardHeading);
-  const matrixWidth=`calc(158px + ${daysInMonth} * 27px)`;
-  const head=document.createElement("div");head.className="habit-matrix-row habit-matrix-head";head.style.minWidth=matrixWidth;
+  const scroll=document.createElement("div");scroll.className="habit-matrix-scroll";scroll.setAttribute("role","region");scroll.setAttribute("aria-label","Monthly habit tracker. Scroll horizontally to see every day of the month.");
+  const table=document.createElement("div");table.className="habit-matrix-table";table.style.setProperty("--habit-days",daysInMonth);
+  const head=document.createElement("div");head.className="habit-matrix-row habit-matrix-head";head.style.setProperty("--habit-days",daysInMonth);
   const headLabel=document.createElement("div");headLabel.className="habit-matrix-name";headLabel.textContent="HABIT / DAY";head.append(headLabel);
   for(let d=1;d<=daysInMonth;d++){const cell=document.createElement("div");cell.className="habit-matrix-date";cell.textContent=d;head.append(cell);}
-  board.append(head);
-  const grid=document.createElement("div");grid.className="habit-matrix-grid";grid.style.minWidth=matrixWidth;board.append(grid);
+  table.append(head);
+  const grid=document.createElement("div");grid.className="habit-matrix-grid";grid.style.setProperty("--habit-days",daysInMonth);table.append(grid);
+  scroll.append(table);board.append(scroll);
+  const scrollHint=document.createElement("div");scrollHint.className="habit-matrix-scroll-hint";scrollHint.textContent="Scroll sideways to see all days of the month";board.append(scrollHint);
   host.append(board);
 
   defs.forEach(h=>{
-   const row=document.createElement("div");row.className="habit-matrix-row";
+   const row=document.createElement("div");row.className="habit-matrix-row";row.style.setProperty("--habit-days",daysInMonth);
    const name=document.createElement("div");name.className="habit-matrix-name";
    const emoji=document.createElement("span");emoji.className="habit-matrix-emoji";emoji.textContent=h.content.emoji||"♡";
    const title=document.createElement("span");title.className="habit-matrix-title";title.textContent=h.title;
