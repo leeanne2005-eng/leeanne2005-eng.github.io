@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World V16 ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V20 ♡</title>
+<!-- V20: My Hobbies blog with editable posts and preset social/A4 exports. -->
 <!-- V19: Travel Journal trips, itinerary stops and private photo memories. -->
 <!-- V18: deduplicate repeated friend profiles in People I Met without deleting records. -->
 <!-- V17: adds Song of the Day records inside Today I Did. -->
@@ -203,6 +204,19 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 /* Period calendar */
 .period-shell{background:linear-gradient(145deg,#fbf3ef,#f4e9e3);border:1px solid #dfc9c2;border-radius:18px;padding:16px;margin:16px 0}.period-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.period-month{font: bold 18px Georgia;color:var(--wine)}.period-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px}.period-weekday{text-align:center;font:11px Arial;color:var(--muted);padding:5px 0}.period-day{min-height:43px;padding:5px 2px;border:1px solid #e4d5ce;background:#fffaf6;color:var(--ink);border-radius:10px;font:12px Arial;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}.period-day.empty{visibility:hidden}.period-day.selected{outline:2px solid var(--wine);outline-offset:1px}.period-day.flow-light{background:#f4dfe0;border-color:#e5bfc2}.period-day.flow-medium{background:#e8c4c8;border-color:#d8a5aa}.period-day.flow-heavy{background:#d59da4;color:#fff;border-color:#c78c95}.period-day .dot{font-size:9px;line-height:1}.period-legend{display:flex;gap:10px;flex-wrap:wrap;font:11px Arial;color:var(--muted);margin-top:12px}.period-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.period-stat{background:#fffaf6;border:1px solid #e5d6ce;border-radius:12px;padding:12px}.period-stat strong{display:block;font:20px Georgia;color:var(--wine)}.period-stat span{font:11px Arial;color:var(--muted)}.period-day-form{background:#fffaf6;border:1px dashed #d7b9b5;border-radius:14px;padding:14px;margin-top:14px}.period-day-form .symptom-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.period-day-form .symptom-list label{font:12px Arial;background:#f4ece7;border-radius:99px;padding:7px 9px}.period-day-form .symptom-list input{width:auto;margin:0 4px 0 0;padding:0}.period-notice{font:12px/1.55 Arial;color:#806f6d;background:#f1e9e2;border-radius:10px;padding:10px;margin-top:12px}
 
+
+/* V20 · My Hobbies blog */
+.hobby-editor{background:#fbf4eb;border:1px solid #dfc2bb;border-radius:12px;padding:16px;margin:14px 0}
+.hobby-post-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:14px}
+.hobby-post-card{background:#fffaf2;border:1px solid #dfc2bb;border-radius:12px;overflow:hidden;box-shadow:0 4px 0 #eadfd3}
+.hobby-post-cover{width:100%;height:170px;object-fit:cover;background:#eee2d7;display:block}
+.hobby-post-body{padding:14px}.hobby-post-body h3{margin:0 0 6px;color:var(--wine);font-size:20px}.hobby-post-excerpt{font:14px/1.65 Arial;color:#765f5a;white-space:pre-wrap;overflow-wrap:anywhere;max-height:115px;overflow:hidden}
+.hobby-tag{display:inline-block;border:1px dashed #c99591;border-radius:20px;padding:4px 9px;font:11px Arial;color:var(--wine);margin:4px 4px 0 0}
+.hobby-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.hobby-actions button{padding:9px 12px;font-size:12px}
+.hobby-export-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:end;margin-top:12px}
+.hobby-preview{border:1px dashed #c99591;background:#f8eee5;border-radius:10px;padding:14px;margin-top:12px}
+@media(max-width:560px){.hobby-export-row{grid-template-columns:1fr 1fr}.hobby-export-row label{grid-column:1/-1}.hobby-post-cover{height:145px}}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -246,7 +260,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <button type="button" class="module-card rose" id="goPeople" data-sticker="♡"><span class="module-icon">🫶</span><strong>People I Met</strong><span class="muted">Friends, shared moments, little meetups and your social circle.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card rose" id="goMemories" data-sticker="♡"><span class="module-icon">📷</span><strong>Memories</strong><span class="muted">Photos, journal pages and moments I want to keep.</span><span class="module-open">Open this chapter →</span></button>
    <button type="button" class="module-card blue" id="goTravel" data-sticker="✈"><span class="module-icon">✈️</span><strong>Travel Journal</strong><span class="muted">Places explored, little itineraries and travel stories.</span><span class="module-open">Open this chapter →</span></button>
-   <div class="module-card butter" aria-disabled="true" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">Crochet, reading, creative projects and new interests.</span><span class="module-open">A new chapter · Coming later</span></div>
+   <button type="button" class="module-card butter" id="goHobbies" data-sticker="✿"><span class="module-icon">🧶</span><strong>My Hobbies</strong><span class="muted">A little blog for crochet, reading, creative projects and new interests.</span><span class="module-open">Open this chapter →</span></button>
   </div>
   <details class="page-colour-settings" id="pageColourSettings">
    <summary>🎨 Make this little world yours · Edit page colours</summary>
@@ -260,6 +274,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
     <label>People I Met<select data-page-colour="goPeople"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
     <label>Memories<select data-page-colour="goMemories"><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
     <label>Travel Journal<select data-page-colour="goTravel"><option value="blue">Dusty blue</option><option value="sage">Sage green</option><option value="rose">Dusty rose</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option></select></label>
+    <label>My Hobbies<select data-page-colour="goHobbies"><option value="butter">Buttercream</option><option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="caramel">Caramel</option></select></label>
    </div>
    <p class="page-colour-hint">You can change these whenever you like. This changes the home chapter cards, not the records inside them.</p>
   </details>
@@ -608,6 +623,53 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div id="travelItinerary" style="margin-top:14px"><p class="muted">Choose a trip to see its itinerary.</p></div>
   </section>
   <div class="notice">Your travel notes and photos are private. Trip details are saved in your existing Supabase journal_entries table; photos use your existing private-memories storage bucket. No new SQL setup is required.</div>
+ </div>
+
+
+ <div class="panel section-page" id="hobbiesPanel" data-page="hobbies">
+  <button class="secondary page-back" type="button" data-back>← Back to My Little World</button>
+  <div class="eyebrow">A little archive of things you love making</div>
+  <h2>My Hobbies 🧶</h2>
+  <p class="muted">A personal blog for the things you make, read, collect, learn and enjoy. Write once, then export a ready-sized post for different platforms.</p>
+  <div class="people-stat-grid" id="hobbyStats">
+   <div class="people-stat"><strong>0</strong><span>Posts</span></div><div class="people-stat"><strong>0</strong><span>Categories</span></div><div class="people-stat"><strong>0</strong><span>This year</span></div><div class="people-stat"><strong>0</strong><span>Published</span></div>
+  </div>
+  <section class="hobby-editor">
+   <h3 id="hobbyFormHeading" style="margin:0 0 8px;color:var(--wine)">＋ Write a new hobby post</h3>
+   <p class="muted">You can save a draft first and edit it later. Posts are private unless you choose to export and share them.</p>
+   <form id="hobbyForm" style="display:grid;gap:10px;margin-top:12px">
+    <div class="formgrid">
+     <label class="muted">Post title<input id="hobbyTitle" maxlength="150" required placeholder="e.g. My first crochet flower"></label>
+     <label class="muted">Date<input id="hobbyDate" type="date" required></label>
+     <label class="muted">Category<select id="hobbyCategory"><option>Crochet</option><option>Reading</option><option>Art & Crafts</option><option>Photography</option><option>Cooking & Baking</option><option>Collecting</option><option>Learning</option><option>Other</option></select></label>
+     <label class="muted">Post status<select id="hobbyPostStatus"><option value="published">Published in my blog</option><option value="draft">Keep as draft</option></select></label>
+    </div>
+    <label class="muted">Short introduction<input id="hobbyExcerpt" maxlength="260" placeholder="A little sentence about this moment…"></label>
+    <label class="muted">Your story<textarea id="hobbyStory" rows="7" maxlength="12000" required placeholder="What did you do? What did you learn? What would you like to remember? You can write naturally, like a blog post…"></textarea></label>
+    <label class="muted">Tags (separate with commas)<input id="hobbyTags" maxlength="300" placeholder="crochet, handmade, weekend project"></label>
+    <label class="muted">Cover photo (optional)<input id="hobbyCover" type="file" accept="image/*"></label>
+    <label class="muted">More photos (up to 8)<input id="hobbyPhotos" type="file" accept="image/*" multiple></label>
+    <div id="hobbyExistingPhotos" class="muted"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit" id="hobbySaveButton">♡ Save blog post</button><button type="button" class="secondary" id="hobbyCancelEdit" hidden>Cancel edit</button></div>
+    <div id="hobbyStatus" class="muted" role="status"></div>
+   </form>
+  </section>
+  <section style="border-top:1px solid var(--line);padding-top:18px;margin-top:20px">
+   <h3 style="color:var(--wine)">✿ My little blog</h3>
+   <div class="formgrid"><label class="muted">Search posts<input id="hobbySearch" type="search" placeholder="Search title, story or tags…"></label><label class="muted">Filter category<select id="hobbyFilter"><option value="all">All categories</option><option>Crochet</option><option>Reading</option><option>Art & Crafts</option><option>Photography</option><option>Cooking & Baking</option><option>Collecting</option><option>Learning</option><option>Other</option></select></label><label class="muted">Show posts<select id="hobbyStatusFilter"><option value="all">Published and drafts</option><option value="published">Published only</option><option value="draft">Drafts only</option></select></label></div>
+   <div id="hobbyPostList" class="hobby-post-grid"><p class="muted">Your hobby stories will appear here ♡</p></div>
+  </section>
+  <section class="hobby-preview">
+   <h3 style="margin:0 0 5px;color:var(--wine)">✧ Ready-to-share export studio</h3>
+   <p class="muted">Choose a post and a preset. The image dimensions are prepared automatically, so you do not need to resize anything yourself.</p>
+   <div class="hobby-export-row">
+    <label class="muted">Choose a post<select id="hobbyExportPost"><option value="">Choose a post</option></select></label>
+    <label class="muted">Format<select id="hobbyExportFormat"><option value="a4">A4 printable page</option><option value="instagram-portrait">Instagram portrait · 4:5</option><option value="instagram-square">Instagram square · 1:1</option><option value="story">Instagram Story · 9:16</option><option value="threads">Threads-friendly · 4:5</option></select></label>
+    <button type="button" id="hobbyExportPng">Download image</button><button type="button" class="secondary" id="hobbyExportPdf">Download A4 PDF</button><button type="button" class="secondary" id="hobbyCopyText">Copy text for Threads</button>
+   </div>
+   <div id="hobbyExportStatus" class="muted" role="status" style="margin-top:8px">A4 PDF is available when A4 is selected. Social presets download as PNG.</div>
+  </section>
+  <div class="notice">Your blog posts and photos are stored in your existing private Supabase journal and private-memories bucket. Exported files are downloaded to your device; sharing them elsewhere is your choice. No database migration is required.</div>
  </div>
 
 <section class="panel" id="connectionPanel">
@@ -1184,7 +1246,7 @@ document.querySelectorAll("[data-page-colour]").forEach(select=>{
 applyPageColours();
 
 function showPage(page,options={}){
- const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner","travel"];
+ const valid=["home","academic","attendance","coffee","finance","daily","people","studycorner","travel","hobbies"];
  if(!valid.includes(page))page="home";
  const dashboard=$("dashboardPanel");
  if(dashboard)dashboard.classList.toggle("hidden",page!=="home");
@@ -1475,6 +1537,7 @@ $("goCoffee").addEventListener("click",()=>showPage("coffee"));
 $("goDaily").addEventListener("click",()=>showPage("daily"));
 $("goPeople").addEventListener("click",()=>showPage("people"));
 $("goTravel").addEventListener("click",()=>{showPage("travel");loadTravelData();});
+$("goHobbies").addEventListener("click",()=>{showPage("hobbies");loadHobbyPosts();});
 document.querySelectorAll("[data-back]").forEach(btn=>btn.addEventListener("click",()=>showPage("home")));
 window.addEventListener("popstate",()=>{const page=(location.hash||"#home").slice(1);showPage(page,{history:false});});
 
@@ -1578,6 +1641,33 @@ $("activityForm").addEventListener("submit",async e=>{
  $("activityForm").reset();activityDate.value=todayISO();
  setStatus($("activityStatus"),"Saved to your private cloud daily log ♡");loadActivities();
 });
+
+// ===== My Hobbies V20 · private blog and ready-sized exports =====
+let hobbyRows=[],editingHobbyId=null,hobbyCoverPathEditing="",hobbyPhotoPathsEditing=[];
+const hobbyUrlCache=new Map();
+function hobbyEsc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function hobbyDateLabel(v){if(!v)return "";const d=new Date(v+"T12:00:00");return Number.isNaN(d.getTime())?v:d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}
+async function hobbySignedUrl(path){if(!path||!client)return "";if(hobbyUrlCache.has(path))return hobbyUrlCache.get(path);const {data,error}=await client.storage.from("private-memories").createSignedUrl(path,3600);const url=error?"":data.signedUrl;if(url)hobbyUrlCache.set(path,url);return url;}
+async function hobbyUpload(file,folder){if(!file)return "";if(file.size>10*1024*1024)throw new Error("Each photo must be smaller than 10 MB.");if(!file.type.startsWith("image/"))throw new Error("Please choose an image file.");const user=await currentUser();const path=user.id+"/hobbies/"+folder+"_"+Date.now()+"_"+Math.random().toString(36).slice(2,8)+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const {error}=await client.storage.from("private-memories").upload(path,file,{upsert:false,contentType:file.type});if(error)throw error;return path;}
+function hobbyResetForm(){$("hobbyForm").reset();editingHobbyId=null;hobbyCoverPathEditing="";hobbyPhotoPathsEditing=[];$("hobbyDate").value=todayISO();$("hobbyFormHeading").textContent="＋ Write a new hobby post";$("hobbySaveButton").textContent="♡ Save blog post";$("hobbyCancelEdit").hidden=true;$("hobbyExistingPhotos").textContent="";}
+function renderHobbyStats(){const cats=new Set(hobbyRows.map(r=>r.content?.category).filter(Boolean));const year=new Date().getFullYear();const yearCount=hobbyRows.filter(r=>(r.entry_date||"").startsWith(String(year))).length;const published=hobbyRows.filter(r=>r.content?.status!=="draft").length;$("hobbyStats").innerHTML=[[hobbyRows.length,"Posts"],[cats.size,"Categories"],[yearCount,"This year"],[published,"Published"]].map(([n,l])=>`<div class="people-stat"><strong>${n}</strong><span>${l}</span></div>`).join("");}
+function renderHobbyExportOptions(){const sel=$("hobbyExportPost"),old=sel.value;sel.innerHTML='<option value="">Choose a post</option>'+hobbyRows.map(r=>`<option value="${r.id}">${hobbyEsc(r.title)} · ${hobbyDateLabel(r.entry_date)}</option>`).join("");if(hobbyRows.some(r=>r.id===old))sel.value=old;else if(hobbyRows.length)sel.value=hobbyRows[0].id;}
+async function renderHobbyPosts(){const q=$("hobbySearch").value.trim().toLowerCase(),cat=$("hobbyFilter").value,status=$("hobbyStatusFilter").value;const rows=hobbyRows.filter(r=>{const c=r.content||{},hay=[r.title,c.story,c.excerpt,(c.tags||[]).join(" "),c.category].join(" ").toLowerCase();return(!q||hay.includes(q))&&(cat==="all"||c.category===cat)&&(status==="all"||(c.status||"published")===status);});const host=$("hobbyPostList");if(!rows.length){host.innerHTML='<p class="muted">No posts match yet. Your next little project can start here ♡</p>';return;}host.innerHTML=rows.map(r=>{const c=r.content||{},tags=(c.tags||[]).map(t=>`<span class="hobby-tag">#${hobbyEsc(t)}</span>`).join("");return `<article class="hobby-post-card" data-hobby-card="${r.id}"><div class="hobby-cover-slot" data-hobby-cover="${r.id}"></div><div class="hobby-post-body"><div class="eyebrow">${hobbyEsc(c.category||"Hobby")} · ${hobbyDateLabel(r.entry_date)}</div><h3>${hobbyEsc(r.title)}</h3>${c.status==="draft"?'<span class="hobby-tag">Draft</span>':''}<p class="hobby-post-excerpt">${hobbyEsc(c.excerpt||c.story||"")}</p><div>${tags}</div><div class="hobby-actions"><button type="button" data-hobby-edit="${r.id}">Edit</button><button type="button" class="secondary" data-hobby-export="${r.id}">Export</button><button type="button" class="secondary" data-hobby-delete="${r.id}">Delete</button></div></div></article>`;}).join("");for(const r of rows){const path=r.content?.cover_path,url=await hobbySignedUrl(path),slot=host.querySelector(`[data-hobby-cover="${r.id}"]`);if(slot)slot.innerHTML=url?`<img class="hobby-post-cover" src="${url}" alt="Hobby post cover">`:'<div class="hobby-post-cover" style="display:grid;place-items:center;font-size:38px">✿</div>';}}
+async function loadHobbyPosts(){if(!client)return;const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at,updated_at").eq("entry_type","note").order("entry_date",{ascending:false}).order("created_at",{ascending:false}));if(error){setStatus($("hobbyStatus"),"Could not load hobby posts: "+error.message);return;}hobbyRows=(data||[]).filter(r=>r.content?.kind==="hobby_blog_post");renderHobbyStats();renderHobbyExportOptions();await renderHobbyPosts();}
+$("hobbyForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){setStatus($("hobbyStatus"),"Connect your private database first.");return;}try{const user=await currentUser(),title=$("hobbyTitle").value.trim(),date=$("hobbyDate").value,story=$("hobbyStory").value.trim();if(!title||!date||!story)throw new Error("Please add a title, date and story.");const coverFile=$("hobbyCover").files?.[0];const photoFiles=[...($("hobbyPhotos").files||[])];if(photoFiles.length>8)throw new Error("Please choose up to 8 additional photos.");let coverPath=hobbyCoverPathEditing;if(coverFile)coverPath=await hobbyUpload(coverFile,"cover");let photoPaths=[...hobbyPhotoPathsEditing];for(const f of photoFiles)photoPaths.push(await hobbyUpload(f,"photo"));const content={kind:"hobby_blog_post",category:$("hobbyCategory").value,status:$("hobbyPostStatus").value,excerpt:$("hobbyExcerpt").value.trim(),story,tags:$("hobbyTags").value.split(",").map(x=>x.trim()).filter(Boolean).slice(0,12),cover_path:coverPath,photo_paths:photoPaths};const payload={entry_date:date,title,content};let result;if(editingHobbyId)result=await client.from("journal_entries").update(payload).eq("id",editingHobbyId).eq("user_id",user.id);else result=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",...payload});if(result.error)throw result.error;setStatus($("hobbyStatus"),"Your hobby story has been saved privately ♡");hobbyResetForm();await loadHobbyPosts();}catch(err){setStatus($("hobbyStatus"),"Could not save post: "+err.message);}});
+$("hobbyCancelEdit").addEventListener("click",hobbyResetForm);
+$("hobbySearch").addEventListener("input",renderHobbyPosts);$("hobbyFilter").addEventListener("change",renderHobbyPosts);$("hobbyStatusFilter").addEventListener("change",renderHobbyPosts);
+$("hobbyPostList").addEventListener("click",async e=>{const edit=e.target.closest("[data-hobby-edit]"),del=e.target.closest("[data-hobby-delete]"),exp=e.target.closest("[data-hobby-export]");if(edit){const r=hobbyRows.find(x=>x.id===edit.dataset.hobbyEdit);if(!r)return;const c=r.content||{};editingHobbyId=r.id;hobbyCoverPathEditing=c.cover_path||"";hobbyPhotoPathsEditing=[...(c.photo_paths||[])];$("hobbyTitle").value=r.title;$("hobbyDate").value=r.entry_date;$("hobbyCategory").value=c.category||"Other";$("hobbyPostStatus").value=c.status||"published";$("hobbyExcerpt").value=c.excerpt||"";$("hobbyStory").value=c.story||"";$("hobbyTags").value=(c.tags||[]).join(", ");$("hobbyFormHeading").textContent="✎ Edit your hobby post";$("hobbySaveButton").textContent="Save changes";$("hobbyCancelEdit").hidden=false;$("hobbyExistingPhotos").textContent=`Existing cover: ${hobbyCoverPathEditing?"saved":"none"} · ${hobbyPhotoPathsEditing.length} additional photo(s). Upload new photos to add more.`;$("hobbyForm").scrollIntoView({behavior:"smooth",block:"start"});}else if(del){const id=del.dataset.hobbyDelete;if(!confirm("Delete this hobby post? This cannot be undone."))return;const {error}=await client.from("journal_entries").delete().eq("id",id);if(error){setStatus($("hobbyStatus"),"Could not delete post: "+error.message);return;}await loadHobbyPosts();}else if(exp){$("hobbyExportPost").value=exp.dataset.hobbyExport;$("hobbyExportStatus").textContent="Post selected. Choose a preset and download it below.";$("hobbyExportPost").scrollIntoView({behavior:"smooth",block:"center"});}});
+function hobbyWrap(ctx,text,x,y,maxWidth,lineHeight,font){ctx.font=font;let line="";for(const word of String(text||"").split(/\s+/)){const test=line?line+" "+word:word;if(ctx.measureText(test).width>maxWidth&&line){ctx.fillText(line,x,y);y+=lineHeight;line=word;}else line=test;}if(line){ctx.fillText(line,x,y);y+=lineHeight;}return y;}
+async function hobbyCanvas(post,format){const dims={a4:[1240,1754],"instagram-portrait":[1080,1350],"instagram-square":[1080,1080],story:[1080,1920],threads:[1080,1350]};const [w,h]=dims[format]||dims["instagram-portrait"];const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;const ctx=canvas.getContext("2d");const c=post.content||{};ctx.fillStyle="#f6efe3";ctx.fillRect(0,0,w,h);ctx.strokeStyle="#c99591";ctx.lineWidth=Math.max(3,w/360);ctx.setLineDash([10,10]);ctx.strokeRect(w*.045,h*.035,w*.91,h*.93);ctx.setLineDash([]);ctx.fillStyle="#84343c";ctx.textAlign="center";ctx.font=`italic ${Math.round(w*.035)}px Georgia`;ctx.fillText("MY LITTLE WORLD  ♡",w/2,h*.085);let y=h*.15;
+ const coverUrl=await hobbySignedUrl(c.cover_path);if(coverUrl){try{const img=new Image();img.crossOrigin="anonymous";await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=coverUrl;});const boxW=w*.78,boxH=format==="story"?h*.25:h*.28,ratio=Math.min(boxW/img.width,boxH/img.height),iw=img.width*ratio,ih=img.height*ratio;ctx.drawImage(img,(w-iw)/2,y,iw,ih);y+=ih+h*.035;}catch(e){y+=h*.015;}}
+ ctx.fillStyle="#98766f";ctx.font=`${Math.round(w*.018)}px Arial`;ctx.fillText(`${String(c.category||"HOBBY").toUpperCase()}  ·  ${hobbyDateLabel(post.entry_date)}`,w/2,y);y+=h*.055;ctx.fillStyle="#593239";ctx.font=`bold ${Math.round(w*(format==="story"?.052:.047))}px Georgia`;const titleLines=String(post.title).split("\n");for(const line of titleLines){y=hobbyWrap(ctx,line,w*.12,y,w*.76,h*.058,`bold ${Math.round(w*.047)}px Georgia`);}y+=h*.025;ctx.fillStyle="#765f5a";ctx.textAlign="left";const story=(c.excerpt?c.excerpt+"\n\n":"")+(c.story||"");const fontSize=Math.round(w*(format==="a4"?.021:format==="story"?.025:.027));ctx.font=`${fontSize}px Georgia`;const maxLines=format==="a4"?34:format==="story"?42:22;let lines=0;for(const para of story.split("\n")){if(!para.trim()){y+=fontSize*1.15;continue;}const before=y;y=hobbyWrap(ctx,para,w*.12,y,w*.76,fontSize*1.48,`${fontSize}px Georgia`);lines+=Math.max(1,Math.round((y-before)/(fontSize*1.48)));if(lines>=maxLines||y>h*.84)break;}ctx.textAlign="center";ctx.fillStyle="#84343c";ctx.font=`italic ${Math.round(w*.023)}px Georgia`;ctx.fillText("made with love · little things matter",w/2,h*.92);return canvas;}
+async function hobbyGetSelected(){const id=$("hobbyExportPost").value;return hobbyRows.find(r=>r.id===id)||null;}
+async function hobbyDownloadImage(){try{const post=await hobbyGetSelected();if(!post)throw new Error("Choose a post first.");const format=$("hobbyExportFormat").value,canvas=await hobbyCanvas(post,format);const a=document.createElement("a");a.download=`${post.title.replace(/[^a-z0-9-_]+/gi,"-").toLowerCase()}-${format}.png`;a.href=canvas.toDataURL("image/png");a.click();$("hobbyExportStatus").textContent=`Your ${format} image is ready ♡`; }catch(err){$("hobbyExportStatus").textContent="Could not export image: "+err.message;}}
+async function hobbyLoadJsPdf(){if(window.jspdf?.jsPDF)return window.jspdf.jsPDF;await new Promise((resolve,reject)=>{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";sc.onload=resolve;sc.onerror=()=>reject(new Error("PDF library could not load. Please check your internet connection."));document.head.appendChild(sc);});return window.jspdf.jsPDF;}
+$("hobbyExportPng").addEventListener("click",hobbyDownloadImage);
+$("hobbyExportPdf").addEventListener("click",async()=>{try{if($("hobbyExportFormat").value!=="a4")throw new Error("Select A4 printable page first.");const post=await hobbyGetSelected();if(!post)throw new Error("Choose a post first.");$("hobbyExportStatus").textContent="Preparing your A4 PDF…";const canvas=await hobbyCanvas(post,"a4"),JsPDF=await hobbyLoadJsPdf(),pdf=new JsPDF({orientation:"portrait",unit:"mm",format:"a4"});pdf.addImage(canvas.toDataURL("image/jpeg",.94),"JPEG",0,0,210,297);pdf.save(`${post.title.replace(/[^a-z0-9-_]+/gi,"-").toLowerCase()}-A4.pdf`);$("hobbyExportStatus").textContent="Your A4 PDF has been downloaded ♡";}catch(err){$("hobbyExportStatus").textContent="Could not export PDF: "+err.message;}});
+$("hobbyCopyText").addEventListener("click",async()=>{const post=await hobbyGetSelected();if(!post){$("hobbyExportStatus").textContent="Choose a post first.";return;}const c=post.content||{},txt=[post.title,c.excerpt,c.story,(c.tags||[]).map(t=>"#"+t).join(" ")].filter(Boolean).join("\n\n");try{await navigator.clipboard.writeText(txt);$("hobbyExportStatus").textContent="Post text copied. Paste it into Threads and attach your exported image ♡";}catch(e){$("hobbyExportStatus").textContent=txt;}});
 
 // ===== Travel Journal V19 · trips, daily itinerary and private photo memories =====
 let travelTrips=[],travelStops=[],editingTravelTripId=null,travelSelectedTripId="";
@@ -1762,6 +1852,7 @@ renderTimetable();
 if($("financeMonth"))$("financeMonth").value=currentMonthISO();
 if($("coffeeMonth"))$("coffeeMonth").value=currentMonthISO();
 if($("habitMonth"))$("habitMonth").value=currentMonthISO();
+if($("hobbyDate"))$("hobbyDate").value=todayISO();
 if($("travelStart"))$("travelStart").value=todayISO();
 if($("travelEnd"))$("travelEnd").value=todayISO();
 if($("travelStopDate"))$("travelStopDate").value=todayISO();
