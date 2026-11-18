@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World V30 ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V37 ♡</title>
+<!-- V37: remove daily habit recap cards; retain only monthly per-habit whole-number totals. -->
 <!-- V22: expands academic course folder palette to 18 colour choices. -->
 <!-- V21: Academic course folders by semester with colour-coded goals and task lists. -->
 <!-- V20: My Hobbies blog with editable posts and preset social/A4 exports. -->
@@ -322,18 +323,9 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .habit-matrix-progress{font:11px/1.5 Arial,sans-serif!important;color:#927a74!important}
 @media(max-width:600px){.habit-matrix-board{padding:12px 9px}.habit-matrix-heading strong{font-size:23px}.habit-matrix-name{font-size:11px}.habit-matrix-row .habit-dot{width:21px;height:21px;min-width:21px}.habit-matrix-row{grid-template-columns:126px repeat(var(--habit-days,31),25px)}}
 
-/* V28 daily habit summaries */
-.habit-daily-summary{margin:20px 0 8px;padding:16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#fbf2e9,#f7eee8)}
-.habit-daily-summary h3{margin:0 0 5px;font-family:Georgia,serif;color:var(--ink);font-size:20px}
-.habit-day-summary-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px}
-.habit-day-summary-card{padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:0 2px 0 rgba(100,75,65,.07)}
-.habit-day-summary-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
-.habit-day-summary-date{font-weight:700;color:var(--ink)}
-.habit-day-summary-count{font-size:12px;color:var(--muted);white-space:nowrap}
-.habit-day-summary-bar{height:7px;border-radius:99px;background:#eee4dc;overflow:hidden;margin:8px 0}
-.habit-day-summary-bar span{display:block;height:100%;border-radius:99px;background:#a8b2a0}
-.habit-day-summary-detail{font-size:12px;line-height:1.6;color:var(--muted)}
-@media(max-width:520px){.habit-daily-summary{padding:12px}.habit-day-summary-list{grid-template-columns:1fr}}
+/* V37: remove the obsolete per-day habit recap cards. */
+/* V37 safety net: the daily recap is intentionally not part of the habit tracker. */
+.habit-daily-summary,.habit-day-summary-list,.habit-day-summary-card,[class*="habit-day-summary"]{display:none!important}
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -1005,7 +997,7 @@ async function loadHabitBoard(){
 
    const progress=document.createElement("div");progress.className="habit-matrix-progress muted";
    progress.style.cssText="font-size:12px;margin:4px 0 8px 158px";
-   progress.textContent=`Completed ${doneCount} ${doneCount===1?"time":"times"} this month`;
+   progress.textContent=`${doneCount} ${doneCount===1?"completion":"completions"} this month`;
    host.append(progress);
 
    const management=document.createElement("div");management.style.cssText="display:flex;gap:8px;margin:0 0 14px 158px;flex-wrap:wrap";
