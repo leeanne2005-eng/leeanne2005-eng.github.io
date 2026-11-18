@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f6efe3"><title>My Little World V20 ♡</title>
+<!-- V22: expands academic course folder palette to 18 colour choices. -->
+<!-- V21: Academic course folders by semester with colour-coded goals and task lists. -->
 <!-- V20: My Hobbies blog with editable posts and preset social/A4 exports. -->
 <!-- V19: Travel Journal trips, itinerary stops and private photo memories. -->
 <!-- V18: deduplicate repeated friend profiles in People I Met without deleting records. -->
@@ -99,6 +101,19 @@ footer{color:#8e7c78}
 .home-account{font:11px Arial;color:#94847e;margin-top:15px;overflow-wrap:anywhere}
 @media(max-width:650px){.home-modules{grid-template-columns:1fr}.module-card{min-height:130px}.home-lower{grid-template-columns:1fr}.home-deco{right:5%;top:78px;opacity:.55}.home-title{max-width:75%}}
 
+
+
+.course-folder{border:1px solid var(--folder-border);border-top:5px solid var(--folder-border);background:var(--folder-bg);border-radius:16px;padding:14px;margin:12px 0;box-shadow:0 4px 0 rgba(80,55,45,.05)}
+.course-folder-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.course-folder-title{font:700 19px Georgia,serif;color:#604d50;overflow-wrap:anywhere}
+.course-folder-meta{font:12px Arial;color:#776b69;margin-top:4px}
+.course-task{display:grid;grid-template-columns:25px minmax(0,1fr) auto;gap:9px;align-items:center;background:#fffdf9b8;border:1px solid #ffffffa8;border-radius:10px;padding:9px;margin:7px 0}
+.course-task-title{font-weight:600;color:#5e5151;overflow-wrap:anywhere}
+.course-task.done .course-task-title{text-decoration:line-through;opacity:.6}
+.course-folder-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.course-folder button{padding:7px 10px;font-size:12px}
+.course-task-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.6fr);gap:8px;margin-top:12px}
+@media(max-width:520px){.course-task-form{grid-template-columns:1fr}.course-task{grid-template-columns:25px minmax(0,1fr) auto}}
 
 .study-goal-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0;padding:10px 13px;background:#edf0e8;border:1px dashed #b6c0ae;border-radius:12px;color:#657263;font:13px Arial}
 .study-goal-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 12px;margin:8px 0;background:#fbf7f0;border:1px solid #ded2c8;border-radius:13px;box-shadow:0 3px 0 #d8c9bf55}
@@ -317,6 +332,29 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
   <h2 style="font-size:20px;margin-top:22px">My Study Goals</h2>
   <form id="goalForm" class="formgrid" style="margin-top:10px"><label class="muted">Goal<input id="goalTitle" maxlength="120" placeholder="e.g. Revise TCM319 twice this week" required></label><label class="muted">Target date<input id="goalDate" type="date"></label><button type="submit">＋ Add study goal</button></form>
   <div id="goalStatus" role="status" class="muted" style="margin-top:8px"></div><p class="muted">Tick the little box when you complete a goal. Your progress is saved privately ♡</p><div id="goalList" class="muted" style="margin-top:8px">Loading goals…</div>
+
+  <section id="courseFoldersSection" style="border-top:1px solid var(--line);margin-top:26px;padding-top:20px">
+   <div class="eyebrow">A little home for every subject</div>
+   <h2 style="font-size:22px">My Course Folders 📂</h2>
+   <p class="muted">Organise your courses semester by semester. Give each folder its own colour, then keep that course's goals and to-do list together.</p>
+   <div class="notice">Your existing general Study Goals stay where they are. Course-specific tasks are organised separately inside each folder.</div>
+   <form id="courseFolderForm" class="formgrid" style="margin-top:14px">
+    <label class="muted">Course name / code<input id="courseFolderName" maxlength="140" required placeholder="e.g. TCM319 · Chinese Medicine Diagnostics"></label>
+    <label class="muted">Semester<select id="courseFolderSemester" required></select></label>
+    <label class="muted">Folder colour<select id="courseFolderColour">
+     <option value="rose">Dusty rose</option><option value="sage">Sage green</option><option value="blue">Dusty blue</option><option value="butter">Buttercream</option><option value="caramel">Caramel</option><option value="lavender">Soft lavender</option>
+     <option value="peach">Peach</option><option value="mint">Mint</option><option value="lilac">Lilac</option><option value="periwinkle">Periwinkle</option><option value="powder">Powder blue</option><option value="buttercup">Butter yellow</option><option value="terracotta">Terracotta</option><option value="mauve">Mauve</option><option value="olive">Olive</option><option value="sky">Sky blue</option><option value="berry">Berry pink</option><option value="slate">Soft slate</option>
+    </select></label>
+    <button type="submit">＋ Create course folder</button>
+   </form>
+   <div id="courseFolderStatus" class="muted" role="status" style="margin-top:8px"></div>
+   <div class="formgrid" style="margin:14px 0">
+    <label class="muted">View semester<select id="courseFolderFilter"></select></label>
+    <label class="muted">Find a course<input id="courseFolderSearch" type="search" placeholder="Search course name or code…"></label>
+   </div>
+   <div id="courseFolderList" style="margin-top:12px">Your course folders will appear here ♡</div>
+  </section>
+
  </div>
 
  <div class="panel section-page" id="attendancePanel" data-page="academic">
@@ -1261,7 +1299,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadSemesters().then(()=>loadAttendance());}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadSemesters().then(()=>loadAttendance());}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -1294,7 +1332,7 @@ async function loadGoals(){
  const host=$("goalList");host.textContent="Loading goals…";
  const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","academic").order("created_at",{ascending:false}));
  if(error){host.textContent="Could not load goals: "+error.message;return;}
- const goals=data||[];host.innerHTML="";
+ const goals=(data||[]).filter(item=>!["course_folder","course_task"].includes(item.content?.kind));host.innerHTML="";
  if(!goals.length){host.textContent="No study goals yet. Add one small goal to get started ♡";return;}
  const completedGoals=goals.filter(item=>item.content?.completed===true);
  const activeGoals=goals.filter(item=>item.content?.completed!==true);
@@ -1339,8 +1377,111 @@ async function loadGoals(){
   archive.append(archiveBody);host.append(archive);
  }
 }
-$("goalForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){$("goalStatus").textContent="Please connect your database first.";return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){$("goalStatus").textContent="Please sign in again.";return;}const title=$("goalTitle").value.trim();if(!title)return;const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title,content:{target_date:$("goalDate").value||null,completed:false,completed_at:null}});if(error){$("goalStatus").textContent="Could not save goal: "+error.message;return;}$("goalForm").reset();$("goalStatus").textContent="Study goal saved privately ♡";loadGoals();});
-$("goAcademic").addEventListener("click",()=>showPage("academic"));
+$("goalForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){$("goalStatus").textContent="Please connect your database first.";return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){$("goalStatus").textContent="Please sign in again.";return;}const title=$("goalTitle").value.trim();if(!title)return;const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title,content:{kind:"study_goal",target_date:$("goalDate").value||null,completed:false,completed_at:null}});if(error){$("goalStatus").textContent="Could not save goal: "+error.message;return;}$("goalForm").reset();$("goalStatus").textContent="Study goal saved privately ♡";loadGoals();});
+$("goAcademic").addEventListener("click",()=>{showPage("academic");loadCourseFolders();});
+
+
+// ===== Academic Course Folders V21 =====
+let courseFolderRows=[],courseTaskRows=[];
+const courseFolderPalettes={
+ rose:{bg:"#f0e2e1",border:"#d8b7b8"},
+ sage:{bg:"#e8ece3",border:"#b9c7b4"},
+ blue:{bg:"#e5ebf0",border:"#b9c9d7"},
+ butter:{bg:"#f1ead8",border:"#d8c99f"},
+ caramel:{bg:"#eee4d9",border:"#d2b89e"},
+ lavender:{bg:"#ece7f1",border:"#c9bdd8"},
+ peach:{bg:"#f7e1d6",border:"#e6bda9"},
+ mint:{bg:"#dceee6",border:"#a9cdbb"},
+ lilac:{bg:"#e8def2",border:"#c5afd9"},
+ periwinkle:{bg:"#dfe5f5",border:"#b3c0e2"},
+ powder:{bg:"#dcecf2",border:"#a9cbd8"},
+ buttercup:{bg:"#f7edc9",border:"#e3d18d"},
+ terracotta:{bg:"#eed9cf",border:"#d4aa98"},
+ mauve:{bg:"#eadce5",border:"#c9aebe"},
+ olive:{bg:"#e7ead7",border:"#c0c79d"},
+ sky:{bg:"#dcebf8",border:"#adc9e4"},
+ berry:{bg:"#efdae3",border:"#d3a7b8"},
+ slate:{bg:"#e2e6e9",border:"#b8c2ca"}
+};
+function courseEsc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function currentAcademicSemester(){return $("semesterSelect")?.value||"Unassigned semester";}
+function refreshCourseSemesterOptions(){
+ const semesters=Array.isArray(semesterRows)?semesterRows:[];
+ const options=semesters.map(s=>({id:s.id,name:s.name||s.title||"Semester"}));
+ if(!options.length)options.push({id:"current",name:currentAcademicSemester()});
+ const current=$("semesterSelect")?.value||options[0].id;
+ $("courseFolderSemester").innerHTML=options.map(s=>`<option value="${courseEsc(s.id)}">${courseEsc(s.name)}</option>`).join("");
+ if(options.some(s=>s.id===current))$("courseFolderSemester").value=current;
+ $("courseFolderFilter").innerHTML='<option value="all">All semesters</option>'+options.map(s=>`<option value="${courseEsc(s.id)}">${courseEsc(s.name)}</option>`).join("");
+}
+function courseSemesterName(id){
+ const s=(Array.isArray(semesterRows)?semesterRows:[]).find(x=>x.id===id);
+ if(s)return s.name||s.title||"Semester";
+ return id==="current"?currentAcademicSemester(): "Archived semester";
+}
+async function loadCourseFolders(){
+ if(!client)return;
+ const host=$("courseFolderList");host.textContent="Loading your course folders…";
+ refreshCourseSemesterOptions();
+ const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","academic").order("created_at",{ascending:false}));
+ if(error){host.textContent="Could not load course folders: "+error.message;return;}
+ const rows=data||[];
+ courseFolderRows=rows.filter(r=>r.content?.kind==="course_folder");
+ courseTaskRows=rows.filter(r=>r.content?.kind==="course_task");
+ renderCourseFolders();
+}
+function renderCourseFolders(){
+ const host=$("courseFolderList"),semester=$("courseFolderFilter").value,query=$("courseFolderSearch").value.trim().toLocaleLowerCase();
+ const folders=courseFolderRows.filter(f=>(semester==="all"||f.content?.semester_id===semester)&&(!query||[f.title,f.content?.course_code].join(" ").toLocaleLowerCase().includes(query)));
+ host.innerHTML="";
+ if(!folders.length){host.innerHTML='<div class="people-empty">No course folders here yet. Create one for your first subject ♡</div>';return;}
+ folders.forEach(folder=>{
+  const c=folder.content||{},palette=courseFolderPalettes[c.colour]||courseFolderPalettes.rose;
+  const card=document.createElement("article");card.className="course-folder";card.style.setProperty("--folder-bg",palette.bg);card.style.setProperty("--folder-border",palette.border);
+  const head=document.createElement("div");head.className="course-folder-head";
+  const left=document.createElement("div");left.style.minWidth="0";
+  const title=document.createElement("div");title.className="course-folder-title";title.textContent="📁 "+folder.title;
+  const meta=document.createElement("div");meta.className="course-folder-meta";meta.textContent=courseSemesterName(c.semester_id)+" · "+(c.course_code||"Course folder");
+  left.append(title,meta);
+  const colour=document.createElement("select");colour.setAttribute("aria-label","Change folder colour");Object.entries({rose:"Dusty rose",sage:"Sage green",blue:"Dusty blue",butter:"Buttercream",caramel:"Caramel",lavender:"Soft lavender",peach:"Peach",mint:"Mint",lilac:"Lilac",periwinkle:"Periwinkle",powder:"Powder blue",buttercup:"Butter yellow",terracotta:"Terracotta",mauve:"Mauve",olive:"Olive",sky:"Sky blue",berry:"Berry pink",slate:"Soft slate"}).forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;colour.append(o);});colour.value=c.colour||"rose";
+  colour.onchange=async()=>{const {error}=await client.from("journal_entries").update({content:{...c,colour:colour.value}}).eq("id",folder.id);if(error){$("courseFolderStatus").textContent="Could not change colour: "+error.message;return;}await loadCourseFolders();};
+  head.append(left,colour);card.append(head);
+  const tasks=courseTaskRows.filter(t=>t.content?.course_id===folder.id);
+  const open=tasks.filter(t=>!t.content?.completed),done=tasks.filter(t=>t.content?.completed);
+  const progress=document.createElement("div");progress.className="course-folder-meta";progress.style.margin="12px 0 6px";progress.textContent=`${open.length} to do · ${done.length} completed`;card.append(progress);
+  tasks.sort((a,b)=>(a.content?.due_date||"9999").localeCompare(b.content?.due_date||"9999")).forEach(task=>{
+   const row=document.createElement("div");row.className="course-task"+(task.content?.completed?" done":"");
+   const check=document.createElement("input");check.type="checkbox";check.checked=!!task.content?.completed;check.setAttribute("aria-label","Mark task complete");
+   check.onchange=async()=>{const {error}=await client.from("journal_entries").update({content:{...task.content,completed:check.checked,completed_at:check.checked?new Date().toISOString():null}}).eq("id",task.id);if(error){$("courseFolderStatus").textContent="Could not update task: "+error.message;return;}await loadCourseFolders();};
+   const copy=document.createElement("div");copy.style.minWidth="0";
+   const t=document.createElement("div");t.className="course-task-title";t.textContent=task.title||"Course task";
+   const due=document.createElement("div");due.className="course-folder-meta";due.textContent=task.content?.due_date?"Due "+task.content.due_date:"No due date";copy.append(t,due);
+   const actions=document.createElement("div");actions.style.display="flex";actions.style.gap="4px";
+   const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{const title=prompt("Task or goal",task.title||"");if(title===null)return;const dueDate=prompt("Due date (YYYY-MM-DD, optional)",task.content?.due_date||"");if(dueDate===null)return;if(dueDate&&!/^\d{4}-\d{2}-\d{2}$/.test(dueDate)){alert("Please use YYYY-MM-DD.");return;}const {error}=await client.from("journal_entries").update({title:title.trim(),content:{...task.content,due_date:dueDate||null}}).eq("id",task.id);if(error)$("courseFolderStatus").textContent="Could not edit task: "+error.message;else loadCourseFolders();};
+   const del=document.createElement("button");del.type="button";del.className="secondary";del.textContent="×";del.setAttribute("aria-label","Delete task");del.onclick=async()=>{if(!confirm("Delete this course task?"))return;const {error}=await client.from("journal_entries").delete().eq("id",task.id);if(error)$("courseFolderStatus").textContent="Could not delete task: "+error.message;else loadCourseFolders();};
+   actions.append(edit,del);row.append(check,copy,actions);card.append(row);
+  });
+  const form=document.createElement("form");form.className="course-task-form";
+  const input=document.createElement("input");input.required=true;input.maxLength=180;input.placeholder="Add a goal or to-do…";
+  const date=document.createElement("input");date.type="date";date.setAttribute("aria-label","Task due date");
+  const add=document.createElement("button");add.type="submit";add.textContent="＋ Add task";
+  form.append(input,date,add);form.addEventListener("submit",async e=>{e.preventDefault();const user=await currentUser();const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title:input.value.trim(),content:{kind:"course_task",course_id:folder.id,due_date:date.value||null,completed:false,completed_at:null}});if(error){$("courseFolderStatus").textContent="Could not save task: "+error.message;return;}await loadCourseFolders();});
+  const actions=document.createElement("div");actions.className="course-folder-actions";
+  const rename=document.createElement("button");rename.type="button";rename.className="secondary";rename.textContent="Rename folder";rename.onclick=async()=>{const name=prompt("Course folder name",folder.title||"");if(name===null||!name.trim())return;const {error}=await client.from("journal_entries").update({title:name.trim()}).eq("id",folder.id);if(error)$("courseFolderStatus").textContent="Could not rename folder: "+error.message;else loadCourseFolders();};
+  const remove=document.createElement("button");remove.type="button";remove.className="secondary";remove.textContent="Delete folder";remove.onclick=async()=>{if(!confirm("Delete this course folder and all its course tasks?"))return;const ids=[folder.id,...tasks.map(t=>t.id)];const {error}=await client.from("journal_entries").delete().in("id",ids);if(error)$("courseFolderStatus").textContent="Could not delete folder: "+error.message;else loadCourseFolders();};
+  actions.append(rename,remove);card.append(form,actions);host.append(card);
+ });
+}
+$("courseFolderForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){$("courseFolderStatus").textContent="Please sign in first.";return;}
+ const user=await currentUser(),name=$("courseFolderName").value.trim();if(!name)return;
+ const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"academic",entry_date:todayISO(),title:name,content:{kind:"course_folder",semester_id:$("courseFolderSemester").value,colour:$("courseFolderColour").value,course_code:""}});
+ if(error){$("courseFolderStatus").textContent="Could not create folder: "+error.message;return;}
+ $("courseFolderForm").reset();refreshCourseSemesterOptions();$("courseFolderStatus").textContent="Course folder created ♡";await loadCourseFolders();
+});
+$("courseFolderFilter")?.addEventListener("change",renderCourseFolders);
+$("courseFolderSearch")?.addEventListener("input",renderCourseFolders);
+$("semesterSelect")?.addEventListener("change",()=>{refreshCourseSemesterOptions();});
 
 function dateKey(){return attendanceDate.value||todayISO();}
 function classesForDate(value){const d=new Date(value+"T12:00:00");return classSchedule.filter(c=>c.day===d.getDay());}
