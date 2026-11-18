@@ -127,6 +127,13 @@ footer{color:#8e7c78}
 .course-detail-hero{padding:18px;border-radius:16px;background:var(--folder-bg);border:1px solid var(--folder-border);border-top:6px solid var(--folder-border);margin:12px 0}
 .course-detail-notes{min-height:150px;resize:vertical}
 .course-detail-section{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}
+.course-wheel-wrap{display:grid;grid-template-columns:minmax(220px,340px) minmax(220px,1fr);gap:18px;align-items:center;margin-top:12px}
+.course-wheel-stage{position:relative;width:min(100%,320px);margin:0 auto;padding-top:12px}
+.course-wheel-pointer{position:absolute;z-index:2;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:25px solid #80636a;filter:drop-shadow(0 2px 1px #fff)}
+.course-name-wheel{display:block;width:100%;height:auto;border-radius:50%;border:8px solid #fffaf4;box-shadow:0 5px 0 rgba(80,55,45,.12),0 0 0 1px #d8c5ba;transform:rotate(0deg);transition:transform 4.2s cubic-bezier(.12,.72,.12,1)}
+.course-wheel-controls textarea{min-height:145px}
+.course-wheel-result{background:#f4e9e3;border:1px dashed #c9aeb0;border-radius:14px;padding:12px;margin-top:10px;color:#72585f;font-family:Georgia,serif;font-size:20px;text-align:center}
+@media(max-width:650px){.course-wheel-wrap{grid-template-columns:1fr}.course-wheel-stage{width:min(78vw,300px)}}
 
 .study-goal-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0;padding:10px 13px;background:#edf0e8;border:1px dashed #b6c0ae;border-radius:12px;color:#657263;font:13px Arial}
 .study-goal-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 12px;margin:8px 0;background:#fbf7f0;border:1px solid #ded2c8;border-radius:13px;box-shadow:0 3px 0 #d8c9bf55}
@@ -1639,6 +1646,32 @@ function renderCourseDetail(folder){
  const h=document.createElement("h2");h.textContent="📚 "+folder.title;
  const intro=document.createElement("p");intro.className="muted";intro.textContent="Your dedicated course space — keep your notes, tasks and study materials together.";
  hero.append(eyebrow,h,intro);host.append(hero);
+ // A separate, saved name wheel for each course folder.
+ const wheelSection=document.createElement("section");wheelSection.className="course-detail-section";
+ const wheelHeading=document.createElement("h3");wheelHeading.textContent="🎡 Wheel of Names";
+ const wheelIntro=document.createElement("p");wheelIntro.className="muted";wheelIntro.textContent="Add classmates, topics, presenters or anything you want to choose at random. Each course has its own saved wheel.";
+ const wheelWrap=document.createElement("div");wheelWrap.className="course-wheel-wrap";
+ const stage=document.createElement("div");stage.className="course-wheel-stage";
+ const pointer=document.createElement("div");pointer.className="course-wheel-pointer";
+ const canvas=document.createElement("canvas");canvas.className="course-name-wheel";canvas.width=640;canvas.height=640;canvas.setAttribute("aria-label","Wheel of names");
+ stage.append(pointer,canvas);
+ const controls=document.createElement("div");controls.className="course-wheel-controls";
+ const namesLabel=document.createElement("label");namesLabel.className="muted";namesLabel.textContent="Names / choices (one per line)";
+ const namesInput=document.createElement("textarea");namesInput.placeholder="e.g.\nAnne\nMichelle\nCalista";namesInput.value=Array.isArray(c.wheel_names)?c.wheel_names.join("\n"):"";namesLabel.append(namesInput);
+ const wheelActions=document.createElement("div");wheelActions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
+ const saveNames=document.createElement("button");saveNames.type="button";saveNames.className="secondary";saveNames.textContent="Save names ♡";
+ const spin=document.createElement("button");spin.type="button";spin.textContent="✦ Spin the wheel!";
+ wheelActions.append(saveNames,spin);
+ const result=document.createElement("div");result.className="course-wheel-result";result.textContent="Your result will appear here ♡";result.setAttribute("aria-live","polite");
+ controls.append(namesLabel,wheelActions,result);wheelWrap.append(stage,controls);wheelSection.append(wheelHeading,wheelIntro,wheelWrap);host.append(wheelSection);
+ const wheelColours=["#d9aeb0","#aebca8","#aebfce","#e7d59e","#d8b99d","#c7b5d6","#e8bda9","#a9cdbb","#cbb5d9","#b6c2e2"];
+ let wheelRotation=0;
+ function getWheelNames(){return namesInput.value.split(/\r?\n/).map(v=>v.trim()).filter(Boolean).slice(0,100);}
+ function drawNameWheel(){const ctx=canvas.getContext("2d"),names=getWheelNames(),cx=320,cy=320,r=306;ctx.clearRect(0,0,640,640);if(!names.length){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle="#f1e8df";ctx.fill();ctx.fillStyle="#80636a";ctx.font="bold 28px Georgia";ctx.textAlign="center";ctx.fillText("Add names",cx,cy);return;}const slice=Math.PI*2/names.length;names.forEach((name,i)=>{const start=-Math.PI/2+i*slice;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+slice);ctx.closePath();ctx.fillStyle=wheelColours[i%wheelColours.length];ctx.fill();ctx.strokeStyle="#fffaf4";ctx.lineWidth=5;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(start+slice/2);ctx.textAlign="right";ctx.textBaseline="middle";ctx.fillStyle="#57474b";let fontSize=Math.max(13,Math.min(22,260/Math.max(8,name.length)));ctx.font=`bold ${fontSize}px Arial`;let label=name.length>22?name.slice(0,20)+"…":name;ctx.fillText(label,r-24,0);ctx.restore();});ctx.beginPath();ctx.arc(cx,cy,34,0,Math.PI*2);ctx.fillStyle="#fffaf4";ctx.fill();ctx.strokeStyle="#c7aeb0";ctx.lineWidth=5;ctx.stroke();ctx.fillStyle="#80636a";ctx.font="bold 19px Georgia";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("♡",cx,cy);}
+ drawNameWheel();
+ namesInput.addEventListener("input",drawNameWheel);
+ saveNames.onclick=async()=>{const names=getWheelNames();const {error}=await client.from("journal_entries").update({content:{...c,wheel_names:names}}).eq("id",folder.id);if(error){result.textContent="Could not save names: "+error.message;return;}c.wheel_names=names;folder.content={...c};drawNameWheel();result.textContent=`${names.length} ${names.length===1?"name":"names"} saved for ${folder.title} ♡`;};
+ spin.onclick=()=>{const names=getWheelNames();if(names.length<2){result.textContent="Add at least two names before spinning ♡";return;}const chosen=Math.floor(Math.random()*names.length),slice=360/names.length,center=(chosen+.5)*slice;const current=((wheelRotation%360)+360)%360;const desired=(360-center+360)%360;const delta=((desired-current+360)%360)+360*6;wheelRotation+=delta;canvas.style.transform=`rotate(${wheelRotation}deg)`;spin.disabled=true;result.textContent="The wheel is spinning…";window.setTimeout(()=>{result.textContent="✦ "+names[chosen]+" ✦";spin.disabled=false;},4300);};
  const notesSection=document.createElement("section");notesSection.className="course-detail-section";
  const nh=document.createElement("h3");nh.textContent="Course notes & important details";
  const notes=document.createElement("textarea");notes.className="course-detail-notes";notes.placeholder="Add lecture reminders, lecturer information, exam scope, important links or anything you want to remember…";notes.value=c.course_notes||"";
