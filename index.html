@@ -326,6 +326,53 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 /* V37: remove the obsolete per-day habit recap cards. */
 /* V37 safety net: the daily recap is intentionally not part of the habit tracker. */
 .habit-daily-summary,.habit-day-summary-list,.habit-day-summary-card,[class*="habit-day-summary"]{display:none!important}
+
+/* Main page personal calendar — editorial pop-up planner / scrapbook collage */
+.main-calendar{position:relative;isolation:isolate;overflow:hidden;margin-top:24px;padding:0;background:#f8f5f0;border:1px solid #d7c9be;border-radius:5px;box-shadow:0 7px 0 #cdbfb366,0 2px 14px #725b4b12;color:#292522}
+.main-calendar:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,transparent 0 49.8%,#d9d2ca22 50%,transparent 50.2%),radial-gradient(#b9aaa033 .6px,transparent .7px);background-size:100% 100%,8px 8px;opacity:.48}
+.main-calendar-head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:16px;padding:clamp(18px,3vw,30px) clamp(16px,3vw,30px) 17px;background:#f4eee8;border-bottom:1px solid #ddd4cc}
+.main-calendar-head:after{content:"✳";position:absolute;right:26px;top:13px;color:#d66a5d;font-size:27px;transform:rotate(-13deg);opacity:.88}
+.main-calendar-head .eyebrow{font:10px/1.4 Arial,sans-serif;letter-spacing:2.3px;text-transform:uppercase;color:#8e7770}
+.main-calendar-title{font:normal clamp(29px,4.5vw,46px)/1.04 Georgia,serif;letter-spacing:-1.6px;color:#d45149;margin:7px 0 5px;text-transform:uppercase}
+.main-calendar-head .muted{font:12px/1.5 Arial,sans-serif;color:#746a64!important;max-width:460px}
+.main-calendar-tools{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;padding-right:30px}
+.main-calendar-tools button{padding:7px 11px;border:1px solid #b8aaa0;border-radius:999px;background:#fdfbf8;color:#302c29;font:11px Arial,sans-serif;box-shadow:none}
+.main-calendar-tools button:hover{background:#e9e2db;border-color:#8f7770}
+.main-calendar-tools #mainCalAdd{background:#d94f46;color:white;border-color:#d94f46;font-weight:700}
+.main-calendar-month{font:600 14px Arial,sans-serif;color:#292522;min-width:126px;text-align:center;letter-spacing:.2px}
+.main-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;padding:0 12px 12px;background:#f4eee8}
+.main-calendar-weekday{text-align:center;padding:11px 2px 10px;font:700 10px Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:#393532;background:#fff;border-radius:0;border-bottom:2px solid #e8e1db}
+.main-calendar-day{position:relative;min-height:105px;min-width:0;padding:7px 6px;background:#fffefa;border:1px solid #ebe5de;border-radius:2px;display:flex;flex-direction:column;align-items:stretch;gap:5px;cursor:pointer;text-align:left;color:#302c29;box-shadow:0 1px 0 #d8d0c8}
+.main-calendar-day:hover{border-color:#d46b60;background:#fff9f3;box-shadow:inset 0 0 0 1px #d46b60,0 2px 5px #a77b6818}
+.main-calendar-day.other-month{opacity:.45;background:#f0ece7}
+.main-calendar-day.today{outline:2px solid #d85a50;outline-offset:-3px}
+.main-calendar-day.selected{box-shadow:inset 0 0 0 2px #d85a50,0 2px 5px #a77b6818}
+.main-calendar-daynum{font:700 13px Arial,sans-serif;align-self:flex-start;padding:2px 4px;border-radius:50%;min-width:23px;text-align:center;color:#292522}
+.main-calendar-day.today .main-calendar-daynum{background:#d95349;color:white}
+.main-calendar-event-chip{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:2px;padding:4px 5px;font:10px/1.2 Arial,sans-serif;font-weight:600;color:#282522;background:var(--event-bg,#e8eee6);border-left:3px solid var(--event-color,#9aaa91);box-shadow:0 1px 0 #0000000b}
+.main-calendar-more{font:10px Arial,sans-serif;color:#a64c43;padding-left:3px;font-weight:700}
+.main-calendar-below{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.8fr);gap:12px;margin:0;padding:0 18px 16px;background:#f4eee8}
+.main-calendar-agenda,.main-calendar-form{background:#fffefa;border:1px solid #ded4cb;border-radius:3px;padding:14px;min-width:0;box-shadow:2px 3px 0 #d7c9bd55}
+.main-calendar-agenda h3,.main-calendar-form h3{font:normal 20px Georgia,serif;color:#d45149;margin:0 0 10px}
+.main-calendar-event-row{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px dashed #ded4cb}
+.main-calendar-event-row:last-child{border-bottom:0}
+.main-calendar-event-swatch{width:8px;min-width:8px;height:36px;border-radius:1px;background:var(--event-color,#9aaa91)}
+.main-calendar-event-info{flex:1;min-width:0;font:12px/1.45 Arial,sans-serif;color:#746a64}
+.main-calendar-event-info strong{display:block;font:700 14px Georgia,serif;color:#302c29;overflow-wrap:anywhere}
+.main-calendar-event-actions{display:flex;gap:5px;flex-wrap:wrap}
+.main-calendar-event-actions button{padding:5px 8px;font-size:10px}
+.main-calendar-form .formgrid{margin:8px 0}
+.main-calendar-form label{font:11px Arial,sans-serif;color:#746a64;display:grid;gap:5px}
+.main-calendar-form input,.main-calendar-form select,.main-calendar-form textarea{width:100%;box-sizing:border-box;background:#fff;border:1px solid #d8ccc2;border-radius:3px;padding:9px;color:#302c29;font:13px Arial,sans-serif}
+.main-calendar-form textarea{min-height:58px;resize:vertical}
+.main-calendar-empty{font:12px/1.5 Arial,sans-serif;color:#95867d;padding:10px 0}
+.main-calendar-hint{margin:0;padding:0 20px 16px;background:#f4eee8;font:11px Arial,sans-serif;color:#897970}
+.main-calendar-legend{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px 12px;background:#f4eee8}
+.main-calendar-legend span{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border:1px solid #e1d7ce;border-radius:999px;background:#fffefa;font:10px Arial,sans-serif;color:#625750}
+.main-calendar-legend i{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--dot)}
+@media(max-width:760px){.main-calendar-head{grid-template-columns:1fr;align-items:start}.main-calendar-tools{justify-content:flex-start;padding-right:0;max-width:100%}.main-calendar-head:after{right:18px}.main-calendar-month{min-width:112px}.main-calendar-day{min-height:78px;padding:4px 3px}.main-calendar-event-chip{font-size:9px;padding:3px}.main-calendar-below{grid-template-columns:1fr;padding:0 10px 12px}.main-calendar-title{font-size:30px}.main-calendar-weekday{font-size:9px;padding:8px 0}.main-calendar-grid{padding:0 7px 9px;gap:2px}.main-calendar-daynum{font-size:11px;min-width:19px}.main-calendar-legend{padding:0 10px 10px}.main-calendar-hint{padding:0 12px 13px}}
+@media(max-width:390px){.main-calendar-day{min-height:68px}.main-calendar-event-chip{font-size:8px;padding:2px}.main-calendar-tools button{padding:6px 8px}.main-calendar-month{min-width:100px;font-size:12px}}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -394,6 +441,28 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div class="home-mini"><h3>Little things make a life ♡</h3><p>This space grows with you. New semesters, new places, new routines — your memories stay part of one lifetime story.</p><div class="sticker-row"><span class="sticker">✿ keep growing</span><span class="sticker">♡ little by little</span><span class="sticker">☕ slow moments</span></div></div>
    <div class="home-mini"><h3>Your account & privacy</h3><p id="account">Signed in with Google</p><p style="margin-top:7px">Private by default · Share only what you choose.</p><button class="secondary" id="logout" style="margin-top:12px;padding:9px 13px">Sign out</button></div>
   </div>
+
+  <section class="main-calendar" id="mainCalendarPanel" aria-label="My personal calendar">
+   <div class="main-calendar-head">
+    <div><div class="eyebrow">A LITTLE SPACE FOR ALL YOUR PLANS · 2026 / YOUR PERSONAL PLANNER</div><h2 class="main-calendar-title">The little life planner</h2><p class="muted" style="margin:4px 0 0;font-size:12px">Classes · deadlines · coffee dates · everything worth looking forward to.</p></div>
+    <div class="main-calendar-tools"><button type="button" class="secondary" id="mainCalPrev" aria-label="Previous month">‹</button><div class="main-calendar-month" id="mainCalMonthLabel">November 2026</div><button type="button" class="secondary" id="mainCalNext" aria-label="Next month">›</button><button type="button" id="mainCalToday" class="secondary">Today</button><button type="button" id="mainCalAdd">＋ Add a plan</button></div>
+   </div>
+   <div class="main-calendar-grid" id="mainCalendarGrid"></div>
+   <div class="main-calendar-legend" aria-label="Calendar colour ideas"><span><i style="--dot:#d95349"></i>Deadlines</span><span><i style="--dot:#258bd6"></i>Classes</span><span><i style="--dot:#a8b69f"></i>Personal</span><span><i style="--dot:#d99a76"></i>Outings</span><span><i style="--dot:#b9a9ca"></i>Reminders</span></div>
+   <div class="main-calendar-below">
+    <div class="main-calendar-agenda"><h3 id="mainCalAgendaTitle">Upcoming events</h3><div id="mainCalAgenda" class="main-calendar-empty">Your plans will appear here ♡</div></div>
+    <form class="main-calendar-form" id="mainCalForm" hidden>
+     <h3 id="mainCalFormTitle">Add a little event</h3>
+     <div class="formgrid"><label>Event name<input id="mainCalEventTitle" maxlength="100" placeholder="e.g. MED304 assignment due" required></label><label>Type / course<select id="mainCalCategory"><option>Class</option><option>Assignment</option><option>Exam</option><option>Study</option><option>Appointment</option><option>Personal</option><option>Social</option><option>Other</option></select></label></div>
+     <div class="formgrid"><label>Date<input id="mainCalDate" type="date" required></label><label>Start time (optional)<input id="mainCalTime" type="time"></label></div>
+     <div class="formgrid"><label>Choose event colour<select id="mainCalColor"><option value="#a8b69f">Sage green</option><option value="#d6a6a8">Dusty rose</option><option value="#9eb4c5">Dusty blue</option><option value="#e5cd8d">Buttercream</option><option value="#c69b78">Caramel</option><option value="#b9a9ca">Soft lavender</option><option value="#d99a76">Peach</option><option value="#9dbbb0">Mint</option><option value="#9a8298">Mauve</option><option value="#8995a6">Soft slate</option></select></label><label>Notes (optional)<textarea id="mainCalNotes" maxlength="1000" placeholder="Add a little detail…"></textarea></label></div>
+     <div class="formgrid"><button type="submit" id="mainCalSave">Save event</button><button type="button" class="secondary" id="mainCalCancel">Cancel</button><button type="button" class="secondary" id="mainCalDelete" hidden>Delete event</button></div>
+     <div id="mainCalStatus" role="status" class="muted" style="font-size:11px"></div>
+    </form>
+   </div>
+   <p class="main-calendar-hint">✎ Little note to self: tap any date to pin a plan, choose its colour, and keep the month looking like your own scrapbook.</p>
+  </section>
+
  </div>
 
  <div class="panel section-page" id="academicPanel" data-page="academic">
@@ -1437,6 +1506,43 @@ document.querySelectorAll("[data-page-colour]").forEach(select=>{
 });
 applyPageColours();
 
+
+// ===== Main page personal calendar =====
+let mainCalendarRows=[];
+let mainCalendarMonth=todayISO().slice(0,7);
+let mainCalendarEditingId=null;
+let mainCalendarSelectedDate=todayISO();
+const mainCalendarColors={sage:{bg:'#e8eee6'},rose:{bg:'#f4e6e4'},coral:{bg:'#f8e2dd'},blue:{bg:'#dceaf5'},butter:{bg:'#f6edce'}};
+function mainCalLocalDate(y,m,d){const date=new Date(y,m-1,d);return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');}
+function mainCalDateLabel(date){if(!date)return '';return new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}
+function mainCalOpenForm(date=todayISO(),row=null){
+ const form=$('mainCalForm');if(!form)return;mainCalendarEditingId=row?.id||null;mainCalendarSelectedDate=date;
+ $('mainCalFormTitle').textContent=row?'Edit event':'Add a little event';$('mainCalEventTitle').value=row?.title||'';$('mainCalCategory').value=row?.content?.category||'Personal';$('mainCalDate').value=row?.entry_date||date;$('mainCalTime').value=row?.content?.time||'';$('mainCalColor').value=row?.content?.color||'#a8b69f';$('mainCalNotes').value=row?.content?.notes||'';$('mainCalDelete').hidden=!row;$('mainCalSave').textContent=row?'Save changes':'Save event';$('mainCalStatus').textContent='';form.hidden=false;$('mainCalEventTitle').focus();
+}
+function mainCalCloseForm(){$('mainCalForm').hidden=true;mainCalendarEditingId=null;}
+function renderMainCalendar(){
+ const grid=$('mainCalendarGrid');if(!grid)return;grid.innerHTML='';const [y,m]=mainCalendarMonth.split('-').map(Number);$('mainCalMonthLabel').textContent=new Date(y,m-1,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+ ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(day=>{const el=document.createElement('div');el.className='main-calendar-weekday';el.textContent=day;grid.append(el);});
+ const first=new Date(y,m-1,1),offset=(first.getDay()+6)%7,days=new Date(y,m,0).getDate(),prevDays=new Date(y,m-1,0).getDate();const total=Math.ceil((offset+days)/7)*7;
+ for(let i=0;i<total;i++){let date,other=false;if(i<offset){date=mainCalLocalDate(y,m-1,prevDays-offset+i+1);other=true;}else if(i>=offset+days){date=mainCalLocalDate(y,m+1,i-offset-days+1);other=true;}else date=mainCalLocalDate(y,m,i-offset+1);
+  const cell=document.createElement('button');cell.type='button';cell.className='main-calendar-day'+(other?' other-month':'')+(date===todayISO()?' today':'')+(date===mainCalendarSelectedDate?' selected':'');cell.setAttribute('aria-label',mainCalDateLabel(date));
+  const num=document.createElement('span');num.className='main-calendar-daynum';num.textContent=String(Number(date.slice(-2)));cell.append(num);
+  const events=mainCalendarRows.filter(r=>r.entry_date===date).sort((a,b)=>(a.content?.time||'').localeCompare(b.content?.time||''));events.slice(0,3).forEach(ev=>{const chip=document.createElement('span');chip.className='main-calendar-event-chip';chip.style.setProperty('--event-color',ev.content?.color||'#a8b69f');chip.style.setProperty('--event-bg',mainCalTint(ev.content?.color||'#a8b69f'));chip.textContent=(ev.content?.time?ev.content.time+' ':'')+ev.title;chip.title=ev.title;cell.append(chip);});if(events.length>3){const more=document.createElement('span');more.className='main-calendar-more';more.textContent='+'+(events.length-3)+' more';cell.append(more);}cell.addEventListener('click',()=>{mainCalendarSelectedDate=date;if(other)mainCalendarMonth=date.slice(0,7);renderMainCalendar();mainCalOpenForm(date);});grid.append(cell);
+ }
+ renderMainCalendarAgenda();
+}
+function mainCalTint(hex){try{const h=hex.replace('#','');const n=parseInt(h,16),r=(n>>16)&255,g=(n>>8)&255,b=n&255;return `rgba(${r},${g},${b},.22)`;}catch(e){return '#e8eee6';}}
+function renderMainCalendarAgenda(){const host=$('mainCalAgenda');if(!host)return;const from=mainCalendarSelectedDate||todayISO();$('mainCalAgendaTitle').textContent='Events · '+mainCalDateLabel(from);const rows=mainCalendarRows.filter(r=>r.entry_date===from).sort((a,b)=>(a.content?.time||'').localeCompare(b.content?.time||''));host.innerHTML='';if(!rows.length){host.className='main-calendar-empty';host.textContent='Nothing planned for this day yet. Tap a date or add an event ♡';return;}host.className='';rows.forEach(row=>{const wrap=document.createElement('div');wrap.className='main-calendar-event-row';const sw=document.createElement('span');sw.className='main-calendar-event-swatch';sw.style.setProperty('--event-color',row.content?.color||'#a8b69f');const info=document.createElement('div');info.className='main-calendar-event-info';const title=document.createElement('strong');title.textContent=row.title;const meta=document.createElement('span');meta.textContent=[row.content?.time,row.content?.category].filter(Boolean).join(' · ');info.append(title,meta);if(row.content?.notes){const note=document.createElement('div');note.textContent=row.content.notes;note.style.marginTop='3px';info.append(note);}const actions=document.createElement('div');actions.className='main-calendar-event-actions';const edit=document.createElement('button');edit.type='button';edit.className='secondary';edit.textContent='Edit';edit.onclick=()=>mainCalOpenForm(row.entry_date,row);actions.append(edit);wrap.append(sw,info,actions);host.append(wrap);});}
+async function loadMainCalendar(){if(!client)return;const {data,error}=await fetchAllPages(()=>client.from('journal_entries').select('id,entry_date,title,content,created_at').eq('entry_type','note').order('entry_date',{ascending:true}));if(error){$('mainCalAgenda').textContent='Could not load calendar: '+error.message;return;}mainCalendarRows=(data||[]).filter(r=>r.content?.kind==='main_calendar_event');renderMainCalendar();}
+$('mainCalPrev')?.addEventListener('click',()=>{const [y,m]=mainCalendarMonth.split('-').map(Number);mainCalendarMonth=mainCalLocalDate(y,m-1,1).slice(0,7);renderMainCalendar();});
+$('mainCalNext')?.addEventListener('click',()=>{const [y,m]=mainCalendarMonth.split('-').map(Number);mainCalendarMonth=mainCalLocalDate(y,m+1,1).slice(0,7);renderMainCalendar();});
+$('mainCalToday')?.addEventListener('click',()=>{mainCalendarMonth=todayISO().slice(0,7);mainCalendarSelectedDate=todayISO();renderMainCalendar();});
+$('mainCalAdd')?.addEventListener('click',()=>mainCalOpenForm(mainCalendarSelectedDate||todayISO()));
+$('mainCalCancel')?.addEventListener('click',mainCalCloseForm);
+$('mainCalDate')?.addEventListener('change',e=>{mainCalendarSelectedDate=e.target.value;mainCalendarMonth=e.target.value.slice(0,7);renderMainCalendar();});
+$('mainCalForm')?.addEventListener('submit',async e=>{e.preventDefault();if(!client){$('mainCalStatus').textContent='Please connect your private database first.';return;}try{const user=await currentUser(),date=$('mainCalDate').value,title=$('mainCalEventTitle').value.trim();if(!date||!title)throw new Error('Please enter an event name and date.');const content={kind:'main_calendar_event',category:$('mainCalCategory').value,time:$('mainCalTime').value,color:$('mainCalColor').value,notes:$('mainCalNotes').value.trim()};let result;if(mainCalendarEditingId){result=await client.from('journal_entries').update({entry_date:date,title,content}).eq('id',mainCalendarEditingId);}else{result=await client.from('journal_entries').insert({user_id:user.id,entry_type:'note',entry_date:date,title,content});}if(result.error)throw result.error;mainCalendarMonth=date.slice(0,7);mainCalendarSelectedDate=date;mainCalCloseForm();await loadMainCalendar();}catch(err){$('mainCalStatus').textContent='Could not save event: '+err.message;}});
+$('mainCalDelete')?.addEventListener('click',async()=>{if(!mainCalendarEditingId||!confirm('Delete this calendar event?'))return;const {error}=await client.from('journal_entries').delete().eq('id',mainCalendarEditingId);if(error){$('mainCalStatus').textContent='Could not delete event: '+error.message;return;}mainCalCloseForm();await loadMainCalendar();});
+
 function showPage(page,options={}){
  const valid=["home","academic","attendance","coffee","finance","daily","memories","song","people","studycorner","coursedetail","travel","hobbies"];
  if(!valid.includes(page))page="home";
@@ -1453,7 +1559,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadMainCalendar();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
