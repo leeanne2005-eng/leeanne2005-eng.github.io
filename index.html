@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6efe3"><title>My Little World V37 ♡</title>
+<meta name="theme-color" content="#f6efe3"><title>My Little World V41 ♡</title>
+<!-- V41: daily wake-up time log with automatically generated 30-day trend graph. -->
 <!-- V37: remove daily habit recap cards; retain only monthly per-habit whole-number totals. -->
 <!-- V22: expands academic course folder palette to 18 colour choices. -->
 <!-- V21: Academic course folders by semester with colour-coded goals and task lists. -->
@@ -373,6 +374,20 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 @media(max-width:760px){.main-calendar-head{grid-template-columns:1fr;align-items:start}.main-calendar-tools{justify-content:flex-start;padding-right:0;max-width:100%}.main-calendar-head:after{right:18px}.main-calendar-month{min-width:112px}.main-calendar-day{min-height:78px;padding:4px 3px}.main-calendar-event-chip{font-size:9px;padding:3px}.main-calendar-below{grid-template-columns:1fr;padding:0 10px 12px}.main-calendar-title{font-size:30px}.main-calendar-weekday{font-size:9px;padding:8px 0}.main-calendar-grid{padding:0 7px 9px;gap:2px}.main-calendar-daynum{font-size:11px;min-width:19px}.main-calendar-legend{padding:0 10px 10px}.main-calendar-hint{padding:0 12px 13px}}
 @media(max-width:390px){.main-calendar-day{min-height:68px}.main-calendar-event-chip{font-size:8px;padding:2px}.main-calendar-tools button{padding:6px 8px}.main-calendar-month{min-width:100px;font-size:12px}}
 
+
+/* V41 · wake-up time log and 30-day trend */
+.wake-card{margin-top:18px;padding:18px;background:#fffaf2;border:1px solid #ddc9bd;border-radius:16px;box-shadow:0 3px 0 rgba(111,83,75,.06)}
+.wake-kicker{font:10px Arial,sans-serif;letter-spacing:2px;color:#9a817b;text-transform:uppercase}
+.wake-title{font:italic 25px Georgia,serif;color:#80636a;margin:4px 0 6px}
+.wake-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:end;margin-top:14px}
+.wake-form label{display:grid;gap:6px;font:12px Arial,sans-serif;color:#927a74}
+.wake-form input{width:100%;min-width:0;padding:11px;border:1px solid #d9c5b9;border-radius:10px;background:#fffdf9;color:#593239;font:15px Arial,sans-serif}
+.wake-chart-wrap{margin-top:18px;padding:12px 10px 8px;border-radius:12px;background:#f8f1e9;border:1px solid #eadbd0;overflow:hidden}
+.wake-chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.wake-legend{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#927a74;font:11px Arial,sans-serif;margin:8px 2px 0}
+.wake-status{font:12px Arial,sans-serif;color:#927a74;margin-top:8px;min-height:16px}
+@media(max-width:520px){.wake-card{padding:13px}.wake-form{grid-template-columns:1fr 1fr}.wake-title{font-size:22px}}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -616,6 +631,20 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <h2 style="font-size:20px">My Daily Activity Log ♡</h2>
    <p class="muted">Your saved activities appear here, newest first. Tap a week to open its entries.</p>
    <div id="activityList" class="muted">Loading your private activity log…</div>
+  </section>
+
+  <section id="wakeTimeSection" class="wake-card">
+   <div class="wake-kicker">A GENTLE START TO THE DAY</div>
+   <h2 class="wake-title">My wake-up journal ☀️</h2>
+   <p class="muted" style="margin:0">Record when you woke up. Your 30-day graph will update automatically as you add each day.</p>
+   <form id="wakeTimeForm" class="wake-form">
+    <label>Date<input id="wakeDate" type="date" required></label>
+    <label>Wake-up time<input id="wakeTime" type="time" required></label>
+    <button type="submit" style="grid-column:1/-1">＋ Save wake-up time</button>
+   </form>
+   <div id="wakeTimeStatus" class="wake-status" role="status"></div>
+   <div id="wakeTimeChart" class="wake-chart-wrap"><p class="muted">Your wake-up time graph will appear here.</p></div>
+   <div class="wake-legend"><span>Earlier wake-up ↑</span><span>Last 30 days · one point per day</span><span>Later wake-up ↓</span></div>
   </section>
 
   <section id="habitSection" style="border-top:1px solid var(--line);margin-top:22px;padding-top:18px">
@@ -989,6 +1018,55 @@ async function loadSemesters(){
 $("semesterSelect")?.addEventListener("change",()=>{const chosen=semesterRows.find(x=>x.id===$("semesterSelect").value);if(!chosen)return;activeSemester=chosen;classSchedule=chosen.classes.map(c=>({...c}));renderSemesterSelect();renderTimetable();attendanceDraft={};loadAttendance();});
 $("semesterForm")?.addEventListener("submit",async e=>{e.preventDefault();const name=$("semesterName").value.trim(),start=$("semesterStart").value,end=$("semesterEnd").value;if(!name||!start||!end||end<start){setStatus($("semesterStatus"),"Please enter a name and a valid date range.");return;}if(!client){setStatus($("semesterStatus"),"Connect your database first.");return;}if(activeSemester&&!activeSemester.db_id){const saved=await saveActiveSemester();if(!saved)return;}const next={id:"sem-"+Date.now(),name,start_date:start,end_date:end,classes:[]};semesterRows.unshift(next);activeSemester=next;classSchedule=[];renderSemesterSelect();renderTimetable();$("semesterForm").reset();const savedNew=await saveActiveSemester();if(!savedNew){setStatus($("semesterStatus"),"The semester is shown here but could not be saved yet. Please check your connection and try adding a class again.");return;}setStatus($("semesterStatus"),"New semester created. Your previous semester remains archived ♡");await loadAttendance();});
 $("classForm")?.addEventListener("submit",async e=>{e.preventDefault();const name=$("className").value.trim(),time=$("classTime").value.trim();if(!name||!time)return;classSchedule.push({id:"class-"+Date.now(),day:Number($("classDay").value),name,time,venue:$("classVenue").value.trim(),lecturer:$("classLecturer").value.trim()});renderTimetable();$("classForm").reset();await saveActiveSemester();});
+
+// ===== Daily Wake-up Time Journal =====
+const WAKE_TITLE="MLW_WAKE_TIME";
+let wakeTimeRows=[];
+if($("wakeDate"))$("wakeDate").value=todayISO();
+async function loadWakeTimeLog(){
+ const chart=$("wakeTimeChart");if(!chart||!client)return;
+ chart.innerHTML='<p class="muted">Loading your wake-up history…</p>';
+ try{
+  const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","note").eq("title",WAKE_TITLE).order("entry_date",{ascending:true}));
+  if(error)throw error;
+  wakeTimeRows=(data||[]).filter(r=>r.content?.kind==="wake_time_log"&&/^\d{2}:\d{2}$/.test(r.content.time||""));
+  renderWakeTimeChart();
+ }catch(err){chart.textContent="Could not load wake-up history: "+(err?.message||String(err));}
+}
+function renderWakeTimeChart(){
+ const host=$("wakeTimeChart");if(!host)return;
+ const end=new Date(todayISO()+"T12:00:00");const start=new Date(end);start.setDate(start.getDate()-29);
+ const byDate=new Map();
+ wakeTimeRows.forEach(r=>{const old=byDate.get(r.entry_date);if(!old||String(r.created_at||"")>=String(old.created_at||""))byDate.set(r.entry_date,r);});
+ const points=[];
+ for(let i=0;i<30;i++){const d=new Date(start);d.setDate(start.getDate()+i);const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");const r=byDate.get(key);if(r){const [hh,mm]=r.content.time.split(":").map(Number);points.push({date:key,time:r.content.time,minutes:hh*60+mm});}}
+ if(!points.length){host.innerHTML='<p class="muted" style="margin:4px">No wake-up times recorded yet. Add your first time above and your graph will grow day by day ♡</p>';return;}
+ const min=Math.min(240,...points.map(p=>p.minutes-45)),max=Math.max(780,...points.map(p=>p.minutes+45));
+ const W=720,H=250,L=58,R=18,T=18,B=42,plotW=W-L-R,plotH=H-T-B;
+ const x=i=>L+(i/29)*plotW;const y=m=>T+((m-min)/(max-min))*plotH;
+ const ticks=[];const tickStart=Math.ceil(min/60)*60;for(let t=tickStart;t<=max;t+=60)ticks.push(t);
+ const fmt=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+ let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Wake-up time trend for the last 30 days. Earlier times are higher on the graph."><defs><linearGradient id="wakeArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#d6a6a2" stop-opacity=".30"/><stop offset="100%" stop-color="#d6a6a2" stop-opacity=".02"/></linearGradient></defs>`;
+ ticks.forEach(t=>{const yy=y(t);svg+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="#e5d8ce" stroke-dasharray="4 5"/><text x="${L-9}" y="${yy+4}" text-anchor="end" fill="#927a74" font-size="11">${fmt(t)}</text>`;});
+ const coords=points.map(p=>({ ...p,px:x((new Date(p.date+"T12:00:00")-start)/86400000),py:y(p.minutes)}));
+ if(coords.length>1){const line=coords.map((p,i)=>(i?"L":"M")+p.px.toFixed(1)+","+p.py.toFixed(1)).join(" ");const area=line+` L ${coords[coords.length-1].px},${H-B} L ${coords[0].px},${H-B} Z`;svg+=`<path d="${area}" fill="url(#wakeArea)"/><path d="${line}" fill="none" stroke="#b66e70" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;}
+ coords.forEach(p=>{const label=new Date(p.date+"T12:00:00").toLocaleDateString("en-MY",{day:"numeric",month:"short"});svg+=`<circle cx="${p.px}" cy="${p.py}" r="5" fill="#fffaf2" stroke="#a9686c" stroke-width="3"><title>${label}: ${p.time}</title></circle>`;});
+ [0,7,14,21,29].forEach(i=>{const d=new Date(start);d.setDate(start.getDate()+i);const label=d.toLocaleDateString("en-MY",{day:"numeric",month:"short"});svg+=`<text x="${x(i)}" y="${H-14}" text-anchor="middle" fill="#927a74" font-size="11">${label}</text>`;});
+ svg+='</svg>';
+ const latest=points[points.length-1];
+ host.innerHTML=svg+`<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:2px 3px 0;color:#80636a;font:12px Arial,sans-serif"><span>${points.length} ${points.length===1?"day":"days"} recorded</span><strong>Latest: ${latest.time}</strong></div>`;
+}
+$("wakeTimeForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();const status=$("wakeTimeStatus"),date=$("wakeDate").value,time=$("wakeTime").value;if(!date||!time)return;
+ const button=e.submitter; if(button)button.disabled=true;status.textContent="Saving your wake-up time…";
+ try{
+  const user=await currentUser();const existing=wakeTimeRows.filter(r=>r.entry_date===date).sort((a,b)=>String(b.created_at||"").localeCompare(String(a.created_at||"")))[0];
+  if(existing){const {error}=await client.from("journal_entries").update({content:{...existing.content,kind:"wake_time_log",time}}).eq("id",existing.id);if(error)throw error;}
+  else{const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"note",entry_date:date,title:WAKE_TITLE,content:{kind:"wake_time_log",time}});if(error)throw error;}
+  status.textContent="Wake-up time saved ♡";await loadWakeTimeLog();
+ }catch(err){status.textContent="Could not save wake-up time: "+(err?.message||String(err));}
+ finally{if(button)button.disabled=false;}
+});
 
 // ===== Daily Habit Tracker =====
 if($("habitMonth"))$("habitMonth").value=todayISO().slice(0,7);
@@ -1559,7 +1637,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadMainCalendar();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
+  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadWakeTimeLog();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadMainCalendar();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
