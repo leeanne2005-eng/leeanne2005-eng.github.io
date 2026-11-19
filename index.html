@@ -388,6 +388,10 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .wake-status{font:12px Arial,sans-serif;color:#927a74;margin-top:8px;min-height:16px}
 @media(max-width:520px){.wake-card{padding:13px}.wake-form{grid-template-columns:1fr 1fr}.wake-title{font-size:22px}}
 
+
+/* V43 savings accounts */
+.savings-account-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0}.savings-account-card{border:1px solid #dfcfc4;border-left:7px solid var(--account-colour,#b66c70);border-radius:12px;background:#fffaf4;padding:13px;box-shadow:0 2px 0 rgba(100,70,60,.06)}.savings-account-card strong{display:block;color:var(--wine);font: bold 16px Georgia}.savings-account-card .account-balance{font:bold 22px Georgia;color:var(--ink);margin-top:8px}.savings-account-card small{color:var(--muted)}.savings-account-colours{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.savings-colour-option{width:28px;height:28px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px #cbbab0;cursor:pointer}.savings-colour-option[aria-pressed=true]{box-shadow:0 0 0 2px var(--wine)}#financeSavingsAccountSelectWrap.hidden{display:none}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
@@ -564,6 +568,17 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div id="financeBudgetList" style="margin-top:12px"></div>
   </section>
   <div class="notice">If you already have savings, add them once as “Starting savings balance”. Then record deposits and withdrawals to keep your balance up to date.</div>
+  <section class="finance-goal-card" aria-labelledby="savingsAccountsHeading">
+   <div class="eyebrow">Give every little goal its own pocket</div><h2 id="savingsAccountsHeading" style="font-size:20px;margin:4px 0 8px">My Savings Accounts ✧</h2>
+   <p class="muted">Create separate pots for different goals, each with its own colour. Choose the right pot whenever you deposit or withdraw money.</p>
+   <div id="savingsAccountsList" class="savings-account-grid"><p class="muted">Your savings accounts will appear here.</p></div>
+   <form id="savingsAccountForm" class="formgrid" style="align-items:end;margin-top:12px">
+    <label class="muted">Account name<input id="savingsAccountName" maxlength="60" required placeholder="e.g. Travel fund"></label>
+    <label class="muted">Choose a colour<select id="savingsAccountColour"><option value="#b66c70">Dusty rose</option><option value="#8fa58f">Sage green</option><option value="#8faec2">Dusty blue</option><option value="#e0c77f">Buttercream</option><option value="#c69b78">Caramel</option><option value="#b7a5c9">Lavender</option><option value="#d99b82">Peach</option><option value="#9dbdb1">Mint</option><option value="#9b8298">Mauve</option><option value="#8995a6">Soft slate</option></select></label>
+    <button type="submit">＋ Create savings account</button>
+   </form>
+   <div id="savingsAccountStatus" class="muted" role="status" style="margin-top:7px;font-size:12px"></div>
+  </section>
   <section class="finance-goal-card" aria-labelledby="savingsGoalHeading">
    <div class="eyebrow">A little progress, every day</div><h2 id="savingsGoalHeading" style="font-size:20px;margin:4px 0 12px">My Savings Goal ✧</h2>
    <div id="savingsGoalDisplay" class="muted">Set a savings target and watch your progress grow ♡</div>
@@ -580,6 +595,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
     <label class="muted">Transaction type<select id="financeKind" required><option value="expense">Daily expense</option><option value="income">Income</option><option value="saving_deposit">Savings deposit</option><option value="saving_withdrawal">Savings withdrawal</option><option value="opening_savings">Starting savings balance</option></select></label>
     <label class="muted">Amount (RM)<input id="financeAmount" type="number" min="0.01" step="0.01" required placeholder="e.g. 12.50"></label>
     <label class="muted">Date<input id="financeDate" type="date" required></label>
+    <label class="muted hidden" id="financeSavingsAccountSelectWrap">Savings account<select id="financeSavingsAccountSelect"><option value="">Choose a savings account</option></select></label>
     <label class="muted">Category<select id="financeCategory"><option value="food">🍽️ Food & drinks</option><option value="shopping">🛍️ Shopping</option><option value="transport">🚗 Transport</option><option value="study">📚 Study</option><option value="entertainment">🎮 Leisure & entertainment</option><option value="personal">🧴 Personal care</option><option value="bills">🏠 Bills & essentials</option><option value="health">🌷 Health</option><option value="other">✦ Other</option></select></label>
    </div>
    <label class="muted">What was it for?<input id="financeTitle" maxlength="120" required placeholder="e.g. Lunch at campus / Monthly allowance"></label>
@@ -2021,6 +2037,21 @@ $("coffeeForm").addEventListener("submit",async e=>{
 const financeCategories={food:"Food & drinks",shopping:"Shopping",transport:"Transport",study:"Study",entertainment:"Leisure",personal:"Personal care",bills:"Bills & essentials",health:"Health",other:"Other"};
 const financeColors=["#84343c","#b66c70","#d5a29a","#c6a47b","#8d786f","#b9a4a0","#d9c5b8","#a34b53","#e2d5c8"];
 let financeRows=[];
+const savingsPalette=["#b66c70","#8fa58f","#8faec2","#e0c77f","#c69b78","#b7a5c9","#d99b82","#9dbdb1","#9b8298","#8995a6"];
+function savingsAccountRows(){return financeRows.filter(r=>r.content?.kind==="savings_account");}
+function savingsAccountId(){return (window.crypto?.randomUUID?.()||("sav_"+Date.now().toString(36)+Math.random().toString(36).slice(2,9)));}
+function savingsAccountNameById(id){const a=savingsAccountRows().find(r=>r.content?.account_id===id);return a?.title||"Savings account";}
+function savingsAccountBalance(id){return financeRows.reduce((sum,r)=>{const k=r.content?.kind;if(!["opening_savings","saving_deposit","saving_withdrawal"].includes(k))return sum;const amount=Number(r.content?.amount||0);const sign=k==="saving_withdrawal"?-1:1;return sum+((r.content?.account_id||"legacy")===id?sign*amount:0);},0);}
+function renderSavingsAccounts(){
+ const host=$("savingsAccountsList"),select=$("financeSavingsAccountSelect");if(!host||!select)return;host.innerHTML="";
+ const accounts=savingsAccountRows().slice().sort((a,b)=>String(a.created_at||"").localeCompare(String(b.created_at||"")));
+ const legacy=financeRows.some(r=>["opening_savings","saving_deposit","saving_withdrawal"].includes(r.content?.kind)&&!r.content?.account_id);
+ if(legacy){const card=document.createElement("div");card.className="savings-account-card";card.style.setProperty("--account-colour","#b9a4a0");const title=document.createElement("strong");title.textContent="Earlier savings · Unassigned";const bal=document.createElement("div");bal.className="account-balance";bal.textContent=money(savingsAccountBalance("legacy"));const note=document.createElement("small");note.textContent="Existing records kept as they were";card.append(title,bal,note);host.append(card);}
+ accounts.forEach(a=>{const card=document.createElement("div");card.className="savings-account-card";const currentColour=a.content?.colour||"#b66c70";card.style.setProperty("--account-colour",currentColour);const title=document.createElement("strong");title.textContent=a.title||"Savings account";const bal=document.createElement("div");bal.className="account-balance";bal.textContent=money(savingsAccountBalance(a.content?.account_id));const note=document.createElement("small");note.textContent="Personal savings pot";const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.style.cssText="padding:5px 9px;margin-top:9px;font-size:12px";edit.textContent="Rename / recolour";edit.onclick=async()=>{const name=prompt("Savings account name",a.title||"");if(name===null||!name.trim())return;const nextColour=prompt("Colour hex code (e.g. #b66c70)",currentColour);if(nextColour===null)return;if(!/^#[0-9a-fA-F]{6}$/.test(nextColour.trim())){alert("Please enter a valid 6-digit hex colour.");return;}const {error}=await client.from("journal_entries").update({title:name.trim(),content:{...a.content,colour:nextColour.trim()}}).eq("id",a.id);if(error)setStatus($("savingsAccountStatus"),"Could not update account: "+error.message);else await loadFinance();};card.append(title,bal,note,edit);host.append(card);});
+ if(!accounts.length&&!legacy)host.innerHTML='<p class="muted">Create your first savings account above. Your existing savings records will remain untouched.</p>';
+ const old=select.value;select.innerHTML='<option value="">Choose a savings account</option>';accounts.forEach(a=>{const o=document.createElement("option");o.value=a.content?.account_id||"";o.textContent=a.title||"Savings account";select.append(o);});if(old&&accounts.some(a=>a.content?.account_id===old))select.value=old;
+}
+function updateSavingsAccountField(){const kind=$("financeKind")?.value,wrap=$("financeSavingsAccountSelectWrap");if(!wrap)return;const needs=["saving_deposit","saving_withdrawal","opening_savings"].includes(kind);wrap.classList.toggle("hidden",!needs);const sel=$("financeSavingsAccountSelect");if(sel)sel.required=needs;}
 function money(n){return "RM "+Number(n||0).toFixed(2)}
 function financeKindLabel(k){return ({expense:"Expense",income:"Income",saving_deposit:"Savings deposit",saving_withdrawal:"Savings withdrawal",opening_savings:"Starting savings"})[k]||k}
 async function loadFinance(){
@@ -2036,13 +2067,14 @@ function renderFinance(){
  const expenses=monthly.filter(r=>r.content?.kind==="expense"),income=monthly.filter(r=>r.content?.kind==="income");
  const spent=expenses.reduce((a,r)=>a+Number(r.content?.amount||0),0),earned=income.reduce((a,r)=>a+Number(r.content?.amount||0),0);
  const savings=financeRows.reduce((a,r)=>a+(r.content?.kind==="opening_savings"||r.content?.kind==="saving_deposit"?1:r.content?.kind==="saving_withdrawal"?-1:0)*Number(r.content?.amount||0),0);
+ renderSavingsAccounts();updateSavingsAccountField();
  $("financeSummary").innerHTML="";[[money(spent),"Spent · "+month],[money(earned),"Income · "+month],[money(savings),"Current savings balance"]].forEach(([v,l])=>{const t=document.createElement("div");t.className="tile";const st=document.createElement("strong");st.textContent=v;const sp=document.createElement("span");sp.className="muted";sp.textContent=l;t.append(st,sp);$("financeSummary").append(t);});
  renderSavingsGoal(savings);
  renderFinanceBudgets(month,monthly,expenses);
  renderFinanceVisuals(monthly,expenses,spent,earned,savings);
- const monthRows=financeRows.filter(r=>!['savings_goal','monthly_budget'].includes(r.content?.kind)&&(r.entry_date||"").startsWith(month));
+ const monthRows=financeRows.filter(r=>!['savings_goal','monthly_budget','savings_account'].includes(r.content?.kind)&&(r.entry_date||"").startsWith(month));
  renderWeeklySection($("financeList"),monthRows,{metric:items=>items.filter(r=>r.content?.kind==="expense").reduce((a,r)=>a+Number(r.content?.amount||0),0),formatValue:v=>"RM "+Number(v).toFixed(0),empty:"No transactions for this month. Choose another month or add a new record ♡",record:(row,item)=>{
-  const top=document.createElement("div");top.style.cssText="display:flex;justify-content:space-between;gap:10px;align-items:start";const left=document.createElement("div");const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||financeKindLabel(item.content?.kind);const meta=document.createElement("div");meta.className="muted";meta.textContent=[item.entry_date,financeKindLabel(item.content?.kind),financeCategories[item.content?.category]||"Other",item.content?.method].filter(Boolean).join(" · ");left.append(title,meta);const amount=document.createElement("strong");amount.style.color="var(--wine)";amount.textContent=money(item.content?.amount);top.append(left,amount);row.append(top);
+  const top=document.createElement("div");top.style.cssText="display:flex;justify-content:space-between;gap:10px;align-items:start";const left=document.createElement("div");const title=document.createElement("strong");title.style.color="var(--wine)";title.textContent=item.title||financeKindLabel(item.content?.kind);const meta=document.createElement("div");meta.className="muted";meta.textContent=[item.entry_date,financeKindLabel(item.content?.kind),item.content?.account_id?savingsAccountNameById(item.content.account_id):null,financeCategories[item.content?.category]||"Other",item.content?.method].filter(Boolean).join(" · ");left.append(title,meta);const amount=document.createElement("strong");amount.style.color="var(--wine)";amount.textContent=money(item.content?.amount);top.append(left,amount);row.append(top);
   if(item.content?.notes){const note=document.createElement("p");note.className="muted";note.textContent=item.content.notes;row.append(note);}
   const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
   const edit=document.createElement("button");edit.className="secondary";edit.textContent="Edit";edit.onclick=async()=>{
@@ -2103,6 +2135,14 @@ function renderFinanceVisuals(monthly,expenses,spent,earned,savings){
  const trend=document.createElement("div");trend.className="finance-viz-card";trend.innerHTML="<h3>Weekly spending trend</h3>";const graph=document.createElement("div");graph.className="week-chart";const grouped=new Map();expenses.forEach(r=>{const k=weekKey(r.entry_date);grouped.set(k,(grouped.get(k)||0)+Number(r.content?.amount||0));});const vals=[...grouped.entries()].sort((a,b)=>a[0].localeCompare(b[0])).slice(-6);if(vals.length){const max=Math.max(1,...vals.map(x=>x[1]));vals.forEach(([k,v])=>{const col=document.createElement("div");col.className="week-col";const value=document.createElement("div");value.className="week-value";value.textContent="RM"+v.toFixed(0);const bw=document.createElement("div");bw.className="week-bar-wrap";const bar=document.createElement("div");bar.className="week-bar";bar.style.height=Math.max(3,v/max*96)+"px";bw.append(bar);const lab=document.createElement("div");lab.className="week-label";lab.textContent=new Date(k+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});col.append(value,bw,lab);graph.append(col)});trend.append(graph);}else trend.insertAdjacentHTML("beforeend",'<p class="muted">Your weekly spending trend will appear here.</p>');wrap.append(trend);
  const saving=document.createElement("div");saving.className="finance-viz-card";saving.innerHTML="<h3>Your savings</h3>";const bal=document.createElement("div");bal.style.cssText="font: bold 26px Georgia;color:var(--wine);margin:8px 0";bal.textContent=money(savings);const note=document.createElement("p");note.className="muted";note.textContent="Current balance = starting savings + deposits − withdrawals.";saving.append(bal,note);wrap.append(saving);
 }
+$("savingsAccountForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!client){setStatus($("savingsAccountStatus"),"Please connect your database first.");return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("savingsAccountStatus"),"Please sign in again.");return;}
+ const name=$("savingsAccountName").value.trim(),colour=$("savingsAccountColour").value;if(!name){setStatus($("savingsAccountStatus"),"Please give this savings account a name.");return;}
+ if(savingsAccountRows().some(a=>(a.title||"").trim().toLowerCase()===name.toLowerCase())){setStatus($("savingsAccountStatus"),"You already have an account with that name.");return;}
+ const account_id=savingsAccountId();const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"finance",entry_date:todayISO(),title:name,content:{kind:"savings_account",account_id,colour}});if(error){setStatus($("savingsAccountStatus"),"Could not create account: "+error.message);return;}$("savingsAccountForm").reset();setStatus($("savingsAccountStatus"),"Savings account created ♡");await loadFinance();$("financeSavingsAccountSelect").value=account_id;
+});
+$("financeKind").addEventListener("change",updateSavingsAccountField);
+
 $("financeBudgetForm").addEventListener("submit",async e=>{
  e.preventDefault();if(!client){setStatus($("financeBudgetStatus"),"Please connect your database first.");return;}
  const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("financeBudgetStatus"),"Please sign in again.");return;}
@@ -2131,8 +2171,9 @@ $("financeForm").addEventListener("submit",async e=>{
  e.preventDefault();if(!client){setStatus($("financeStatus"),"Please connect your database first.");return;}const {data:{user},error:userError}=await client.auth.getUser();if(userError||!user){setStatus($("financeStatus"),"Please sign in again.");return;}
  const amount=Number($("financeAmount").value);if(!Number.isFinite(amount)||amount<=0){setStatus($("financeStatus"),"Enter an amount greater than zero.");return;}
  const kind=$("financeKind").value,title=$("financeTitle").value.trim();if(!title){setStatus($("financeStatus"),"Please describe this transaction.");return;}
- if(kind==="opening_savings"&&financeRows.some(r=>r.content?.kind==="opening_savings")){setStatus($("financeStatus"),"A starting savings balance is already recorded. Use Savings deposit or Savings withdrawal to update it.");return;}
- const content={kind,amount,category:$("financeCategory").value,method:$("financeMethod").value,notes:$("financeNotes").value.trim()};const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"finance",entry_date:$("financeDate").value,title,content});if(error){setStatus($("financeStatus"),"Could not save transaction: "+error.message);return;}
+ if(kind==="opening_savings"&&financeRows.some(r=>r.content?.kind==="opening_savings"&&r.content?.account_id===$("financeSavingsAccountSelect").value)){setStatus($("financeStatus"),"A starting balance is already recorded for this account. Use Savings deposit or Savings withdrawal to update it.");return;}
+ const account_id=["saving_deposit","saving_withdrawal","opening_savings"].includes(kind)?$("financeSavingsAccountSelect").value:null;if(["saving_deposit","saving_withdrawal","opening_savings"].includes(kind)&&!account_id){setStatus($("financeStatus"),"Please choose which savings account this transaction belongs to.");return;}
+ const content={kind,amount,category:$("financeCategory").value,method:$("financeMethod").value,notes:$("financeNotes").value.trim(),...(account_id?{account_id}:{})};const {error}=await client.from("journal_entries").insert({user_id:user.id,entry_type:"finance",entry_date:$("financeDate").value,title,content});if(error){setStatus($("financeStatus"),"Could not save transaction: "+error.message);return;}
  $("financeForm").reset();$("financeDate").value=todayISO();setStatus($("financeStatus"),"Transaction saved privately ♡");await loadFinance();
 });
 $("financeMonth").addEventListener("change",()=>renderFinance());
