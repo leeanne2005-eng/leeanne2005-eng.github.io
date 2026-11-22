@@ -409,11 +409,59 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .pomo-side{display:flex;flex-direction:column;gap:12px}.pomo-panel{background:#fdf4e6;border:1px solid #d2b69a;border-radius:17px;padding:14px;box-shadow:0 3px 0 #dec7aa}.pomo-panel h3{font:italic 19px Georgia;margin:0 0 10px;color:#75452f}.pomo-panel label{display:grid;gap:5px;font:11px Arial,sans-serif;color:#926b52;margin:8px 0}.pomo-panel input,.pomo-panel select{width:100%;min-width:0;border:1px solid #c9a887;background:#fffaf2;color:#58382a;border-radius:9px;padding:9px;font:13px Arial,sans-serif}.pomo-task-row{display:flex;gap:6px}.pomo-task-row input{flex:1}.pomo-task-row button{border:0;border-radius:9px;background:#b7774d;color:white;font-weight:bold;padding:0 13px}.pomo-task-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.pomo-task-chip{border:1px solid #d0b18f;background:#fffaf2;border-radius:999px;padding:6px 9px;font:11px Arial,sans-serif;color:#6a4a36;cursor:pointer}.pomo-task-chip.active{background:#6c4230;color:#fff4e4;border-color:#6c4230}.pomo-task-chip button{border:0;background:none;color:inherit;margin-left:5px;cursor:pointer}.pomo-task-current{font:italic 14px Georgia;color:#7a5038;min-height:19px;margin-top:8px}.pomo-stats{display:flex;justify-content:space-between;gap:8px;align-items:center;font:11px Arial,sans-serif;color:#8b674e;margin-top:12px}.pomo-stats strong{font: bold 20px Georgia;color:#5b3029}.pomo-reward{font-size:22px;letter-spacing:4px;color:#bb8052}.pomo-footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:13px;font:11px Arial,sans-serif;color:#9a7258}
 @media(max-width:680px){.pomo-layout{grid-template-columns:1fr}.pomo-clock{width:min(82%,270px)}.pomo-title{font-size:28px}.pomo-room{padding:14px}.pomo-actions button{padding:10px 13px}}
 
+
+.pomo-summary{margin:24px 0 30px;padding:clamp(16px,3vw,28px);border:1px solid #d9c5b4;border-radius:24px;background:linear-gradient(145deg,#fff9ef,#f1e4d6);box-shadow:0 5px 0 #dfcdbd;color:#63463d}
+.pomo-summary-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px dashed #c9a994;padding-bottom:16px;margin-bottom:16px}.pomo-summary-total{display:grid;text-align:center;background:#6d453b;color:#fff3df;border-radius:18px;padding:12px 20px;min-width:100px}.pomo-summary-total strong{font:700 30px Georgia,serif}.pomo-summary-total span{font-size:12px;letter-spacing:.04em}.pomo-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.pomo-chart-card{background:#fffaf3;border:1px solid #dfcbbb;border-radius:18px;padding:16px;min-width:0}.pomo-chart-card h3{font:700 20px Georgia,serif;margin:0 0 4px;color:#69463d}.pomo-chart-note{font-size:12px;color:#9a786b;margin:0 0 16px}.pomo-task-chart{display:grid;gap:12px}.pomo-bar-row{display:grid;grid-template-columns:minmax(70px,1fr) minmax(70px,2fr) 42px;gap:8px;align-items:center;font-size:12px}.pomo-bar-name{overflow-wrap:anywhere}.pomo-bar-track{height:14px;border-radius:99px;background:#eee2d6;overflow:hidden}.pomo-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#b87862,#d8a66e)}.pomo-bar-count{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}.pomo-bar-detail{grid-column:1/-1;font-size:11px;color:#9b7d6f;margin-top:-7px}.pomo-week-chart{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;min-height:150px}.pomo-day-column{display:flex;flex-direction:column;align-items:center;justify-content:end;gap:7px;height:150px;font-size:11px;color:#947466}.pomo-day-count{font-weight:700;color:#6b493d}.pomo-day-track{height:105px;width:100%;max-width:28px;background:#f0e5d9;border-radius:12px;display:flex;align-items:end;overflow:hidden}.pomo-day-fill{width:100%;min-height:0;background:linear-gradient(#8c9b7d,#b7b99b);border-radius:12px 12px 4px 4px}.pomo-summary-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:#927264}.pomo-summary-foot button{font-size:12px;padding:8px 12px}.pomo-finish-log{background:#b8795f!important;color:#fff8ee!important;border-color:#b8795f!important}
+@media(max-width:680px){.pomo-summary-grid{grid-template-columns:1fr}.pomo-week-chart{gap:5px}.pomo-bar-row{grid-template-columns:minmax(65px,1fr) minmax(60px,1.5fr) 32px}}
+
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
 <style>
 .habit-edit-panel{max-width:100%;}
 @media(max-width:600px){#habitBoard [data-habit-editor]{margin-left:0!important;margin-right:0!important;max-width:100%!important}#habitBoard .habit-edit-form input,#habitBoard .habit-edit-form select{width:100%;min-width:0;box-sizing:border-box}}
+
+/* V46 — softer vintage study palette */
+#pomoRoom{border-color:#cbb9b6!important;background:linear-gradient(135deg,#f8f1ec 0%,#eee8e1 52%,#f5f0e9 100%)!important;box-shadow:inset 0 0 0 5px #f6eee8,0 5px 0 #d8cbc5!important;color:#66545a!important}
+#pomoRoom:before{color:#c3a0aa!important}
+#pomoRoom .pomo-room-head{border-color:#d4c3c4!important}
+#pomoRoom .pomo-eyebrow{color:#a18491!important}
+#pomoRoom .pomo-title{color:#806575!important}
+#pomoRoom .pomo-sub{color:#9a858c!important}
+#pomoRoom .pomo-clock-card{background:#fcf8f3!important;border-color:#dfd0ca!important;box-shadow:0 3px 0 #e5d9d3!important}
+#pomoRoom .pomo-clock{background:radial-gradient(circle at 35% 28%,#f6e9e5,#d9c6c7 72%,#b69da9 73%,#8d7489 78%,#f1e4df 80%)!important;box-shadow:inset 0 0 0 7px #8b7488,inset 0 0 0 11px #c6a8b1,0 5px 0 #d4c5bd!important}
+#pomoRoom .pomo-clock-face{background:repeating-conic-gradient(from 0deg,#806a7b 0deg 1.2deg,transparent 1.2deg 30deg)!important}
+#pomoRoom .pomo-clock-label{color:#a18491!important}
+#pomoRoom .pomo-time{color:#685365!important}
+#pomoRoom .pomo-mode-label{color:#a18491!important}
+#pomoRoom .pomo-clock-spark,#pomoRoom .pomo-reward{color:#c39aa9!important}
+#pomoRoom .pomo-progress{background:#eee3e2!important}
+#pomoRoom .pomo-progress>span{background:linear-gradient(90deg,#c6a1b1,#a8b9a5)!important}
+#pomoRoom .pomo-actions button{border-color:#95818f!important;background:#95818f!important;color:#fffaf7!important;box-shadow:0 3px 0 #d0c2c9!important}
+#pomoRoom .pomo-actions button.secondary{background:#fbf6f1!important;color:#806575!important;border-color:#d5c5cd!important}
+#pomoRoom .pomo-panel{background:#faf5f0!important;border-color:#e0d1ca!important;box-shadow:0 3px 0 #e9ddd6!important}
+#pomoRoom .pomo-panel h3{color:#806575!important}
+#pomoRoom .pomo-panel label{color:#a18a91!important}
+#pomoRoom .pomo-panel input,#pomoRoom .pomo-panel select{border-color:#d9c8cd!important;background:#fffaf6!important;color:#66545a!important}
+#pomoRoom .pomo-task-row button{background:#b69aa8!important;color:#fffaf7!important}
+#pomoRoom .pomo-task-chip{border-color:#d9c8cd!important;background:#fffaf6!important;color:#806575!important}
+#pomoRoom .pomo-task-chip.active{background:#a995a8!important;color:#fffaf7!important;border-color:#a995a8!important}
+#pomoRoom .pomo-task-current,#pomoRoom .pomo-stats{color:#a18a91!important}
+#pomoRoom .pomo-stats strong{color:#806575!important}
+#pomoRoom .pomo-footer{color:#a18a91!important}
+#pomoSummary{border-color:#e0d1ca!important;background:linear-gradient(145deg,#fcf8f3,#f0e8e3)!important;box-shadow:0 4px 0 #e2d6d0!important;color:#6e5a64!important}
+#pomoSummary .pomo-summary-head{border-color:#d9c8cd!important}
+#pomoSummary .pomo-summary-total{background:#a995a8!important;color:#fffaf7!important}
+#pomoSummary .pomo-chart-card{background:#fffaf6!important;border-color:#e4d6d0!important}
+#pomoSummary .pomo-chart-card h3{color:#806575!important}
+#pomoSummary .pomo-chart-note,#pomoSummary .pomo-bar-detail{color:#a18a91!important}
+#pomoSummary .pomo-bar-track{background:#eee4e3!important}
+#pomoSummary .pomo-bar-fill{background:linear-gradient(90deg,#c6a1b1,#b6c2ad)!important}
+#pomoSummary .pomo-day-column{color:#a18a91!important}
+#pomoSummary .pomo-day-count{color:#806575!important}
+#pomoSummary .pomo-day-track{background:#eee6e2!important}
+#pomoSummary .pomo-day-fill{background:linear-gradient(#a8b9a5,#c4cdbb)!important}
+#pomoSummary .pomo-summary-foot{color:#a18a91!important}
+#pomoSummary .pomo-finish-log{background:#b69aa8!important;border-color:#b69aa8!important;color:#fffaf7!important}
 </style>
 <!-- V13: Friend photo crop positioning and emoji/initials avatar creator; preserves V12 and prior fixes. -->
 </head>
@@ -781,7 +829,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <div class="pomo-room-head"><div><div class="pomo-eyebrow">The little study clock · focus & play</div><h2 class="pomo-title">A Clockwork Study Café ☕</h2><p class="pomo-sub">Choose a task, wind up your little clock, and make focus feel less like a chore.</p></div><div class="pomo-reward" aria-hidden="true">✦ ♡ ✦</div></div>
    <div class="pomo-layout">
     <div class="pomo-clock-card"><div class="pomo-clock" id="pomoClock"><div class="pomo-clock-face"></div><div class="pomo-clock-inner"><div class="pomo-clock-spark">✧</div><div class="pomo-clock-label" id="pomoClockLabel">FOCUS SESSION</div><div class="pomo-time" id="pomoDisplay">25:00</div><div class="pomo-mode-label" id="pomoModeLabel">One little chapter at a time</div></div></div><div class="pomo-progress"><span id="pomoProgress"></span></div>
-     <div class="pomo-actions"><button type="button" id="pomoStart">▶ Start</button><button type="button" class="secondary" id="pomoPause">Ⅱ Pause</button><button type="button" class="secondary" id="pomoReset">↺ Wind back</button></div>
+     <div class="pomo-actions"><button type="button" id="pomoStart">▶ Start</button><button type="button" class="secondary" id="pomoPause">Ⅱ Pause</button><button type="button" class="secondary" id="pomoReset">↺ Wind back</button><button type="button" class="pomo-finish-log" id="pomoFinishLog">✦ Finish & log task</button></div>
      <div class="pomo-actions" style="margin-top:10px"><button type="button" class="secondary" id="pomoCountUp">＋ Count up</button><button type="button" class="secondary" id="pomoCountDown">− Countdown</button></div>
      <div class="pomo-stats"><span>Focus chapters finished</span><strong id="pomoCompleted">0</strong><span id="pomoReward">✦</span></div>
     </div>
@@ -790,6 +838,12 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
      <div class="pomo-panel"><h3>Set the clock</h3><div class="formgrid"><label>Focus minutes<input id="pomoFocusMinutes" type="number" min="1" max="180" value="25"></label><label>Break minutes<input id="pomoBreakMinutes" type="number" min="1" max="60" value="5"></label></div><label>Session<select id="pomoSessionType"><option value="focus">Focus</option><option value="break">Short break</option><option value="longbreak">Long break · 15 min</option></select></label><label>Little background sound<select id="pomoMusic"><option value="off">Quiet room</option><option value="rain">Rain on the window</option><option value="cafe">Soft café hum</option><option value="piano">Gentle piano notes</option></select></label><div class="pomo-actions"><button type="button" class="secondary" id="pomoMusicToggle">♫ Play ambience</button></div><p class="pomo-sub" id="pomoMusicStatus" style="margin-top:8px">Sound begins only when you press play.</p></div>
     </div>
    </div><div class="pomo-footer"><span>Made for little study sprints, not perfect days.</span><span id="pomoStatus" role="status">Ready when you are ♡</span></div>
+  </section>
+  <section class="pomo-summary" id="pomoSummary" aria-label="Timer task completion summary">
+   <div class="pomo-summary-head"><div><div class="pomo-eyebrow">Little steps, added up</div><h2 class="pomo-title">My focus achievements ✦</h2><p class="pomo-sub">A soft little overview of the focus sessions you logged, grouped by task and day. This is separate from your habit tracker.</p></div><div class="pomo-summary-total"><strong id="pomoLogTotal">0</strong><span>sessions logged</span></div></div>
+   <div class="pomo-summary-grid"><article class="pomo-chart-card"><h3>Tasks you focused on</h3><p class="pomo-chart-note">Completed focus sessions and minutes, grouped by task</p><div id="pomoTaskChart" class="pomo-task-chart"><p class="muted">Finish a focus session to start your chart ♡</p></div></article>
+   <article class="pomo-chart-card"><h3>Your focus, day by day</h3><p class="pomo-chart-note">Completed focus sessions over the last 7 days</p><div id="pomoWeekChart" class="pomo-week-chart"><p class="muted">Your daily progress will appear here.</p></div></article></div>
+   <div class="pomo-summary-foot"><span id="pomoLogMinutes">0 focus minutes collected</span><button type="button" class="secondary" id="pomoClearHistory">Clear timer history</button></div>
   </section>
 
 
@@ -2557,22 +2611,27 @@ if(initClient()){
 (()=>{
  const $p=id=>document.getElementById(id);if(!$p('pomoRoom'))return;
  const storeKey='mlw_clockwork_pomo_v1';let saved={};try{saved=JSON.parse(localStorage.getItem(storeKey)||'{}')}catch{}
- let tasks=Array.isArray(saved.tasks)?saved.tasks:[],selected=saved.selected||'',mode=saved.mode||'down',session=saved.session||'focus',completed=Number(saved.completed)||0;
+ let tasks=Array.isArray(saved.tasks)?saved.tasks:[],selected=saved.selected||'',mode=saved.mode||'down',session=saved.session||'focus',completed=Number(saved.completed)||0,sessionLogs=Array.isArray(saved.sessionLogs)?saved.sessionLogs:[],elapsedSeconds=0;
  let focusM=Number(saved.focusM)||25,breakM=Number(saved.breakM)||5,total=mode==='up'?0:duration(),remaining=total,running=false,last=0,tick=null,audioCtx=null,noiseNode=null,musicTimer=null,musicOn=false;
  function duration(){return session==='break'?breakM*60:session==='longbreak'?15*60:focusM*60}
- function save(){try{localStorage.setItem(storeKey,JSON.stringify({tasks,selected,mode,session,completed,focusM,breakM}))}catch{}}
+ function save(){try{localStorage.setItem(storeKey,JSON.stringify({tasks,selected,mode,session,completed,focusM,breakM,sessionLogs}))}catch{}}
+ function localDateKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+ function safeText(v){return String(v).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
+ function logFocus(minutes,source){if(session!=='focus')return false;const mins=Math.max(1,Math.round(minutes));sessionLogs.push({task:selected||'Unassigned task',date:localDateKey(),minutes:mins,at:Date.now(),source:source||'manual'});completed=(Number(completed)||0)+1;save();renderSummary();return true}
+ function renderSummary(){const totalEl=$p('pomoLogTotal'),taskEl=$p('pomoTaskChart'),weekEl=$p('pomoWeekChart'),minEl=$p('pomoLogMinutes');if(!totalEl||!taskEl||!weekEl)return;totalEl.textContent=sessionLogs.length;const byTask={};sessionLogs.forEach(x=>{const k=x.task||'Unassigned task';if(!byTask[k])byTask[k]={count:0,minutes:0};byTask[k].count++;byTask[k].minutes+=Number(x.minutes)||0});const entries=Object.entries(byTask).sort((a,b)=>b[1].count-a[1].count);if(!entries.length)taskEl.innerHTML='<p class="muted">Finish a focus session to start your chart ♡</p>';else{const max=Math.max(...entries.map(x=>x[1].count),1);taskEl.innerHTML=entries.map(([name,v])=>'<div class="pomo-bar-row"><span class="pomo-bar-name" title="'+safeText(name)+'">'+safeText(name)+'</span><div class="pomo-bar-track"><div class="pomo-bar-fill" style="width:'+Math.max(3,v.count/max*100)+'%"></div></div><span class="pomo-bar-count">'+v.count+'</span><span class="pomo-bar-detail">'+v.minutes+' focus min · '+(v.count===1?'session':'sessions')+'</span></div>').join('')}
+ const days=[];const now=new Date();for(let i=6;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);const key=localDateKey(d);days.push({key,label:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()],count:sessionLogs.filter(x=>x.date===key).length})}const maxDay=Math.max(...days.map(x=>x.count),1);weekEl.innerHTML=days.map(d=>'<div class="pomo-day-column"><span class="pomo-day-count">'+d.count+'</span><div class="pomo-day-track"><div class="pomo-day-fill" style="height:'+(d.count?Math.max(5,d.count/maxDay*100):0)+'%"></div></div><span>'+d.label+'</span></div>').join('');minEl.textContent=sessionLogs.reduce((n,x)=>n+(Number(x.minutes)||0),0)+' focus minutes collected'}
  function fmt(s){s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
  function renderTasks(){const sel=$p('pomoTaskSelect'),list=$p('pomoTaskList');sel.innerHTML='<option value="">Choose or add a task…</option>';list.innerHTML='';tasks.forEach((t,i)=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.append(o);const b=document.createElement('button');b.type='button';b.className='pomo-task-chip'+(t===selected?' active':'');b.textContent=t;b.onclick=()=>choose(t);const del=document.createElement('button');del.type='button';del.textContent='×';del.setAttribute('aria-label','Remove '+t);del.onclick=e=>{e.stopPropagation();tasks=tasks.filter(x=>x!==t);if(selected===t)selected='';renderTasks();save()};b.append(del);list.append(b)});sel.value=selected;$p('pomoCurrentTask').textContent=selected?'✎ '+selected:'No task selected yet ♡'}
  function choose(t){selected=t;$p('pomoTaskSelect').value=t;renderTasks();save();status(t?'Mission selected. Let’s make a little progress ♡':'Choose a task whenever you like.')}
  function status(s){$p('pomoStatus').textContent=s}
  function draw(){const up=mode==='up',shown=up?remaining:remaining;$p('pomoDisplay').textContent=fmt(shown);$p('pomoClockLabel').textContent=up?'COUNTING UP':session==='break'?'SHORT BREAK':session==='longbreak'?'LONG BREAK':'FOCUS SESSION';$p('pomoModeLabel').textContent=up?'See how long you stayed with it':session==='break'?'Stretch, sip, breathe':session==='longbreak'?'A proper little reset':'One little chapter at a time';$p('pomoProgress').style.width=up?Math.min(100,remaining/3600*100)+'%':total?Math.max(0,Math.min(100,(total-remaining)/total*100))+'%':'0%';$p('pomoCompleted').textContent=completed;$p('pomoReward').textContent='✦'.repeat(Math.min(8,Math.max(1,completed)))+(completed>=8?' ♡':'');$p('pomoStart').textContent=running?'▶ Running':'▶ Start';$p('pomoCountUp').classList.toggle('secondary',up);$p('pomoCountDown').classList.toggle('secondary',!up)}
  function stop(){running=false;if(tick){clearInterval(tick);tick=null}draw()}
- function start(){if(running)return;running=true;last=Date.now();tick=setInterval(()=>{const now=Date.now();remaining+=mode==='up'?(now-last)/1000:-(now-last)/1000;last=now;if(mode==='down'&&remaining<=0){remaining=0;stop();if(session==='focus')completed++;save();draw();status(session==='focus'?'Focus chapter finished! Take a tiny break ✦':'Break is over. Ready for another little chapter?');beep();return}draw()},250);status(selected?'Focusing on: '+selected:'Your focus clock is ticking ♡')}
- function reset(){stop();total=mode==='up'?0:duration();remaining=total;draw();status('Clock wound back. Ready for another try.')}
- function setSession(v){stop();session=v;$p('pomoSessionType').value=v;mode='down';total=duration();remaining=total;save();draw()}
+ function start(){if(running)return;running=true;last=Date.now();tick=setInterval(()=>{const now=Date.now();const delta=(now-last)/1000;remaining+=mode==='up'?delta:-delta;elapsedSeconds+=delta;last=now;if(mode==='down'&&remaining<=0){remaining=0;stop();if(session==='focus'){logFocus(focusM,'timer-complete')}else save();draw();status(session==='focus'?'Focus chapter finished and added to your task graph! ✦':'Break is over. Ready for another little chapter?');beep();return}draw()},250);status(selected?'Focusing on: '+selected:'Your focus clock is ticking ♡')}
+ function reset(){stop();elapsedSeconds=0;total=mode==='up'?0:duration();remaining=total;draw();status('Clock wound back. Ready for another try.')}
+ function setSession(v){stop();elapsedSeconds=0;session=v;$p('pomoSessionType').value=v;mode='down';total=duration();remaining=total;save();draw()}
  $p('pomoTaskAdd').onclick=()=>{const t=$p('pomoTaskInput').value.trim();if(!t)return;if(!tasks.includes(t))tasks.push(t);$p('pomoTaskInput').value='';selected=t;renderTasks();save();status('Task tucked into your little list ♡')};$p('pomoTaskInput').addEventListener('keydown',e=>{if(e.key==='Enter'){$p('pomoTaskAdd').click();e.preventDefault()}});$p('pomoTaskSelect').onchange=e=>choose(e.target.value);
  $p('pomoStart').onclick=start;$p('pomoPause').onclick=()=>{stop();status('Paused for a moment. No rush ♡')};$p('pomoReset').onclick=reset;
- $p('pomoCountUp').onclick=()=>{stop();mode='up';total=0;remaining=0;save();draw();status('Count-up mode: your time, your pace.')};$p('pomoCountDown').onclick=()=>{stop();mode='down';total=duration();remaining=total;save();draw();status('Countdown mode is ready.')};
+ $p('pomoCountUp').onclick=()=>{stop();elapsedSeconds=0;mode='up';total=0;remaining=0;save();draw();status('Count-up mode: your time, your pace.')};$p('pomoCountDown').onclick=()=>{stop();elapsedSeconds=0;mode='down';total=duration();remaining=total;save();draw();status('Countdown mode is ready.')};
  $p('pomoFocusMinutes').value=focusM;$p('pomoBreakMinutes').value=breakM;$p('pomoSessionType').value=session;
  $p('pomoFocusMinutes').onchange=e=>{focusM=Math.max(1,Math.min(180,Number(e.target.value)||25));e.target.value=focusM;if(session==='focus'&&mode==='down')reset();save()};$p('pomoBreakMinutes').onchange=e=>{breakM=Math.max(1,Math.min(60,Number(e.target.value)||5));e.target.value=breakM;if(session==='break'&&mode==='down')reset();save()};$p('pomoSessionType').onchange=e=>setSession(e.target.value);
  function beep(){try{const c=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx=c;const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=660;g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.12,c.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.65);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.7)}catch{}}
@@ -2582,8 +2641,9 @@ if(initClient()){
  else if(kind==='cafe'){const osc=audioCtx.createOscillator(),g=audioCtx.createGain();osc.type='sine';osc.frequency.value=110;g.gain.value=.025;osc.connect(g);g.connect(audioCtx.destination);osc.start();noiseNode=osc}
  else{const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];let i=0;musicTimer=setInterval(()=>{if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.value=notes[i++%notes.length];g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.035,audioCtx.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.6);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.65)},720)}
  }catch{$p('pomoMusicStatus').textContent='Your browser could not start the sound. Try tapping play again.'}}
+ $p('pomoFinishLog').onclick=()=>{stop();if(session!=='focus'){status('Only focus sessions are added to task achievements.');return}if(elapsedSeconds<30){status('Stay with your task for at least 30 seconds before logging ♡');return}if(logFocus(elapsedSeconds/60,'manual')){elapsedSeconds=0;status('Focus session saved to your task achievements ✦')}};$p('pomoClearHistory').onclick=()=>{if(!sessionLogs.length)return;if(confirm('Clear your timer task-completion history? This cannot be undone.')){sessionLogs=[];completed=0;save();renderSummary();draw();status('Timer history cleared.')}};
  $p('pomoMusicToggle').onclick=()=>musicOn?stopMusic():playMusic();$p('pomoMusic').onchange=()=>{if(musicOn){stopMusic();playMusic()}};
- renderTasks();total=mode==='up'?0:duration();remaining=mode==='up'?Number(saved.remaining)||0:total;draw();
+ renderTasks();total=mode==='up'?0:duration();remaining=mode==='up'?Number(saved.remaining)||0:total;completed=Number(saved.completed)||sessionLogs.length;draw();renderSummary();
  window.addEventListener('beforeunload',()=>{if(tick)clearInterval(tick);stopMusic()});
 })();
 
