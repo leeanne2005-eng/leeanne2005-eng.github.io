@@ -837,7 +837,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
      <div class="pomo-panel"><h3>Pick your little mission</h3><label>Today's task<select id="pomoTaskSelect"><option value="">Choose or add a task…</option></select></label><div class="pomo-task-row"><input id="pomoTaskInput" maxlength="100" placeholder="Add a study task"><button type="button" id="pomoTaskAdd">＋</button></div><div class="pomo-task-list" id="pomoTaskList"></div><div class="pomo-task-current" id="pomoCurrentTask">No task selected yet ♡</div></div>
      <div class="pomo-panel"><h3>Set the clock</h3><div class="formgrid"><label>Focus minutes<input id="pomoFocusMinutes" type="number" min="1" max="180" value="25"></label><label>Break minutes<input id="pomoBreakMinutes" type="number" min="1" max="60" value="5"></label></div><label>Session<select id="pomoSessionType"><option value="focus">Focus</option><option value="break">Short break</option><option value="longbreak">Long break · 15 min</option></select></label><label>Little background sound<select id="pomoMusic"><option value="off">Quiet room</option><option value="rain">Rain on the window</option><option value="cafe">Soft café hum</option><option value="piano">Gentle piano notes</option></select></label><div class="pomo-actions"><button type="button" class="secondary" id="pomoMusicToggle">♫ Play ambience</button></div><p class="pomo-sub" id="pomoMusicStatus" style="margin-top:8px">Sound begins only when you press play.</p></div>
     </div>
-   </div><div class="pomo-footer"><span>Made for little study sprints, not perfect days.</span><span id="pomoStatus" role="status">Ready when you are ♡</span></div>
+   </div><div class="pomo-footer"><span>Made for little study sprints, not perfect days.</span><span id="pomoStatus" role="status">Ready when you are ♡</span></div><p id="pomoCloudSync" class="muted" aria-live="polite">Sign in to sync timer history between devices.</p>
   </section>
   <section class="pomo-summary" id="pomoSummary" aria-label="Timer task completion summary">
    <div class="pomo-summary-head"><div><div class="pomo-eyebrow">Little steps, added up</div><h2 class="pomo-title">My focus achievements ✦</h2><p class="pomo-sub">A soft little overview of the focus sessions you logged, grouped by task and day. This is separate from your habit tracker.</p></div><div class="pomo-summary-total"><strong id="pomoLogTotal">0</strong><span>sessions logged</span></div></div>
@@ -1752,7 +1752,7 @@ function showSession(session){
   currentSession=session;
   $("signedOut").classList.toggle("hidden",!!session);
   $("signedIn").classList.toggle("hidden",!session);
-  if(session){const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadWakeTimeLog();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadMainCalendar();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
+  if(session){if(window.mlwSyncTimerHistory)window.mlwSyncTimerHistory();const requested=(location.hash||"#home").slice(1);showPage(requested,{history:false});$("welcome").textContent="friend ♡";$("account").textContent=session.user.email||"Signed in with Google";loadActivities();loadSongs();loadGoals();loadCourseFolders();loadCoffee();loadFinance();loadWakeTimeLog();loadHabitBoard();loadMemories();loadPeopleData();loadStudyCorner();loadPeriodData();loadTravelData();loadMainCalendar();loadSemesters().then(()=>{refreshCourseSemesterOptions();loadAttendance();});}
 }
 function weekStart(dateString){const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));d.setHours(0,0,0,0);return d;}
 function weekKey(dateString){const d=weekStart(dateString);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -2607,7 +2607,7 @@ if(initClient()){
  setStatus($("status"),"Set up your Supabase connection below.");
 }
 
-// V44 Clockwork Study Café — tasks and session count are saved locally on this device.
+// V47 Clockwork Study Café — local-first timer with private Supabase history sync.
 (()=>{
  const $p=id=>document.getElementById(id);if(!$p('pomoRoom'))return;
  const storeKey='mlw_clockwork_pomo_v1';let saved={};try{saved=JSON.parse(localStorage.getItem(storeKey)||'{}')}catch{}
@@ -2617,7 +2617,33 @@ if(initClient()){
  function save(){try{localStorage.setItem(storeKey,JSON.stringify({tasks,selected,mode,session,completed,focusM,breakM,sessionLogs}))}catch{}}
  function localDateKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
  function safeText(v){return String(v).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
- function logFocus(minutes,source){if(session!=='focus')return false;const mins=Math.max(1,Math.round(minutes));sessionLogs.push({task:selected||'Unassigned task',date:localDateKey(),minutes:mins,at:Date.now(),source:source||'manual'});completed=(Number(completed)||0)+1;save();renderSummary();return true}
+ function makeLogId(){return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():'mlw-'+Date.now()+'-'+Math.random().toString(36).slice(2)}
+ function logFocus(minutes,source){if(session!=='focus')return false;const mins=Math.max(1,Math.round(minutes));sessionLogs.push({syncId:makeLogId(),task:selected||'Unassigned task',date:localDateKey(),minutes:mins,at:Date.now(),source:source||'manual'});completed=(Number(completed)||0)+1;save();renderSummary();syncTimerHistory();return true}
+ let syncPromise=Promise.resolve();
+ function setSyncLabel(message){const el=$p('pomoCloudSync');if(el)el.textContent=message}
+ async function syncTimerHistory(){
+  if(!client||!currentSession?.user?.id){setSyncLabel('Sign in to sync timer history between devices.');return}
+  // Serialize sync attempts to avoid duplicate inserts when login and a timer log happen together.
+  syncPromise=syncPromise.then(async()=>{
+   try{
+    const user=await currentUser();
+    // Assign stable IDs to older locally stored records so they can be safely uploaded once.
+    let changed=false;sessionLogs.forEach(log=>{if(!log.syncId){log.syncId=makeLogId();changed=true}});if(changed)save();
+    const {data,error}=await fetchAllPages(()=>client.from('journal_entries').select('id,entry_date,title,content,created_at').eq('user_id',user.id).eq('entry_type','note').in('title',['MLW_TIMER_FOCUS_LOG','MLW_TIMER_HISTORY_RESET']).order('created_at',{ascending:true}));
+    if(error)throw error;
+    const allCloud=data||[],resets=allCloud.filter(r=>r.title==='MLW_TIMER_HISTORY_RESET').map(r=>Number(r.content?.reset_at)||0),resetAt=Math.max(0,...resets);
+    sessionLogs=sessionLogs.filter(log=>(Number(log.at)||0)>resetAt);
+    const cloud=allCloud.filter(r=>r.title==='MLW_TIMER_FOCUS_LOG'&&r.content?.kind==='timer_focus_log'&&(Number(r.content?.at)||0)>resetAt);
+    const cloudIds=new Set(cloud.map(r=>r.content?.timer_log_id).filter(Boolean));
+    const missing=sessionLogs.filter(log=>log.syncId&&!cloudIds.has(log.syncId));
+    if(missing.length){const rows=missing.map(log=>({user_id:user.id,entry_type:'note',entry_date:log.date||localDateKey(),title:'MLW_TIMER_FOCUS_LOG',content:{kind:'timer_focus_log',timer_log_id:log.syncId,task:log.task||'Unassigned task',minutes:Number(log.minutes)||0,at:Number(log.at)||Date.now(),source:log.source||'manual'}}));const {error:insertError}=await client.from('journal_entries').insert(rows);if(insertError)throw insertError;}
+    // Merge cloud and local history by stable ID; never replace or erase local entries on a read failure.
+    const merged=new Map();sessionLogs.forEach(log=>merged.set(log.syncId,log));cloud.forEach(row=>{const c=row.content||{},id=c.timer_log_id;if(id&&!merged.has(id))merged.set(id,{syncId:id,task:c.task||row.title||'Unassigned task',date:row.entry_date||localDateKey(),minutes:Number(c.minutes)||0,at:Number(c.at)||new Date(row.created_at||Date.now()).getTime(),source:c.source||'cloud'});});
+    sessionLogs=[...merged.values()].sort((a,b)=>(Number(a.at)||0)-(Number(b.at)||0));completed=sessionLogs.length;save();renderSummary();draw();setSyncLabel('Timer history synced to your private cloud ♡');
+   }catch(err){setSyncLabel('Sync needs attention: '+(err?.message||'Please check your connection or sign-in.'));}
+  });return syncPromise;
+ }
+ window.mlwSyncTimerHistory=syncTimerHistory;
  function renderSummary(){const totalEl=$p('pomoLogTotal'),taskEl=$p('pomoTaskChart'),weekEl=$p('pomoWeekChart'),minEl=$p('pomoLogMinutes');if(!totalEl||!taskEl||!weekEl)return;totalEl.textContent=sessionLogs.length;const byTask={};sessionLogs.forEach(x=>{const k=x.task||'Unassigned task';if(!byTask[k])byTask[k]={count:0,minutes:0};byTask[k].count++;byTask[k].minutes+=Number(x.minutes)||0});const entries=Object.entries(byTask).sort((a,b)=>b[1].count-a[1].count);if(!entries.length)taskEl.innerHTML='<p class="muted">Finish a focus session to start your chart ♡</p>';else{const max=Math.max(...entries.map(x=>x[1].count),1);taskEl.innerHTML=entries.map(([name,v])=>'<div class="pomo-bar-row"><span class="pomo-bar-name" title="'+safeText(name)+'">'+safeText(name)+'</span><div class="pomo-bar-track"><div class="pomo-bar-fill" style="width:'+Math.max(3,v.count/max*100)+'%"></div></div><span class="pomo-bar-count">'+v.count+'</span><span class="pomo-bar-detail">'+v.minutes+' focus min · '+(v.count===1?'session':'sessions')+'</span></div>').join('')}
  const days=[];const now=new Date();for(let i=6;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);const key=localDateKey(d);days.push({key,label:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()],count:sessionLogs.filter(x=>x.date===key).length})}const maxDay=Math.max(...days.map(x=>x.count),1);weekEl.innerHTML=days.map(d=>'<div class="pomo-day-column"><span class="pomo-day-count">'+d.count+'</span><div class="pomo-day-track"><div class="pomo-day-fill" style="height:'+(d.count?Math.max(5,d.count/maxDay*100):0)+'%"></div></div><span>'+d.label+'</span></div>').join('');minEl.textContent=sessionLogs.reduce((n,x)=>n+(Number(x.minutes)||0),0)+' focus minutes collected'}
  function fmt(s){s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
@@ -2641,9 +2667,9 @@ if(initClient()){
  else if(kind==='cafe'){const osc=audioCtx.createOscillator(),g=audioCtx.createGain();osc.type='sine';osc.frequency.value=110;g.gain.value=.025;osc.connect(g);g.connect(audioCtx.destination);osc.start();noiseNode=osc}
  else{const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];let i=0;musicTimer=setInterval(()=>{if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.value=notes[i++%notes.length];g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.035,audioCtx.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.6);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.65)},720)}
  }catch{$p('pomoMusicStatus').textContent='Your browser could not start the sound. Try tapping play again.'}}
- $p('pomoFinishLog').onclick=()=>{stop();if(session!=='focus'){status('Only focus sessions are added to task achievements.');return}if(elapsedSeconds<30){status('Stay with your task for at least 30 seconds before logging ♡');return}if(logFocus(elapsedSeconds/60,'manual')){elapsedSeconds=0;status('Focus session saved to your task achievements ✦')}};$p('pomoClearHistory').onclick=()=>{if(!sessionLogs.length)return;if(confirm('Clear your timer task-completion history? This cannot be undone.')){sessionLogs=[];completed=0;save();renderSummary();draw();status('Timer history cleared.')}};
+ $p('pomoFinishLog').onclick=()=>{stop();if(session!=='focus'){status('Only focus sessions are added to task achievements.');return}if(elapsedSeconds<30){status('Stay with your task for at least 30 seconds before logging ♡');return}if(logFocus(elapsedSeconds/60,'manual')){elapsedSeconds=0;status('Focus session saved to your task achievements ✦')}};$p('pomoClearHistory').onclick=async()=>{if(!sessionLogs.length)return;if(!confirm('Clear your timer task-completion history from this device and your synced account? This cannot be undone.'))return;stop();sessionLogs=[];completed=0;save();renderSummary();draw();if(client&&currentSession?.user?.id){try{const user=await currentUser(),resetAt=Date.now();const {error}=await client.from('journal_entries').insert({user_id:user.id,entry_type:'note',entry_date:localDateKey(),title:'MLW_TIMER_HISTORY_RESET',content:{kind:'timer_history_reset',reset_at:resetAt}});if(error)throw error;setSyncLabel('History cleared across your synced account.');}catch(err){setSyncLabel('Local history cleared, but cloud reset failed: '+err.message);}}else setSyncLabel('Local history cleared on this device. Sign in to sync.');status('Timer history cleared.')} ;
  $p('pomoMusicToggle').onclick=()=>musicOn?stopMusic():playMusic();$p('pomoMusic').onchange=()=>{if(musicOn){stopMusic();playMusic()}};
- renderTasks();total=mode==='up'?0:duration();remaining=mode==='up'?Number(saved.remaining)||0:total;completed=Number(saved.completed)||sessionLogs.length;draw();renderSummary();
+ renderTasks();total=mode==='up'?0:duration();remaining=mode==='up'?Number(saved.remaining)||0:total;completed=Number(saved.completed)||sessionLogs.length;draw();renderSummary();setSyncLabel(client&&currentSession?.user?.id?'Connecting your timer history…':'Sign in to sync timer history between devices.');if(client&&currentSession?.user?.id)syncTimerHistory();
  window.addEventListener('beforeunload',()=>{if(tick)clearInterval(tick);stopMusic()});
 })();
 
