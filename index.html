@@ -389,6 +389,8 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 @media(max-width:520px){.wake-card{padding:13px}.wake-form{grid-template-columns:1fr 1fr}.wake-title{font-size:22px}}
 
 
+/* V48 selective finance history manager */
+.finance-history-tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}.finance-history-panel{margin:12px 0;padding:14px;background:#f8eee5;border:1px solid #d9c2b7;border-radius:12px}.finance-history-list{display:grid;gap:7px;max-height:360px;overflow:auto;margin:12px 0}.finance-history-item{display:flex;gap:10px;align-items:flex-start;padding:10px;background:#fffaf4;border:1px solid #ead8ce;border-radius:9px}.finance-history-item input{margin-top:4px;flex:none}.finance-history-item span{display:block}.finance-history-item .fhm{font:12px/1.45 Arial;color:var(--muted);margin-top:3px}
 /* V43 savings accounts */
 .savings-account-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0}.savings-account-card{border:1px solid #dfcfc4;border-left:7px solid var(--account-colour,#b66c70);border-radius:12px;background:#fffaf4;padding:13px;box-shadow:0 2px 0 rgba(100,70,60,.06)}.savings-account-card strong{display:block;color:var(--wine);font: bold 16px Georgia}.savings-account-card .account-balance{font:bold 22px Georgia;color:var(--ink);margin-top:8px}.savings-account-card small{color:var(--muted)}.savings-account-colours{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.savings-colour-option{width:28px;height:28px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px #cbbab0;cursor:pointer}.savings-colour-option[aria-pressed=true]{box-shadow:0 0 0 2px var(--wine)}#financeSavingsAccountSelectWrap.hidden{display:none}
 
@@ -668,7 +670,9 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
    <button type="submit">＋ Save transaction</button><div id="financeStatus" role="status" style="font:13px/1.5 Arial;color:var(--wine)"></div>
   </form>
   <div style="border-top:1px solid #dfc2bb;margin-top:24px;padding-top:18px"><h2 style="font-size:20px">My Money at a Glance</h2><p class="muted">A visual summary of this month's spending, in the same soft vintage palette.</p><div id="financeVisuals"></div></div>
-  <div style="border-top:1px solid #dfc2bb;margin-top:22px;padding-top:18px"><h2 style="font-size:20px">Transactions for this month</h2><p class="muted">The weekly graph summarises expenses. Switch the month above to revisit older records; you can edit or delete a transaction.</p><div id="financeList" class="muted">Loading your finance records…</div></div>
+  <div style="border-top:1px solid #dfc2bb;margin-top:22px;padding-top:18px"><h2 style="font-size:20px">Transactions for this month</h2><p class="muted">The weekly graph summarises expenses. Switch the month above to revisit older records; you can edit or delete a transaction.</p><div id="financeList" class="muted">Loading your finance records…</div>
+   <div class="finance-history-tools"><button type="button" class="secondary" id="financeHistoryToggle">Manage / clear transaction history</button><span class="muted" id="financeHistorySelectionStatus" aria-live="polite">Choose specific records to remove.</span></div>
+   <section id="financeHistoryPanel" class="finance-history-panel hidden" aria-label="Select finance records to delete"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><strong style="color:var(--wine)">Choose transactions to delete</strong><button type="button" class="secondary" id="financeHistoryClose">Close</button></div><p class="muted">This list includes transactions from all months. Savings accounts, budgets and savings goals are kept. Only the records you tick will be deleted.</p><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="financeHistorySelectAll"> Select all transactions</label><div id="financeHistoryItems" class="finance-history-list"></div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button type="button" id="financeHistoryDeleteSelected" class="secondary">Delete selected</button><span class="muted" id="financeHistoryCount">0 selected</span></div><div id="financeHistoryStatus" role="status" class="muted" style="margin-top:8px"></div></section></div>
  </div>
 
  <div class="panel section-page" id="dailyPanel" data-page="daily">
@@ -2144,8 +2148,23 @@ async function loadFinance(){
  if(!client)return;const host=$("financeList");host.textContent="Loading your private finance records…";
  const {data,error}=await fetchAllPages(()=>client.from("journal_entries").select("id,entry_date,title,content,created_at").eq("entry_type","finance").order("entry_date",{ascending:false}).order("created_at",{ascending:false}));
  if(error){host.textContent="Could not load finance records: "+error.message;return;}
- financeRows=data||[];renderFinance();
+ financeRows=data||[];renderFinance();renderFinanceHistoryManager();
 }
+const financeHistoryKinds=new Set(["expense","income","saving_deposit","saving_withdrawal","opening_savings"]);
+let financeHistorySelected=new Set();
+function financeHistoryRows(){return financeRows.filter(r=>financeHistoryKinds.has(r.content?.kind));}
+function renderFinanceHistoryManager(){
+ const host=$("financeHistoryItems"),selectAll=$("financeHistorySelectAll");if(!host)return;host.innerHTML="";const rows=financeHistoryRows();
+ rows.forEach(item=>{const label=document.createElement("label");label.className="finance-history-item";const check=document.createElement("input");check.type="checkbox";check.checked=financeHistorySelected.has(item.id);check.addEventListener("change",()=>{if(check.checked)financeHistorySelected.add(item.id);else financeHistorySelected.delete(item.id);updateFinanceHistorySelection();});const body=document.createElement("span");const title=document.createElement("strong");title.textContent=item.title||financeKindLabel(item.content?.kind);const meta=document.createElement("span");meta.className="fhm";meta.textContent=[item.entry_date,financeKindLabel(item.content?.kind),item.content?.account_id?savingsAccountNameById(item.content.account_id):null].filter(Boolean).join(" · ");const amount=document.createElement("span");amount.className="fhm";amount.textContent=money(item.content?.amount);body.append(title,meta,amount);label.append(check,body);host.append(label);});
+ if(!rows.length)host.innerHTML='<p class="muted">No transaction history to manage yet.</p>';
+ if(selectAll)selectAll.checked=rows.length>0&&rows.every(r=>financeHistorySelected.has(r.id));updateFinanceHistorySelection();
+}
+function updateFinanceHistorySelection(){const available=new Set(financeHistoryRows().map(r=>r.id));financeHistorySelected=new Set([...financeHistorySelected].filter(id=>available.has(id)));const count=financeHistorySelected.size;const countEl=$("financeHistoryCount");if(countEl)countEl.textContent=count+" selected";const status=$("financeHistorySelectionStatus");if(status)status.textContent=count?count+" transaction(s) selected":"Choose specific records to remove.";const all=$("financeHistorySelectAll");if(all){const rows=financeHistoryRows();all.checked=rows.length>0&&rows.every(r=>financeHistorySelected.has(r.id));all.indeterminate=count>0&&!all.checked;}}
+$("financeHistoryToggle")?.addEventListener("click",()=>{const panel=$("financeHistoryPanel");panel.classList.toggle("hidden");if(!panel.classList.contains("hidden"))renderFinanceHistoryManager();});
+$("financeHistoryClose")?.addEventListener("click",()=>$("financeHistoryPanel").classList.add("hidden"));
+$("financeHistorySelectAll")?.addEventListener("change",e=>{financeHistorySelected=e.target.checked?new Set(financeHistoryRows().map(r=>r.id)):new Set();renderFinanceHistoryManager();});
+$("financeHistoryDeleteSelected")?.addEventListener("click",async()=>{if(!client){setStatus($("financeHistoryStatus"),"Connect your database and sign in first.");return;}const ids=[...financeHistorySelected];if(!ids.length){setStatus($("financeHistoryStatus"),"Tick the records you want to delete first.");return;}if(!confirm("Permanently delete the "+ids.length+" selected finance transaction(s)? This cannot be undone. Other finance settings and unselected records will stay."))return;const {error}=await client.from("journal_entries").delete().eq("entry_type","finance").in("id",ids);if(error){setStatus($("financeHistoryStatus"),"Could not delete selected records: "+error.message);return;}financeHistorySelected.clear();setStatus($("financeHistoryStatus"),ids.length+" selected transaction(s) deleted.");await loadFinance();renderFinanceHistoryManager();});
+
 function renderFinance(){
  const monthInput=$("financeMonth");
  if(monthInput&&!monthInput.value)monthInput.value=currentMonthISO();
