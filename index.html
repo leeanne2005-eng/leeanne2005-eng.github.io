@@ -2133,7 +2133,31 @@ function renderCourseDetail(folder){
  nbNew.onclick=async()=>{if(nbDirty&&!await saveNotebook(false))return;activeNotebookId=null;nbTitleInput.value='';nbEditor.innerHTML='<p></p>';nbDirty=true;nbDelete.disabled=true;nbStatus.textContent='New note — type your title and start writing.';notebookList();nbEditor.focus();};
  nbTitleInput.addEventListener('input',markNotebookDirty);nbEditor.addEventListener('input',markNotebookDirty);nbSearch.addEventListener('input',notebookList);
  nbSave.onclick=()=>saveNotebook(true);
- nbPdf.onclick=async()=>{if(nbDirty&&!await saveNotebook(false))return;const title=(nbTitleInput.value.trim()||"Study Notes").replace(/[<>:"/\|?*]/g,"-");const w=window.open("","_blank");if(!w){nbStatus.textContent="Please allow pop-ups to print your notes to PDF.";return;}const safeTitle=title.replace(/&/g,"&amp;").replace(/</g,"&lt;");w.document.open();w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${safeTitle}</title><style>body{font:11pt/1.65 Georgia,serif;color:#252c2b;margin:22mm}h1{font:22pt Georgia;border-bottom:1px solid #ccc;padding-bottom:8px}h2,h3{page-break-after:avoid}img{max-width:100%}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bbb;padding:6px}@media print{body{margin:15mm}}</style></head><body><h1>${safeTitle}</h1>${cleanNoteHtml(nbEditor.innerHTML)}</body></html>`);w.document.close();w.focus();setTimeout(()=>w.print(),300);};
+ nbPdf.onclick=async()=>{if(nbDirty&&!await saveNotebook(false))return;const title=(nbTitleInput.value.trim()||"Study Notes").replace(/[<>:"/\|?*]/g,"-");const w=window.open("","_blank");if(!w){nbStatus.textContent="Please allow pop-ups to print your notes to PDF.";return;}const safeTitle=title.replace(/&/g,"&amp;").replace(/</g,"&lt;");w.document.open();w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${safeTitle}</title><style>body{font:11pt/1.65 Georgia,serif;color:#252c2b;margin:22mm}h1{font:22pt Georgia;border-bottom:1px solid #ccc;padding-bottom:8px}h2,h3{page-break-after:avoid}img{max-width:100%}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bbb;padding:6px}@media print{body{margin:15mm}}</style>
+<!-- V52: enforce a warm, readable calendar palette with high-specificity overrides. -->
+<style id="mlw-v52-calendar-warmth">
+#mainCalendarPanel.main-calendar{background:#fbf6ef!important;border-color:#e2d5c9!important;color:#413a36!important;box-shadow:0 5px 0 #e8ddd266,0 2px 14px #6c514012!important}
+#mainCalendarPanel .main-calendar-head{background:#f7efe7!important;border-bottom-color:#e6d9ce!important}
+#mainCalendarPanel .main-calendar-title,#mainCalendarPanel .main-calendar-agenda h3,#mainCalendarPanel .main-calendar-form h3{color:#9b6d70!important}
+#mainCalendarPanel .main-calendar-head .eyebrow,#mainCalendarPanel .main-calendar-head .muted{color:#83716a!important}
+#mainCalendarPanel .main-calendar-grid,#mainCalendarPanel .main-calendar-below,#mainCalendarPanel .main-calendar-legend,#mainCalendarPanel .main-calendar-hint{background:#f7efe7!important}
+#mainCalendarPanel .main-calendar-weekday{background:#fffaf4!important;border-bottom:2px solid #e9ddd2!important;color:#61534c!important}
+#mainCalendarPanel .main-calendar-day{background:#fffdf9!important;background-color:#fffdf9!important;border:1px solid #e8ddd3!important;border-radius:10px!important;box-shadow:0 2px 0 #e8ddd366!important;color:#433b36!important}
+#mainCalendarPanel .main-calendar-day:hover{background:#fff5ee!important;background-color:#fff5ee!important;border-color:#d9b6ad!important;box-shadow:inset 0 0 0 1px #d9b6ad,0 2px 5px #9d756515!important}
+#mainCalendarPanel .main-calendar-day.other-month{background:#f1e9e1!important;background-color:#f1e9e1!important;opacity:.82!important}
+#mainCalendarPanel .main-calendar-daynum{color:#4d413b!important}
+#mainCalendarPanel .main-calendar-day.today{outline:2px solid #d9a6a1!important;outline-offset:-3px!important}
+#mainCalendarPanel .main-calendar-day.today .main-calendar-daynum{background:#d9a6a1!important;color:#fff!important}
+#mainCalendarPanel .main-calendar-day.selected{box-shadow:inset 0 0 0 2px #d9a6a1,0 2px 5px #9d756515!important}
+#mainCalendarPanel .main-calendar-tools button{background:#fffaf4!important;border-color:#ddcfc3!important;color:#68564d!important}
+#mainCalendarPanel .main-calendar-tools button:hover{background:#f2e5dc!important;border-color:#d3b5a7!important}
+#mainCalendarPanel .main-calendar-tools #mainCalAdd{background:#a77d79!important;border-color:#a77d79!important;color:#fffaf5!important}
+#mainCalendarPanel .main-calendar-agenda,#mainCalendarPanel .main-calendar-form{background:#fffaf4!important;border-color:#e5d8cd!important;box-shadow:2px 3px 0 #e7d9ce66!important}
+#mainCalendarPanel .main-calendar-form input,#mainCalendarPanel .main-calendar-form select,#mainCalendarPanel .main-calendar-form textarea{background:#fffdf9!important;border-color:#ddcfc3!important;color:#493f39!important}
+#mainCalendarPanel .main-calendar-legend span{background:#fffaf4!important;border-color:#e6d8cc!important;color:#6b5b52!important}
+#mainCalendarPanel .main-calendar-hint{color:#8b766b!important}
+</style>
+</head><body><h1>${safeTitle}</h1>${cleanNoteHtml(nbEditor.innerHTML)}</body></html>`);w.document.close();w.focus();setTimeout(()=>w.print(),300);};
  nbDelete.onclick=async()=>{if(!activeNotebookId||!confirm('Delete this study note permanently?'))return;const {error}=await client.from('journal_entries').delete().eq('id',activeNotebookId);if(error){nbStatus.textContent='Could not delete note: '+error.message;return;}notebookRows=notebookRows.filter(n=>n.id!==activeNotebookId);activeNotebookId=null;nbTitleInput.value='';nbEditor.innerHTML='<p></p>';nbDirty=false;nbDelete.disabled=true;nbStatus.textContent='Note deleted.';notebookList();};
  loadNotebook();
  const notesSection=document.createElement("section");notesSection.className="course-detail-section";
