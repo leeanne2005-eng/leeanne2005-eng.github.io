@@ -563,6 +563,19 @@ hr{border:0;border-top:1px dashed #d7c4b1}
 .habit-matrix-row .habit-dot:disabled:not(.done){color:transparent !important}
 </style>
 
+<style id="memory-sticker-studio-css">
+#memoryStickerStudio{margin-top:28px;padding:20px;border:1px solid #dfc8b8;border-radius:22px;background:linear-gradient(145deg,#fffaf2,#f7eee4);box-shadow:0 5px 0 #e6d5c7;color:#4d4039}
+#memoryStickerStudio .sticker-title{font:italic 30px Georgia,serif;color:#87666c;margin:0 0 6px}
+#memoryStickerStudio .sticker-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+#memoryStickerStudio button{border-radius:999px;padding:9px 14px}
+#memoryStickerStudio .sticker-workgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+#memoryStickerStudio .sticker-paper{background:#fffdf8;border:1px dashed #d7bba9;border-radius:15px;padding:12px;min-width:0}
+#stickerEditorCanvas{width:100%;max-width:520px;aspect-ratio:1;display:block;margin:auto;background-color:#fffdf8;background-image:linear-gradient(45deg,#f0e7dd 25%,transparent 25%),linear-gradient(-45deg,#f0e7dd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#f0e7dd 75%),linear-gradient(-45deg,transparent 75%,#f0e7dd 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;touch-action:none;border-radius:10px}
+#stickerPasteBoard{position:relative;min-height:320px;border:1px dashed #cbb3a3;border-radius:15px;overflow:hidden;background:#fffdf8;background-image:radial-gradient(#eadfd3 1px,transparent 1px);background-size:17px 17px}
+.memory-sticker-piece{position:absolute;touch-action:none;cursor:grab;user-select:none;transform:translate(-50%,-50%);filter:drop-shadow(1px 3px 2px #6c51452b)}.memory-sticker-piece:active{cursor:grabbing}.memory-sticker-piece img{width:100%;height:100%;object-fit:contain;pointer-events:none;display:block}
+#memoryStickerList{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.memory-sticker-thumb{width:80px;height:80px;border:1px solid #e3cfc1;border-radius:12px;background:#fffaf4;object-fit:contain;padding:5px}
+@media(min-width:850px){#memoryStickerStudio .sticker-workgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+</style>
 </head>
 <body><main>
 <header><div><div class="eyebrow">A private space for everything that matters</div><h1>My Little World ♡</h1></div><div class="eyebrow">Vintage edition</div></header>
@@ -883,6 +896,24 @@ hr{border:0;border-top:1px dashed #d7c4b1}
     <div id="memoryStatus" class="muted" role="status"></div>
    </form>
    <div class="notice">Your journal text and photos are private. Photos are uploaded to your existing private-memories bucket.</div>
+  <section id="memoryStickerStudio" aria-labelledby="memoryStickerHeading">
+   <div class="eyebrow">CUT · COLLECT · PASTE</div>
+   <h2 id="memoryStickerHeading" class="sticker-title">My little sticker atelier ✂</h2>
+   <p class="muted">Turn your own pictures into transparent stickers, then arrange them on a blank scrapbook page. Your sticker collection and page save privately and sync through your account.</p>
+   <div class="sticker-tools">
+    <label class="secondary" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">＋ Choose a picture<input id="stickerImageInput" type="file" accept="image/*" hidden></label>
+    <label class="muted">Cutting brush <input id="stickerBrushSize" type="range" min="8" max="90" value="32" style="width:120px;vertical-align:middle"></label>
+    <button type="button" class="secondary" id="stickerUndo">↶ Undo cut</button>
+    <button type="button" class="secondary" id="stickerResetCut">Reset picture</button>
+    <button type="button" id="stickerMakeButton">✦ Make sticker</button>
+   </div>
+   <div class="sticker-workgrid">
+    <div class="sticker-paper"><h3 style="margin:3px 0 8px">1 · Cut out your picture</h3><p class="muted" style="font-size:13px">Use the brush to erase the background around your subject. The checker pattern shows transparency.</p><canvas id="stickerEditorCanvas" width="640" height="640" aria-label="Picture cutout editor"></canvas><div id="stickerEditorStatus" class="muted" role="status" style="margin-top:8px">Choose a picture to begin.</div></div>
+    <div class="sticker-paper"><h3 style="margin:3px 0 8px">2 · Your blank sticker page</h3><p class="muted" style="font-size:13px">Tap a saved sticker to paste it. Drag stickers to arrange your page.</p><div id="stickerPasteBoard" aria-label="Blank scrapbook sticker canvas"></div><div class="sticker-tools"><button type="button" class="secondary" id="stickerSaveBoard">♡ Save sticker page</button><button type="button" class="secondary" id="stickerClearBoard">Clear page</button><button type="button" class="secondary" id="stickerExportBoard">Export page as PNG</button></div><div id="stickerBoardStatus" class="muted" role="status">Your page is ready.</div></div>
+   </div>
+   <h3 style="margin:18px 0 4px">My sticker collection</h3><div id="memoryStickerList" class="muted">Your cut-out stickers will appear here.</div>
+  </section>
+
    <h2 style="font-size:20px;margin-top:22px">On This Day ♡</h2>
    <div id="onThisDay" class="muted">Looking for memories from this date…</div>
    <h2 style="font-size:20px;margin-top:22px">My Journal Archive</h2>
@@ -1482,7 +1513,7 @@ async function loadMemories(){
  today.innerHTML=past.length?"":'<p class="muted">No memories from this date yet. Your future self will thank you for starting today ♡</p>';
  past.forEach(m=>renderMemoryCard(today,m,true));
  if(!memoryRows.length){archive.textContent="Your story starts here. Save your first little memory ♡";return;}
- renderMemoryArchive();
+ renderMemoryArchive();if(window.memoryStickerLoadBoard)window.memoryStickerLoadBoard();
 }
 function renderMemoryCard(host,m,isPast){
  const card=document.createElement("article");card.className="memory-card";
@@ -1519,6 +1550,32 @@ $("memoryMonthFilter")?.addEventListener("change",renderMemoryArchive);
 $("memoryFavorites")?.addEventListener("click",()=>{showMemoryFavorites=!showMemoryFavorites;$("memoryFavorites").textContent=showMemoryFavorites?"♡ Show all memories":"♡ Show favourites";renderMemoryArchive();});
 $("memoryPrint")?.addEventListener("click",()=>{document.body.classList.add("print-journal");window.print();});
 window.addEventListener("afterprint",()=>document.body.classList.remove("print-journal"));
+
+// ===== Memory Sticker Atelier: private cutouts + movable scrapbook canvas =====
+(()=>{
+ const $=id=>document.getElementById(id),canvas=$('stickerEditorCanvas');if(!canvas)return;
+ const ctx=canvas.getContext('2d',{willReadFrequently:true});let sourceImg=null,sourceData=null,undoStack=[],cutting=false,brush=32,stickers=[],boardId=null,boardDirty=false;
+ const status=t=>$('stickerEditorStatus').textContent=t,boardStatus=t=>$('stickerBoardStatus').textContent=t;
+ function snapshot(){try{undoStack.push(ctx.getImageData(0,0,canvas.width,canvas.height));if(undoStack.length>12)undoStack.shift();}catch(e){}}
+ function drawSource(){ctx.clearRect(0,0,canvas.width,canvas.height);if(!sourceImg)return;const scale=Math.min(canvas.width/sourceImg.width,canvas.height/sourceImg.height),w=sourceImg.width*scale,h=sourceImg.height*scale;ctx.drawImage(sourceImg,(canvas.width-w)/2,(canvas.height-h)/2,w,h);sourceData=ctx.getImageData(0,0,canvas.width,canvas.height);undoStack=[];status('Picture loaded. Brush away the background to shape your sticker.');}
+ $('stickerImageInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>12*1024*1024){status('Please choose an image smaller than 12 MB.');return;}const url=URL.createObjectURL(file);sourceImg=new Image();sourceImg.onload=()=>{URL.revokeObjectURL(url);drawSource();};sourceImg.onerror=()=>status('Could not open this image.');sourceImg.src=url;});
+ $('stickerBrushSize').addEventListener('input',e=>brush=Number(e.target.value));
+ function pos(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height};}
+ canvas.addEventListener('pointerdown',e=>{if(!sourceImg)return;cutting=true;posLast=pos(e);canvas.setPointerCapture(e.pointerId);snapshot();const p=pos(e);ctx.save();ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(p.x,p.y,brush/2,0,Math.PI*2);ctx.fill();ctx.restore();});
+ canvas.addEventListener('pointermove',e=>{if(!cutting)return;const p=pos(e);ctx.save();ctx.globalCompositeOperation='destination-out';ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=brush;ctx.beginPath();ctx.moveTo(posLast.x,posLast.y);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();posLast=p;});let posLast={x:0,y:0};
+ canvas.addEventListener('pointerdown',e=>{posLast=pos(e);},{once:false});
+ canvas.addEventListener('pointerup',()=>cutting=false);canvas.addEventListener('pointercancel',()=>cutting=false);
+ $('stickerUndo').onclick=()=>{const d=undoStack.pop();if(d)ctx.putImageData(d,0,0);else status('Nothing to undo yet.');};$('stickerResetCut').onclick=()=>{if(sourceImg)drawSource();};
+ function renderBoard(){const board=$('stickerPasteBoard');board.innerHTML='';stickers.forEach((st,i)=>{const el=document.createElement('div');el.className='memory-sticker-piece';el.style.left=(st.x||50)+'%';el.style.top=(st.y||50)+'%';el.style.width=(st.size||115)+'px';el.style.height=(st.size||115)+'px';const img=document.createElement('img');img.alt=st.name||'Scrapbook sticker';img.src=st.url||'';el.append(img);const rm=document.createElement('button');rm.type='button';rm.textContent='×';rm.title='Remove sticker from this page';rm.style.cssText='position:absolute;right:-8px;top:-8px;padding:2px 7px;min-width:24px;border-radius:50%;font-size:12px';rm.onclick=e=>{e.stopPropagation();stickers.splice(i,1);boardDirty=true;renderBoard();};el.append(rm);el.addEventListener('pointerdown',e=>{if(e.target===rm)return;const rect=board.getBoundingClientRect(),startX=e.clientX,startY=e.clientY,ox=st.x||50,oy=st.y||50;el.setPointerCapture?.(e.pointerId);const move=ev=>{st.x=Math.max(4,Math.min(96,ox+(ev.clientX-startX)/rect.width*100));st.y=Math.max(4,Math.min(96,oy+(ev.clientY-startY)/rect.height*100));el.style.left=st.x+'%';el.style.top=st.y+'%';boardDirty=true;};const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up);};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);});board.append(el);});}
+ function addToCollection(url,name){const item={url,name:name||'Little sticker',x:50,y:50,size:118};stickers.push(item);boardDirty=true;renderBoard();renderCollection();}
+ function renderCollection(){const host=$('memoryStickerList');host.innerHTML='';if(!stickers.length){host.textContent='Make your first sticker above, then tap it here to paste it onto your page.';return;}stickers.forEach((st,i)=>{const b=document.createElement('button');b.type='button';b.className='secondary';b.style.cssText='display:flex;align-items:center;gap:8px;padding:6px 10px';const img=document.createElement('img');img.className='memory-sticker-thumb';img.src=st.url;img.alt=st.name;b.append(img);const label=document.createElement('span');label.textContent='Paste sticker '+(i+1);b.append(label);b.onclick=()=>{const copy={...st,x:50+((stickers.filter(x=>x!==st).length%4)*5),y:48+((stickers.length%4)*5),size:st.size||118};stickers.push(copy);boardDirty=true;renderBoard();};host.append(b);});}
+ $('stickerMakeButton').onclick=async()=>{if(!sourceImg){status('Choose a picture first.');return;}if(!client){status('Please connect and sign in to save your private sticker.');return;}try{const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw new Error('Could not create transparent sticker.');if(blob.size>5*1024*1024)throw new Error('Sticker is too large. Please resize or simplify your cutout.');const user=await currentUser(),path=user.id+'/memory-stickers/sticker_'+Date.now()+'.png';status('Saving your transparent sticker…');const {error}=await client.storage.from('private-memories').upload(path,blob,{upsert:false,contentType:'image/png'});if(error)throw error;const {data,error:urlErr}=await client.storage.from('private-memories').createSignedUrl(path,3600);if(urlErr)throw urlErr;addToCollection(data.signedUrl,'Sticker '+(stickers.length+1));stickers[stickers.length-1].path=path;status('Sticker created and added to your page ♡');await saveBoard(false);}catch(err){status('Could not make sticker: '+err.message);}};
+ async function saveBoard(show){if(!client){boardStatus('Connect your account to save and sync this page.');return false;}try{const user=await currentUser(),payload={user_id:user.id,entry_type:'note',entry_date:todayISO(),title:'My Memory Sticker Page',content:{kind:'memory_sticker_board',stickers:stickers.map(s=>({path:s.path||'',url:s.url||'',name:s.name||'',x:s.x||50,y:s.y||50,size:s.size||118}))}};let result;if(boardId)result=await client.from('journal_entries').update({entry_date:payload.entry_date,title:payload.title,content:payload.content}).eq('id',boardId);else{const {data,error}=await client.from('journal_entries').insert(payload).select('id').single();if(error)throw error;boardId=data.id;result={error:null};}if(result.error)throw result.error;boardDirty=false;if(show)boardStatus('Sticker page saved privately and synced to your account ♡');return true;}catch(err){boardStatus('Could not save sticker page: '+err.message);return false;}}
+ $('stickerSaveBoard').onclick=()=>saveBoard(true);$('stickerClearBoard').onclick=async()=>{if(!confirm('Remove all stickers from this page? Your saved sticker collection files will remain in private storage.'))return;stickers=[];boardDirty=true;renderBoard();renderCollection();await saveBoard(true);};
+ $('stickerExportBoard').onclick=()=>{const b=$('stickerPasteBoard'),c=document.createElement('canvas'),scale=2;c.width=b.clientWidth*scale;c.height=b.clientHeight*scale;const x=c.getContext('2d');x.fillStyle='#fffdf8';x.fillRect(0,0,c.width,c.height);x.fillStyle='#eadfd3';for(let yy=0;yy<c.height;yy+=34)for(let xx=0;xx<c.width;xx+=34)x.fillRect(xx,yy,2,2);const imgs=stickers.map(st=>new Promise(resolve=>{const im=new Image();im.onload=()=>resolve({im,st});im.onerror=()=>resolve(null);im.src=st.url;}));Promise.all(imgs).then(items=>{items.filter(Boolean).forEach(({im,st})=>{const w=(st.size||118)*scale,h=w,px=(st.x||50)/100*c.width-w/2,py=(st.y||50)/100*c.height-h/2;x.drawImage(im,px,py,w,h);});const a=document.createElement('a');a.download='my-little-memory-stickers.png';a.href=c.toDataURL('image/png');a.click();});};
+ async function loadBoard(){if(!client)return;try{const user=await currentUser(),{data,error}=await fetchAllPages(()=>client.from('journal_entries').select('id,content').eq('user_id',user.id).eq('entry_type','note'));if(error)throw error;const row=(data||[]).find(r=>r.content?.kind==='memory_sticker_board');if(!row){renderBoard();renderCollection();return;}boardId=row.id;stickers=[];for(const st of row.content.stickers||[]){let url=st.url||'';if(st.path){const {data:signed,error:e}=await client.storage.from('private-memories').createSignedUrl(st.path,3600);if(!e)url=signed.signedUrl;}stickers.push({...st,url});}renderBoard();renderCollection();boardStatus('Your saved sticker page is loaded and ready ♡');}catch(err){boardStatus('Could not load sticker page: '+err.message);}}
+ window.memoryStickerLoadBoard=loadBoard;loadBoard();
+})();
 
 // ===== People I Met · friend profiles and meetup timeline =====
 let peopleRows=[],meetupRows=[];
