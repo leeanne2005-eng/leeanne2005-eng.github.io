@@ -446,7 +446,7 @@ header:after{content:"✧  EST. IN LITTLE MOMENTS  ✧";position:absolute;right:
 .memory-sticker-piece.sticker-text-piece{min-width:30px;white-space:pre-wrap;overflow-wrap:anywhere;padding:5px 8px;font-family:Georgia,serif;font-weight:700;color:#6f4147;text-shadow:0 1px #fff8}
 .sticker-export-preview{font-size:12px;color:#8a756c}
 .sticker-cut-settings{background:#f8eee5;border:1px solid #e4d1c1;border-radius:14px;padding:12px}
-#stickerEditorCanvas{background-color:#fffaf3;background-image:linear-gradient(45deg,#eee 25%,transparent 25%),linear-gradient(-45deg,#eee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eee 75%),linear-gradient(-45deg,transparent 75%,#eee 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0}
+#stickerEditorCanvas{touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair;background-color:#fffaf3;background-image:linear-gradient(45deg,#eee 25%,transparent 25%),linear-gradient(-45deg,#eee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eee 75%),linear-gradient(-45deg,transparent 75%,#eee 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0}
 @media(max-width:640px){#stickerPasteBoard{min-height:360px}.sticker-v55-controls{gap:7px}}
 </style>
 <!-- V11 repair: inline mobile-friendly habit editor; V10 database-compatible habit check-ins and goal checkbox alignment retained. -->
@@ -920,6 +920,7 @@ hr{border:0;border-top:1px dashed #d7c4b1}
     <button type="button" class="secondary" id="stickerUndo">↶ Undo cut</button>
     <button type="button" class="secondary" id="stickerResetCut">Reset picture</button>
     <button type="button" class="secondary" id="stickerAutoCut">✧ Auto cut background</button>
+    <label class="muted">Background tolerance <input id="stickerAutoTolerance" type="range" min="18" max="110" value="58" style="width:120px;vertical-align:middle"></label>
     <button type="button" id="stickerMakeButton">✦ Make sticker</button>
    </div>
    <div class="sticker-workgrid">
@@ -1589,19 +1590,61 @@ window.addEventListener("afterprint",()=>document.body.classList.remove("print-j
  $('stickerImageInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>12*1024*1024){status('Please choose an image under 12 MB.');return;}const url=URL.createObjectURL(file);sourceImg=new Image();sourceImg.onload=()=>{drawSource();URL.revokeObjectURL(url);};sourceImg.onerror=()=>status('Could not open this image.');sourceImg.src=url;});
  $('stickerBrushSize').addEventListener('input',e=>brush=Number(e.target.value));
  function pos(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height};}
- canvas.addEventListener('pointerdown',e=>{if(!sourceImg)return;cutting=true;canvas.setPointerCapture(e.pointerId);snapshot();const p=pos(e);ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(p.x,p.y,brush/2,0,Math.PI*2);ctx.fill();});
- canvas.addEventListener('pointermove',e=>{if(!cutting)return;const p=pos(e);ctx.globalCompositeOperation='destination-out';ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=brush;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x,p.y);ctx.stroke();});
- ['pointerup','pointercancel'].forEach(n=>canvas.addEventListener(n,()=>{cutting=false;ctx.globalCompositeOperation='source-over';}));
+ let lastPoint=null;
+ function eraseStroke(a,b){
+  ctx.globalCompositeOperation='destination-out';ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=brush;
+  ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+  ctx.beginPath();ctx.arc(b.x,b.y,brush/2,0,Math.PI*2);ctx.fill();
+ }
+ canvas.addEventListener('pointerdown',e=>{
+  if(!sourceImg||e.button!==0)return;e.preventDefault();cutting=true;lastPoint=pos(e);
+  try{canvas.setPointerCapture(e.pointerId);}catch(_){}
+  snapshot();eraseStroke(lastPoint,lastPoint);
+ });
+ canvas.addEventListener('pointermove',e=>{
+  if(!cutting)return;e.preventDefault();
+  const events=(typeof e.getCoalescedEvents==='function'?e.getCoalescedEvents():[e]);
+  for(const ev of events){const p=pos(ev);if(!lastPoint){lastPoint=p;eraseStroke(p,p);continue;}
+   const dx=p.x-lastPoint.x,dy=p.y-lastPoint.y,dist=Math.hypot(dx,dy),step=Math.max(1,brush*.18),count=Math.max(1,Math.ceil(dist/step));
+   for(let j=1;j<=count;j++){const q={x:lastPoint.x+dx*j/count,y:lastPoint.y+dy*j/count};eraseStroke(lastPoint,q);lastPoint=q;}
+  }
+ });
+ function stopCutting(){cutting=false;lastPoint=null;ctx.globalCompositeOperation='source-over';}
+ ['pointerup','pointercancel','lostpointercapture'].forEach(n=>canvas.addEventListener(n,stopCutting));
  $('stickerUndo').onclick=()=>{const d=undoStack.pop();if(d)ctx.putImageData(d,0,0);else status('Nothing to undo yet.');};
  $('stickerResetCut').onclick=()=>{if(sourceImg)drawSource();};
- // Border-aware flood-fill: samples edge colours and clears connected pixels within the chosen tolerance.
- $('stickerAutoCut').onclick=()=>{if(!sourceImg){status('Choose a picture first.');return;}snapshot();const w=canvas.width,h=canvas.height,id=ctx.getImageData(0,0,w,h),d=id.data,tol=Number($('stickerAutoTolerance').value),n=w*h,seen=new Uint8Array(n),queue=new Int32Array(n);let head=0,tail=0;
-  const samples=[];for(let x=0;x<w;x+=Math.max(1,Math.floor(w/30))){for(const y of [0,h-1]){let k=(y*w+x)*4;samples.push([d[k],d[k+1],d[k+2]]);}}for(let y=0;y<h;y+=Math.max(1,Math.floor(h/30))){for(const x of [0,w-1]){let k=(y*w+x)*4;samples.push([d[k],d[k+1],d[k+2]]);}}
-  const bg=samples.reduce((a,c)=>a.map((v,i)=>v+c[i]),[0,0,0]).map(v=>v/samples.length);
-  const eligible=i=>{let k=i*4;if(d[k+3]<8)return true;let dr=d[k]-bg[0],dg=d[k+1]-bg[1],db=d[k+2]-bg[2];return Math.sqrt(dr*dr+dg*dg+db*db)<tol;};
-  const add=i=>{if(i>=0&&i<n&&!seen[i]&&eligible(i)){seen[i]=1;queue[tail++]=i;}};for(let x=0;x<w;x++){add(x);add((h-1)*w+x);}for(let y=1;y<h-1;y++){add(y*w);add(y*w+w-1);}
-  while(head<tail){let i=queue[head++];d[i*4+3]=0;let x=i%w;if(x)add(i-1);if(x<w-1)add(i+1);if(i>=w)add(i-w);if(i<n-w)add(i+w);}
-  ctx.putImageData(id,0,0);status('Auto cut finished. It works best with plain backgrounds; use the brush to tidy the edges.');};
+ // Edge-colour flood fill. Samples only visible edge pixels, then grows through
+ // connected pixels that match the sampled background palette. Undo remains available.
+ $('stickerAutoCut').onclick=()=>{
+  if(!sourceImg){status('Choose a picture first.');return;}
+  const tol=Number($('stickerAutoTolerance')?.value||58),w=canvas.width,h=canvas.height,n=w*h;
+  let id;try{id=ctx.getImageData(0,0,w,h);}catch(err){status('Could not read this image for background removal.');return;}
+  const d=id.data,edge=[],stride=Math.max(2,Math.floor(Math.min(w,h)/180));
+  const sample=(x,y)=>{const k=(y*w+x)*4;if(d[k+3]>20)edge.push([d[k],d[k+1],d[k+2]]);};
+  for(let x=0;x<w;x+=stride){sample(x,0);sample(x,h-1);}
+  for(let y=0;y<h;y+=stride){sample(0,y);sample(w-1,y);}
+  if(!edge.length){status('No visible background found at the picture edges. Try the brush instead.');return;}
+  // Use diverse representative edge colours, avoiding a single averaged colour
+  // that fails on shadows or lightly textured backgrounds.
+  const palette=[];
+  for(const c of edge){if(!palette.some(p=>Math.hypot(p[0]-c[0],p[1]-c[1],p[2]-c[2])<Math.max(12,tol*.42)))palette.push(c);
+   if(palette.length>=36)break;}
+  const matches=(i)=>{
+   const k=i*4;if(d[k+3]<12)return true;
+   for(const c of palette)if(Math.hypot(d[k]-c[0],d[k+1]-c[1],d[k+2]-c[2])<=tol)return true;
+   return false;
+  };
+  const seen=new Uint8Array(n),queue=new Int32Array(n);let head=0,tail=0;
+  const add=i=>{if(i>=0&&i<n&&!seen[i]&&matches(i)){seen[i]=1;queue[tail++]=i;}};
+  for(let x=0;x<w;x++){add(x);add((h-1)*w+x);}
+  for(let y=1;y<h-1;y++){add(y*w);add(y*w+w-1);}
+  while(head<tail){const i=queue[head++];d[i*4+3]=0;const x=i%w;
+   if(x)add(i-1);if(x<w-1)add(i+1);if(i>=w)add(i-w);if(i<n-w)add(i+w);
+  }
+  if(!tail){status('No connected background matched. Increase tolerance or use the brush.');return;}
+  snapshot();ctx.putImageData(id,0,0);
+  status('Background removed from '+tail.toLocaleString()+' connected pixels. Use Undo if it removed too much, or adjust tolerance and try again.');
+ };
  function createOutlinedBlob(){const w=canvas.width,h=canvas.height,original=ctx.getImageData(0,0,w,h),alpha=new Uint8Array(w*h);for(let i=0;i<alpha.length;i++)alpha[i]=original.data[i*4+3]>12?1:0;const radius=Math.round(Number($('stickerBorderWidth').value));if(!radius)return new Promise(res=>canvas.toBlob(res,'image/png'));let dil=alpha;
   // Repeated 8-neighbour dilation makes a smooth-ish sticker rim without external services.
   for(let r=0;r<radius;r++){const next=dil.slice();for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){let i=y*w+x;if(dil[i])continue;if(dil[i-1]||dil[i+1]||dil[i-w]||dil[i+w]||dil[i-w-1]||dil[i-w+1]||dil[i+w-1]||dil[i+w+1])next[i]=1;}dil=next;}
