@@ -537,6 +537,32 @@ hr{border:0;border-top:1px dashed #d7c4b1}
 </style>
 <!-- V49: Warm vintage home visual refresh. No data/schema changes. -->
 <!-- V13: Friend photo crop positioning and emoji/initials avatar creator; preserves V12 and prior fixes. -->
+
+<!-- V53: Habit Garden returns to clear check-in squares; selected days use each habit's chosen colour. -->
+<style id="v53-habit-garden-clear-colour">
+/* Keep unmarked days visibly clear, even if older theme rules style generic buttons. */
+.habit-matrix-row .habit-dot:not(.done){
+  background-color:#fffdf8 !important;
+  background-image:none !important;
+  border:1.5px solid #d8c8bd !important;
+  border-radius:6px !important;
+  color:transparent !important;
+  box-shadow:none !important;
+}
+.habit-matrix-row .habit-dot.done{
+  background-color:var(--habit-colour,#d3a4a5) !important;
+  background-image:none !important;
+  border:1.5px solid var(--habit-colour,#d3a4a5) !important;
+  border-radius:6px !important;
+  color:#fffdf8 !important;
+  box-shadow:inset 0 0 0 1px #ffffff55 !important;
+}
+.habit-matrix-row .habit-dot.missed:not(.done){border-color:#d8b6b1 !important;background-color:#fffaf6 !important}
+.habit-matrix-row .habit-dot.off:not(.done){background-color:#f5f0e9 !important;border-color:#e5dcd3 !important}
+.habit-matrix-row .habit-dot.future:not(.done){background-color:#fffdf8 !important;opacity:.78}
+.habit-matrix-row .habit-dot:disabled:not(.done){color:transparent !important}
+</style>
+
 </head>
 <body><main>
 <header><div><div class="eyebrow">A private space for everything that matters</div><h1>My Little World ♡</h1></div><div class="eyebrow">Vintage edition</div></header>
@@ -1329,7 +1355,7 @@ async function loadHabitBoard(){
     const b=document.createElement("button");
     b.type="button";
     b.className="habit-dot"+(checked?" done":"")+(scheduled?"":" off")+(scheduled&&!checked&&dateStr<todayISO()?" missed":"")+(scheduled&&!checked&&dateStr>todayISO()?" future":"");
-    b.textContent=checked?"♥":"";
+    b.textContent=checked?"✓":"";
     b.style.setProperty("--habit-colour",h.content.color||"#d3a4a5");
     b.title=dateStr+(checked?" · Done":!scheduled?" · Not scheduled":dateStr<todayISO()?" · Missed":" · Upcoming");
     b.disabled=!scheduled||dateStr>todayISO();
