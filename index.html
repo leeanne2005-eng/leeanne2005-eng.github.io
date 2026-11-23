@@ -1615,35 +1615,41 @@ window.addEventListener("afterprint",()=>document.body.classList.remove("print-j
  $('stickerResetCut').onclick=()=>{if(sourceImg)drawSource();};
  // Edge-colour flood fill. Samples only visible edge pixels, then grows through
  // connected pixels that match the sampled background palette. Undo remains available.
- $('stickerAutoCut').onclick=()=>{
-  if(!sourceImg){status('Choose a picture first.');return;}
-  const tol=Number($('stickerAutoTolerance')?.value||58),w=canvas.width,h=canvas.height,n=w*h;
-  let id;try{id=ctx.getImageData(0,0,w,h);}catch(err){status('Could not read this image for background removal.');return;}
-  const d=id.data,edge=[],stride=Math.max(2,Math.floor(Math.min(w,h)/180));
-  const sample=(x,y)=>{const k=(y*w+x)*4;if(d[k+3]>20)edge.push([d[k],d[k+1],d[k+2]]);};
-  for(let x=0;x<w;x+=stride){sample(x,0);sample(x,h-1);}
-  for(let y=0;y<h;y+=stride){sample(0,y);sample(w-1,y);}
-  if(!edge.length){status('No visible background found at the picture edges. Try the brush instead.');return;}
-  // Use diverse representative edge colours, avoiding a single averaged colour
-  // that fails on shadows or lightly textured backgrounds.
-  const palette=[];
-  for(const c of edge){if(!palette.some(p=>Math.hypot(p[0]-c[0],p[1]-c[1],p[2]-c[2])<Math.max(12,tol*.42)))palette.push(c);
-   if(palette.length>=36)break;}
-  const matches=(i)=>{
-   const k=i*4;if(d[k+3]<12)return true;
-   for(const c of palette)if(Math.hypot(d[k]-c[0],d[k+1]-c[1],d[k+2]-c[2])<=tol)return true;
-   return false;
-  };
-  const seen=new Uint8Array(n),queue=new Int32Array(n);let head=0,tail=0;
-  const add=i=>{if(i>=0&&i<n&&!seen[i]&&matches(i)){seen[i]=1;queue[tail++]=i;}};
-  for(let x=0;x<w;x++){add(x);add((h-1)*w+x);}
-  for(let y=1;y<h-1;y++){add(y*w);add(y*w+w-1);}
-  while(head<tail){const i=queue[head++];d[i*4+3]=0;const x=i%w;
-   if(x)add(i-1);if(x<w-1)add(i+1);if(i>=w)add(i-w);if(i<n-w)add(i+w);
-  }
-  if(!tail){status('No connected background matched. Increase tolerance or use the brush.');return;}
-  snapshot();ctx.putImageData(id,0,0);
-  status('Background removed from '+tail.toLocaleString()+' connected pixels. Use Undo if it removed too much, or adjust tolerance and try again.');
+  $('stickerAutoCut').onclick=async()=>{
+  if(!sourceImg){status('Please choose a picture first, then wait until it says Picture loaded.');return;}
+  const btn=$('stickerAutoCut');if(btn.dataset.running==='1')return;
+  btn.dataset.running='1';btn.disabled=true;
+  const originalLabel=btn.textContent;btn.textContent='Working…';
+  try{
+   const tol=Math.max(1,Number($('stickerAutoTolerance')?.value||58)),w=canvas.width,h=canvas.height,n=w*h;
+   let imageData;try{imageData=ctx.getImageData(0,0,w,h);}catch(err){throw new Error('The image cannot be read by the browser. Please upload the picture directly, not from a remote preview.');}
+   const px=imageData.data;
+   // Build a compact colour palette from every edge pixel, using quantized
+   // frequency bins so the dominant background is not missed by sample order.
+   const bins=new Map();
+   const addEdge=(x,y)=>{const k=(y*w+x)*4;if(px[k+3]<8)return;const r=px[k],g=px[k+1],b=px[k+2],key=((r>>4)<<8)|((g>>4)<<4)|(b>>4);let v=bins.get(key);if(!v)bins.set(key,v={count:0,r:0,g:0,b:0});v.count++;v.r+=r;v.g+=g;v.b+=b;};
+   for(let x=0;x<w;x++){addEdge(x,0);addEdge(x,h-1);}
+   for(let y=1;y<h-1;y++){addEdge(0,y);addEdge(w-1,y);}
+   const palette=[...bins.values()].sort((a,b)=>b.count-a.count).slice(0,14).map(v=>[v.r/v.count,v.g/v.count,v.b/v.count]);
+   if(!palette.length)throw new Error('The picture edges are already transparent. Try the brush or upload the original image.');
+   const tol2=tol*tol;
+   const matches=i=>{const k=i*4;if(px[k+3]<8)return true;const r=px[k],g=px[k+1],b=px[k+2];for(let j=0;j<palette.length;j++){const c=palette[j],dr=r-c[0],dg=g-c[1],db=b-c[2];if(dr*dr+dg*dg+db*db<=tol2)return true;}return false;};
+   status('Auto cut started… identifying background pixels.');
+   await new Promise(resolve=>setTimeout(resolve,25));
+   const seen=new Uint8Array(n),queue=new Int32Array(n);let head=0,tail=0;
+   const add=i=>{if(i>=0&&i<n&&!seen[i]&&matches(i)){seen[i]=1;queue[tail++]=i;}};
+   for(let x=0;x<w;x++){add(x);add((h-1)*w+x);}
+   for(let y=1;y<h-1;y++){add(y*w);add(y*w+w-1);}
+   while(head<tail){
+    const i=queue[head++];const k=i*4;px[k+3]=0;const x=i%w;
+    if(x)add(i-1);if(x<w-1)add(i+1);if(i>=w)add(i-w);if(i<n-w)add(i+w);
+    if(head%18000===0){status('Auto cut… '+Math.round(head/Math.max(1,tail)*100)+'%');await new Promise(resolve=>setTimeout(resolve,0));}
+   }
+   if(!tail)throw new Error('No background pixels matched. Increase tolerance and try again, or use the manual brush.');
+   snapshot();ctx.putImageData(imageData,0,0);
+   status('Auto cut complete! Removed '+tail.toLocaleString()+' connected background pixels. Use Undo if needed.');
+  }catch(err){status('Auto cut could not run: '+(err?.message||String(err)));}
+  finally{btn.dataset.running='0';btn.disabled=false;btn.textContent=originalLabel;}
  };
  function createOutlinedBlob(){const w=canvas.width,h=canvas.height,original=ctx.getImageData(0,0,w,h),alpha=new Uint8Array(w*h);for(let i=0;i<alpha.length;i++)alpha[i]=original.data[i*4+3]>12?1:0;const radius=Math.round(Number($('stickerBorderWidth').value));if(!radius)return new Promise(res=>canvas.toBlob(res,'image/png'));let dil=alpha;
   // Repeated 8-neighbour dilation makes a smooth-ish sticker rim without external services.
